@@ -1,0 +1,19 @@
+#chart_editor{
+    background: white;
+}
+
+textarea{
+    color: black;
+}
+
+.settings_dlg{
+    background: #221e1f !important;
+}
+
+form{
+    margin: 0px;
+}
+
+.ui-droppable{
+    border-bottom: 1px solid lightgray;
+}

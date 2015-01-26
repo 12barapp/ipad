@@ -1,0 +1,256 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>jQuery UI Touch Punch - Mobile Device Touch Event Support for jQuery UI</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+ 
+    <link rel="shortcut icon" href="/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
+
+    
+    <style>body { background:#fff; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }</style>
+    
+	<script src="http://code.jquery.com/jquery-1.8.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.2.0-rc.2/jquery.mobile-1.2.0-rc.2.min.js"></script>
+    
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+	<script src="./js/constants.js"></script>
+    <script src="./js/jquery.ui.touch-punch.min.js"></script>
+	<script src="./js/chartscore.js"></script>
+    <script src="./js/about.js"></script>
+    <script src="./js/sendmail.js"></script>
+    <script src="./js/jquery_cookie.js"></script>
+    <script src="./js/coresettings.js"></script>
+    <script src="./js/coreDialogs.js"></script>
+    <script src="./js/coreJson.js"></script>
+    <script src="./js/Vague.js"></script>
+	<link type="text/css" rel="stylesheet" href="./css/styles.css"></link>
+    <link type="text/css" rel="stylesheet" id="theme" href="./css/theme_light.css"></link>
+    
+  
+  <style type="text/css">
+      #bg_tiles{
+          background: gray;
+      }
+  </style></head>
+  <body>
+    
+    <div class="container">
+      
+
+        <style>
+            div {
+                user-select: none;
+                -khtml-user-select: none;
+                -o-user-select: none;
+                -moz-user-select: -moz-none;
+                -webkit-user-select: none;
+            }
+        
+        ::selection { background: transparent;color:inherit; }
+        ::-moz-selection { background: transparent;color:inherit; }
+        </style>
+		
+        <script>
+            
+            var row_for_chart_menu = 1;
+            var jObj;
+             setNum = 0;
+             chordNum = 0;
+            var allJson;
+            
+            $(function(){
+              $('*:[unselectable=on]').mousedown(function(event) {
+                                                 event.preventDefault();
+                                                 return false;
+                                                 });
+              });
+		
+		
+        
+        $(function() {
+          setNum = 0;
+           $("#urlForSave").attr("src","set://url");
+         
+          if ($.cookie("selectedSet") == null){
+            setNum = 0;
+            $.cookie("selectedSet", 0);
+          }else{
+            setNum = $.cookie("selectedSet");
+          }
+          console.log(setNum);
+        });
+        
+        function init(){
+           
+            if (allJson != "(null)"){
+                //console.log(allJson.length);
+                jObj = $.parseJSON(allJson);
+            }else{
+                jObj = $.parseJSON(json_string_example);
+                
+            }
+            if ($.cookie("editingChord") != "none" && $.cookie("editingChord") != null){
+                chordNum = $.cookie("editingChord");
+                $.cookie("editingChord", "none");
+                $("#urlForSave").attr("src","updatepart://url");
+            }else{
+                
+                // initTitleSCreen();
+                initDashboard();
+                initSortableLists();
+            }
+        }
+        
+        function setAllJson(allJsonString){
+            allJson = allJsonString;
+            init();
+        }
+        
+        function updateJsonPart(jsonString){
+            var jPart = $.parseJSON(jsonString);
+            initDashboard();
+            initSortableLists();
+            console.log(jPart);
+            console.log("Befor update -----------------------");
+            console.log(jObj);
+            jObj.sets[setNum].chords[chordNum] = jPart;
+            console.log("After update ----------------------- "+chordNum);
+            console.log(jObj);
+            $.cookie("editingChord","none");
+        }
+        
+					
+                    function initRedTiles(){
+                        console.log(setNum);
+                        for (i = 0; i < 35 /*jObj.charts.length*/; i++){
+                            if (i < jObj.sets[setNum].chords.length){
+                                $("#sortable").append("<li class='ui-state-default' style='width:"+(($( window ).width() - 15)/8)+"px; height: "+(($( window ).height()-15)/10)+"px;background:"+red_colors[Math.floor(Math.random()*red_colors.length)]+"'><table style='width: 100%; height: 100%;'><tr>"+
+                                                      "<td style='height: 25%; width: 100%;'>"+
+                                                      "<div id='"+i+"' onClick='displayChartInfo(this)' class='button'>&hellip;</div>"+
+                                                      "</td></tr>"+
+                                                      "<tr>"+
+                                                      "<td class='indicators' style='height: 75%; width: 100%;' onclick='displayChartEditingPage(this)' id='"+i+"'>"+jObj.sets[setNum].chords[i].title+"</td>"+
+                                                      "</tr></table></li>");
+                            }else{
+                                $("#sortable").append("<li class='ui-state-default' style='width:"+(($( window ).width()-15)/8)+"px; height: "+(($( window ).height()-15)/10)+"px;'></li>");
+                            }
+                            
+                        }
+                        
+                        //initBlueTiles(null);
+                    }
+        
+        function initBlueTiles(sets){
+            
+            
+            for (i = 0; i < jObj.sets.length; i++){
+                $("#sortable_sets").append("<li class='ui-state-default' id='blue_tile' style=' width:"+(($( window ).width()-15)/8)+"px; height: "+(($( window ).height()-15)/10)+"px;background:"+blue_colors[Math.floor(Math.random()*blue_colors.length)]+"'><table style='width: 100%; height: 100%;'><tr>"+
+                                           "<td style='width: 100%; height: 25%;'>"+
+                                           "<div onClick='displaySetInfo()' class='button'>&hellip;</div>"+
+                                           "</td></tr>"+
+                                           "<td class='indicators' style='width: 100%; '>"+jObj.sets[i].title+"</td></table></li>");
+            }
+            $("#sortable_sets").append("<li onClick='showSettingsDialog()' class='ui-state-default'><div style='position: fixed;top:91%;left: 88%;width: 96px; height: 99.2px; float: right;'><img src='icons/gaika.png' style='width: 100%;' alt=''></div></li>");
+            
+        }
+
+		
+        
+        function deleteChord(){
+            jObj = deleteChordFromSet(jObj, 0, chordNum);
+            $("#urlForSave").attr("src","save://url");
+            initDashboard();
+        }
+        
+        function newSetDone(element){
+            var $newset_dlg = element;
+            
+            jObj = insertNewSet(jObj, ($(element).find("#set_title")).val(), ($(element).find("#set_author")).val(), $(element).find("#set_date").val(), ($(element).find("#set_loation")).val());
+            $("#urlForSave").attr("src","save://url");
+            initDashboard();
+            hideDialogsAndBlur();
+        }
+        
+        function newChordDone(element){
+          var $newchart_dlg = element
+//          console.log(($(element).find("#chord_title")).val());
+          
+          jObj =  insertNewChord(jObj, setNum ,($(element).find("#chord_title")).val(),($(element).find("#chord_author")).val(),($(element).find("#chord_keys")).val(),($(element).find("#chord_time")).val(),"sda",($(element).find("#chord_genre")).val());
+          $("#urlForSave").attr("src","save://url");
+          initDashboard();
+            hideDialogsAndBlur();
+        }
+        
+        function getAllJson(){
+            return JSON.stringify(jObj);
+        }
+        
+        var jSonToEditing;
+        
+        function displayChartEditingPage(element){
+            chordNum = element.id;
+            jSonToEditing = jObj.sets[setNum].chords[element.id];
+             $.cookie("editingChord", element.id);
+           // console.log(jSonToEditing);
+            $("#dialogs").html("");
+            $("#urlForSave").attr("src","jpart://url");
+           
+        }
+        
+        function updateChords(){
+            $.cookie("editingChord");
+        }
+        
+        function goToEditing(){
+             document.location= 'chart_editing.html';
+        }
+        
+        function getJsonForEditing(){
+           
+            return JSON.stringify(jSonToEditing);
+        }
+		 
+		function initSets(element){
+			$("#sortable").html(""); 
+			initBlueTiles(jObj.charts[element.id].sets);
+		}
+        
+               
+      
+
+                </script>
+
+
+      <div class="demo">
+          <div id="dialogs">
+          
+          </div>
+          <ul id="title_screen">
+          
+	  </ul>
+	  <div id='all_tiles'>
+	  <ul id="bg_tiles">
+        
+	  </ul>
+      <div id='sortable_lists'>
+          
+      </div>
+  </div>
+      </div><!-- End demo -->
+        <form action='chart_editing.html' id='postFrm'>
+            <input id='jInput'/>
+        </form>
+    </div>
+    <iframe id="urlForSave" style="display: none;"></iframe>
+</body></html>

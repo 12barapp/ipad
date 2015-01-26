@@ -1,0 +1,241 @@
+<html lang="en"><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>jQuery UI Touch Punch - Mobile Device Touch Event Support for jQuery UI</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+ 
+    <link rel="shortcut icon" href="/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/ico/apple-touch-icon-57-precomposed.png">
+
+    
+    <style>body { background:#fff; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif; }</style>
+    
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js"></script>
+	
+	<script src="./js/constants.js"></script>
+	<script src="./js/jquery.ui.touch-punch.min.js"></script>
+	<script src="./js/chartscore.js"></script>
+    <script src='./js/jquery.autosize.js'></script>
+    <script src='./js/coreDialogs.js'></script>
+    <script src="./js/jquery_cookie.js"></script>
+    <script src="./js/coreJson.js"></script>
+	<link type="text/css" rel="stylesheet" href="./css/styles.css"></link>
+    <link type="text/css" rel="stylesheet" id="theme" href="./css/theme_light.css"></link>
+  
+  <style type="text/css">
+      .inactive{
+          background: #989898;
+      }
+  
+  
+  
+    .active{
+        background: #f25369;
+    }
+    
+      </style>
+	  <script>
+      function insertCellForTempo(){
+          $("#tr1").empty();
+          $("#tr2").empty();
+          $("<td id='td11' class='active' style=' color: white; width: 96px; height: 99.2px; text-align: center;'><img src='icons/nejasno.png' style='width: 50%;' alt=''></td>").click(function(e) {e.preventDefault();wordsClicked()}).appendTo('tr#tr1');
+        
+          $("<td id='td22' class='inactive'   style='color: white; width: 96px; height: 99.2px; text-align: center;'><img src='icons/nejasno.png' style='width: 50%;' alt=''></td>").click(function(e) {e.preventDefault(); tempoClicked() }).appendTo('tr#tr2');
+        
+        
+          for (i = 0; i < words1.length; i++){
+              $("<td style=' color: white; width: 96px; height: 99.2px; text-align: center;'><div style='background: "+red_colors[Math.floor(Math.random()*red_colors.length)]+"; position: relative; top: 0px; left: 0px;  height: 99.2px;width: 100%;' class='ui-widget-content ui-draggable' id='draggable_chord'>" + keys[i] + "</div></td>").click(function(e) {e.preventDefault();setRow1Text(this);}).appendTo('tr#tr1');
+          }
+          for (i = 0; i < words1.length; i++){
+              $("<td style=' color: white; width: 96px; height: 99.2px; text-align: center;'><div style='background: "+red_colors[Math.floor(Math.random()*red_colors.length)]+"; position: relative; top: 0px; left: 0px;  height: 99.2px;width: 100%;' class='ui-widget-content ui-draggable' id='draggable_chord'>" + keys[i+7] + "</div></td>").click(function(e) {e.preventDefault();setRow2Text(this); }).appendTo('tr#tr2');
+          }
+          $tr = $("#tr1");
+         // console.log($tr);
+          $( "td > div" , $tr ).draggable({ revert: "valid", helper:'clone' });
+          $( "td > div" , $("#tr2") ).draggable({ revert: "valid", helper:'clone' });
+        
+          updateDropableChords();
+      }
+	  
+	  function insertCellForWords(){
+	      $("#tr1").empty();
+	       $("#tr2").empty();
+	     /* <td id="td11" class="active" style=" width: 92px; height: 99.2px; text-align: center; " onClick="wordsClicked()"><img src='icons/nejasno.png' style='width: 50%;' alt=''></td> */
+      
+	      $("<td id='td11' class='active' style=' color: white; width: 96px; height: 99.2px; text-align: center;'><img src='icons/nejasno.png' style='width: 50%;' alt=''></td>").click(function(e) {e.preventDefault(); wordsClicked()}).appendTo('tr#tr1');
+	  
+		   $("<td id='td22' class='inactive'   style='color: white; width: 96px; height: 99.2px; text-align: center;'><img src='icons/nejasno.png' style='width: 50%;' alt=''></td>").click(function(e) {e.preventDefault(); tempoClicked() }).appendTo('tr#tr2');
+      
+	      for (i = 0; i < words1.length; i++){
+	          $("<td style=' color: white; width: 96px; height: 99.2px; text-align: center;'><div style='background: "+red_colors[Math.floor(Math.random()*red_colors.length)]+"; position: relative; top: 0px; left: 0px;  height: 99.2px;' class='ui-widget-content ui-draggable' id='draggable'>" + words1[i] + "</div></td>").click(function(e) {e.preventDefault();setRow1Text(this);}).appendTo('tr#tr1');
+	      }
+	      for (i = 0; i < words1.length; i++){
+	          $("<td style=' color: white; width: 96px; height: 99.2px; text-align: center;'><div style='background: "+red_colors[Math.floor(Math.random()*red_colors.length)]+"; position: relative; top: 0px; left: 0px;  height: 99.2px; ' class='ui-widget-content ui-draggable' id='draggable'>" + words2[i] + "</div></td>").click(function(e) {e.preventDefault();setRow2Text(this); }).appendTo('tr#tr2');
+	      }
+      
+	      $tr = $("#tr1");
+	   //   console.log($tr);
+	      $( "td > div" , $tr ).draggable({ revert: "valid", helper:'clone' });
+	      $( "td > div" , $("#tr2") ).draggable({ revert: "valid", helper:'clone' });
+	      // $( "#draggable2" ).draggable({ revert: "invalid" });
+      
+	      $song_table = $("#song");
+      
+	      $( "td:nth-child(1)", $song_table ).droppable({
+	                                  accept:"#draggable",
+	                                  activeClass: "ui-state-hover",
+	                                  hoverClass: "ui-state-active",
+	                                  drop: function( event, ui ) {
+	                                                    if ($(this).children().length <= 2){
+	                                                    $( this ).addClass( "ui-state-highlight" );
+	                                                    $(this).append($(ui.draggable).clone());
+	                                       (($($(this).parent('tr')).find("td:nth-child(2)")).append("<div id='lyric_container'><textarea id='droppable_chords'  onkeyup='textAreaAdjust(this, event)'></textarea></div>")).find("textarea:nth-child(1)").focus();
+	                                                    $('textarea').autosize();
+	                                       if ($(this).parent('tr').is(":last-child")){
+	                                            $(this).parent("tr").after('<tr><td  id="droppable" style="background: #979797; width: 96px; height:99.2px;"><div ></div></td><td colspan="6" rowspan="1" style="vertical-align: top;"></td><td></td></tr>');
+	                                            updateDropable();
+	                                       }
+	                                                    }
+	                                  }
+	                                  });
+      
+      
+	  }
+  
+  
+	  function updateDropable(){
+
+
+	$song_table = $("#song");
+
+	$( "td:nth-child(1)", $song_table ).droppable({
+	                            accept:"#draggable",
+	                            activeClass: "ui-state-hover",
+	                            hoverClass: "ui-state-active",
+	                            drop: function( event, ui ) {
+	                            $( this ).addClass( "ui-state-highlight" );
+	                            $(this).append($(ui.draggable).clone());
+	                                              // alert($(this).children().length);
+	                                 (($($(this).parent('tr')).find("td:nth-child(2)")).append("<div id='lyric_container'><textarea onresize='sizeChanged()' id='droppable_chords' onkeyup='textAreaAdjust(this, event)'></textarea></div>")).find("textarea:nth-child(1)").focus();
+	                                              $('textarea').autosize();
+	                                 if ($(this).parent('tr').is(":last-child")){
+	                                 $(this).parent("tr").after('<tr><td  id="droppable" style="background: #979797; width: 96px; height:99.2px;"><div ></div></td><td colspan="6" rowspan="1" style="vertical-align: top;"></td><td></td></tr>');
+	                                 updateDropable();
+	                                 }
+	                            }
+	                            });
+	  }
+  
+	  function updateDropableChords(){
+	      $song_table = $("#song");
+	      $( "#lyric_container", $song_table ).droppable({
+	                                                    accept:"#draggable_chord",
+	                                                   activeClass: "ui-state-hover",
+	                                                    hoverClass: "ui-state-active",
+	                                                    drop: function( event, ui ) {
+															if (!$(ui.draggable).hasClass("active_chord")){
+			                                                     $(this).addClass( "ui-state-highlight" );
+			                                                     var newEl = $(ui.draggable).clone().addClass("active_chord");
+			                                                     var $newPosX = ui.offset.left - $(this).offset().left;
+			                                                     var $newPosY = ui.offset.top - $(this).offset().top;
+	                                                     console.log(($newPosY + 30)/ 60);
+	                                                     var $newRowY = Math.round(($newPosY + 30)/ 60)*57;
+			                                                     $(newEl).css("left", $newPosX);
+			                                                     $(newEl).css("top", $newRowY);
+			                                                     $(this).append(newEl);
+	                                                     var t = $(this).children("textarea")[0];
+	                                                     var isLine = parseInt($(this).children("textarea").css("padding-top"))+parseInt($(this).children("textarea").css("line-height"));
+			                                                     updateDropableChords();
+			                                                     $(".active_chord").draggable();
+														 	}else{
+			                                                     $(this).addClass( "ui-state-highlight" );
+			                                                     var newEl = $(ui.draggable);
+			                                                     var $newPosX = ui.offset.left - $(this).offset().left;
+			                                                     var $newPosY = ui.offset.top - $(this).offset().top;
+	                                                     var $newRowY = Math.round(($newPosY + 30)/ 60)*57;
+	                                                     $(newEl).css("left", $newPosX);
+	                                                     $(newEl).css("top", $newRowY);
+
+			                                                     $(this).append(newEl);
+			                                                     updateDropableChords();
+			                                                     $(".active_chord").draggable();
+														 	}
+	                                                    }
+	                                                    });
+	  }
+	  
+	  function initSongLyrics(){
+	      for (i = 0; i < 9; i++){
+	          $("#song").append( "<tr>"+
+	                            "<td  id='droppable' style='background: #979797; width: 96px; height: 99.2px;'><div ></div></td>"+
+	                            "<td colspan='6' rowspan='1' style='vertical-align: top;'></td>"+
+	                            "<td></td></tr>");
+	      }
+	      updateDropable();
+	  }
+	  </script>
+  <body>
+  <table cellspacing="0" cellpadding="0" style="height: 100%; width: 100%;">
+      <tr>
+          <td style="/*height: 103px;*/" id="header">
+              
+          </td>
+      </tr>
+      <tr>
+          <td style="height: 100%">  <!-- lyrics content-->
+              <div style="overflow-y: auto;
+                  height: 100%;">
+                  <table cellspacing="0" cellpadding="0" id="song" style="width: 98%;">
+                     
+                  </table>
+              </div>
+          </td> <!-- end of lyrics content -->
+      </tr>
+      <tr>
+          <td style="/*height: 206px;*/">
+              <table cellspacing="0" cellpadding="0" style="width: 100%;">
+                  <tr id="tr1">
+                      
+                  </tr>
+                  <tr id="tr2">
+                      <td id="td22" class="inactive" style="width: 96px; height: 99.2px; text-align: center; " onClick="tempoClicked()"><img src='icons/nejasno2.png' style='width: 50%;' alt=''></td>
+                  </tr>
+              </table>
+          </td>
+      </tr>
+  </table>
+    <script>
+        insertCellForWords();
+        $(function() {
+          $tr = $("#tr1");
+          console.log($tr);
+          $( "td > div" , $tr ).draggable({ revert: "valid", helper:'clone' });
+          // $( "#draggable2" ).draggable({ revert: "invalid" });
+         
+          $( "#droppable" ).droppable({
+                                      accept:"#draggable",
+                                      activeClass: "ui-state-hover",
+                                      hoverClass: "ui-state-active",
+                                      drop: function( event, ui ) {
+                                         $( this ).addClass( "ui-state-highlight" );
+                                         $(this).append($(ui.draggable).clone());
+                                    //  alert($(this).children().length);
+                                      console.log(this);
+                                      }
+                                      });
+          });
+		  
+		  initSongLyrics();
+        </script>
+    <iframe id="fakesUrl" style='display: none;'></iframe>
+</body></html>

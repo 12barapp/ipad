@@ -1,0 +1,45 @@
+dependencies: \
+  /Users/Vasyl/Documents/projects/New\ 12\ Bar/app12bar/app12bar/Classes/LoginActivity.m \
+  ../app12bar/app12bar/Classes/LoginActivity.h \
+  ../app12bar/FacebookSDK.framework/Headers/FacebookSDK.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBAccessTokenData.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBSession.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBSDKMacros.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBAppCall.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBAppLinkData.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBDialogsData.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBAppEvents.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBCacheDescriptor.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBDialogs.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBLinkShareParams.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBDialogsParams.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBOpenGraphActionParams.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBOpenGraphAction.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBGraphObject.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBPhotoParams.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBError.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBErrorUtility.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBFrictionlessRecipientCache.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBRequest.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBOpenGraphObject.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBRequestConnection.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBWebDialogs.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBFriendPickerViewController.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBGraphUser.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBGraphPlace.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBGraphLocation.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBViewController.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBInsights.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBLikeControl.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBLoginView.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBTooltipView.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBNativeDialogs.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBOpenGraphActionShareDialogParams.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBShareDialogParams.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBPlacePickerViewController.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBProfilePictureView.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBSessionTokenCachingStrategy.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBSettings.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBShareDialogPhotoParams.h \
+  ../app12bar/FacebookSDK.framework/Headers/FBUserSettingsViewController.h \
+  ../app12bar/FacebookSDK.framework/Headers/NSError+FBError.h

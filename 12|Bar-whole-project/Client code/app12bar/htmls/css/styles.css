@@ -1,0 +1,581 @@
+		/* ---------------------------------------- Put here styles for native elements ------------------------------------ */
+		
+		@font-face { 
+		   font-family: "Neue"; 
+    	   /* Not IE */
+		    src: local("SF Speedwaystar Condensed"), url(./fonts/HelveticaNeueCyr-UltraLight.otf');
+		    format("truetype");
+		    /* Not IE */
+		}
+		
+		input{
+			padding: 0px !important;
+		}
+		
+        body{
+           margin: 0px;
+        }
+		
+		select {
+			display: inline-block;
+			height: 28px;
+			line-height: 28px;
+			border: 1px solid #aaa;
+			padding: 4px;
+			color: #555;
+		}
+		
+        textarea{
+            width: 100%; 
+            height: 100%; 
+            text-align: left;
+            color: #ec3936;
+            border: none; 
+            
+            font-size: 1.5em;
+            line-height: 2.4em;
+            -webkit-transition: height 0.2s;
+				-moz-transition: height 0.2s;
+				transition: height 0.2s;
+        }
+
+		/* ------------------------------------------ Put here only styles for classes --------------------------------------*/
+		
+
+
+        .chart_order_dlg td{
+           width: 25%;
+           vertical-align: bottom;
+           text-align: right;
+           padding-right: 5px;
+           padding-bottom: 5px;
+        }
+        
+        .chart_order_dlg #order_row0 td{
+            color: #f37773;
+            font-size: 40px;
+        }
+        
+        .chart_order_dlg #order_row1,.chart_order_dlg #order_row2{
+            font-family: Neue;
+			color: white;
+			font-size: 18px;
+
+        }
+
+        .chart_order_dlg table{
+            width: 100%;
+            height: 100%;
+        }
+        
+        
+        /* ---------------- Settings dialog ------------------ */
+        .settings_dlg td{
+           width: 25%;
+           vertical-align: bottom;
+           text-align: right;
+           padding-right: 5px;
+           padding-bottom: 5px;
+        }
+        
+        .settings_dlg #order_row0 td{
+            color: #f37773;
+            font-size: 40px;
+        }
+        
+        .settings_dlg #order_row1,.settings_dlg #order_row2{
+            font-family: Neue;
+			color: white;
+			font-size: 18px;
+
+        }
+
+        .settings_dlg table{
+            width: 100%;
+            height: 100%;
+        }
+        /* --------------------------------------------------- */
+        
+        .chartInfo_dlg img{
+            width: 40%;
+        }
+
+        .chartInfo_dlg #setInfo_row2 td{
+            vertical-align: bottom;
+        }
+        
+        .chartInfo_dlg #setInfo_row2 td div{
+            text-align: right;
+            margin-right: 10px;
+            /* height: 100%; */
+            margin-bottom: 10px;
+        }
+        
+        .chartInfo_dlg #setInfo_row2{
+            font-family: Neue;
+			color: white;
+			font-size: 18px;
+            text-align: center;
+        }
+
+        .setInfo_dlg img{
+            width: 50%;
+        }
+
+        .setInfo_dlg #setInfo_row2 td{
+            vertical-align: bottom;
+        }
+        
+        .setInfo_dlg #setInfo_row2 td div{
+            text-align: right;
+            margin-right: 10px;
+            /* height: 100%; */
+            margin-bottom: 10px;
+        }
+
+        .setInfo_dlg #setInfo_row2{
+            font-family: Neue;
+			color: white;
+			font-size: 18px;
+            text-align: center;
+        }
+
+		.tile_title{
+			display: table-cell;
+			margin: 0 auto;
+			vertical-align: bottom;
+			text-align: center;
+			height: 130px;
+			width: 100%;
+			color: white;
+			font-size: 25px;
+			/*font-family: "helvetica neue", helvetica, sans-serif;*/
+			font-family: Neue;
+		}
+		
+		.box {
+			border-left: 1px lightgray solid;
+			position: relative;
+			top: 15px;
+		}
+		
+		
+		.button {
+			font-family: Times, "Times New Roman", serif;
+			font-stretch: condensed;
+			float: right;
+			font-weight: 900;
+			font-size: 45px;
+            margin-top: -20px;
+		/*	position: absolute; */
+			bottom: 170px;
+			right: 15px;
+			color: white;
+			opacity: .3;
+		}
+		
+		.title {
+			/*font-family: "helvetica neue", helvetica, sans-serif;*/
+			font-family: Neue;
+			font-size: 25px;
+			text-align: right;
+			vertical-align: bottom;
+			line-height: 30px;
+			display: inline-block;
+			font-family: sans-serif;
+			color: white;
+			position: relative;
+			top: 6px;
+			opacity: 0.9;
+			
+		}
+		
+		.song {
+			clear: both;
+			width: 162px;
+			margin: 0px;
+			padding: 0px;
+			position: absolute;
+			bottom: 15px;
+			left: 15px;
+			height: 174px;
+			text-align: right;
+			line-height: 174px;
+		}
+		
+        .blur{
+           /*filter:blur(10px);
+           -o-filter:blur(10px);
+           -ms-filter:blur(10px);
+           -moz-filter:blur(10px);
+           -webkit-filter:blur(10px);*/
+           opacity: .6;
+           background: lightgray;
+           width: 100%;
+           height: 100%;
+           position: absolute;
+           z-index: 20;
+        }
+			
+		.dialog, .newSetDlg, .chart_order_dlg, .settings_dlg{
+			/*font-family: "helvetica neue", helvetica, sans-serif; */
+			font-family: Neue;
+			box-shadow: 0 0 31px rgba(0,0,0,0.8);
+		}	
+		
+		.dialog table{
+			/*font-family: "helvetica neue", helvetica, sans-serif; */
+			font-family: Neue;
+			color: white;
+			font-size: 18px;
+		}
+		
+        .newSetDlg input{
+            width: 100%;
+            height: 100%;
+            color: #60b5d3;
+            border: none;
+            border-bottom: 1px solid black;
+            background: transparent;
+            font-size: 2em;
+        }
+
+        .newSetDlg table td{
+            vertical-align: bottom;
+			text-align: right;
+			font-family: Neue;
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+		.dialog td{
+			/*padding: 13px; */
+			vertical-align: bottom;
+			text-align: right;
+			/*font-family: "helvetica neue", helvetica, sans-serif;*/
+			font-family: Neue;
+			width: 25% ;
+			height: 25% !important;
+		}
+		
+		.styled-select {
+			width: 100%;
+			height: 94px;
+			overflow: hidden;
+		}
+		
+		.styled-select select {
+			background: transparent;
+			width: 100%;
+            overflow: hidden; 
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            -webkit-appearance: none;
+			padding: 5px;
+			border: 0;
+			border-radius: 0;
+			font-size: 1em;
+            text-indent: 40%; 
+			color: #f27573;
+			line-height: 1;
+			height: 94px;
+			-webkit-appearance: none;
+		}
+		
+		.ui-state-default .indicators{
+			vertical-align: bottom;
+			text-align: right;
+			color: white;
+			font-size: 1em;
+			font-family: Neue;
+		}
+		
+		
+		
+		/* ------------------------------------------ Put here styles for id ------------------------------------ */
+		
+		
+		#newchart_dlg{
+			background: white;
+			position: absolute;
+			 z-index: 55;
+		}
+        
+        #newset_dlg{
+			background: white;
+			position: absolute;
+			 z-index: 55;
+		}
+        
+        #chartInfoRow td{
+            text-align: right;
+            padding-right: 15px;
+        }
+        
+        #chartInfoRow {
+            font-size: 40px;
+            font-family: Neue;
+			border: none; 
+			color: #f27573;
+        }
+		
+		#newchart_dlg input{
+			width: 100%;
+			height: 100%;
+			background: transparent; 
+			font-size: 70px; 
+			border: none; 
+			color: #f27573;
+		}
+		
+		#newchart_dlg table{
+			width; 100%;
+			height: 100%;
+		}
+		
+		#newchart_dlg #user_txt{
+			font-size: 70px; 
+			color: #f27573;
+		}
+		
+		#title_screen{
+			width:100%; 
+          /*  min-width: 800px; */
+            position: absolute;
+            z-index: 1;
+            list-style-type: none;
+            margin: 0; padding: 0;
+        }
+		
+		#title_screen li{
+            margin: 1px 1px 1px 1px;
+            padding: 1px;
+            float: left;
+            width: 192px;
+            height: 204px;
+            text-align: center;
+        }
+        
+        #title_dialog{
+           width: 365px;
+height: 395.6px;
+top: 309.6px;
+left: 187px;
+            position: absolute;
+            z-index: 2;
+
+            display: block;
+            background: white;
+            color: red;
+            text-align: center;
+        }
+        
+        
+        #bg_tiles{
+			position: absolute; 
+			z-index: 1; 
+            
+			list-style-type: none; 
+			margin: 0; 
+			padding: 0;
+			width: 100%; 
+            height: 100%;
+           /* min-width: 784px; */
+		}
+
+		#bg_tiles li{
+            /* margin: 1px 1px 1px 1px; */
+             padding: 1px; 
+             border: 0.5px solid #999999;
+            background: gray; 
+            float: left; 
+            width: 192px; 
+            height: 204px;  
+            text-align: center;
+        }
+        
+        #sortable_lists{
+            position:absolute; 
+            z-index: 4;
+        }
+        
+        #menu_charts, #menu_sets{
+            list-style-type: none;
+            float: left;
+            margin: 0px;
+            padding: 0px;    
+        }
+        
+        #menu_charts li, #menu_sets li{
+            float: left;
+            text-align: center;
+            padding: 1px;
+        }
+
+        #sortable {  list-style-type: none; margin: 0; padding: 0; }
+        #sortable li { /*margin: 1px 1px 1px 1px;*/
+            padding: 1px;
+            
+            float: left;
+         /*   width: 96px;
+            height: 98px; */
+            text-align: center;
+        }
+        
+        #sortable_sets {  list-style-type: none; margin: 0; padding: 0; }
+        #sortable_sets li { /*margin: 1px 1px 1px 1px; */
+            padding: 1px;
+            float: left;
+         /*   width: 96px;
+            height: 98px; */
+            text-align: center;
+        }
+
+		#separators li{
+			background: white;
+			width: 15px;
+			height: 15px;
+			border-radius: 13px;
+			margin: 0px 7px 0px 0px;
+		}
+		
+		#separators{
+			width: 88px;
+			margin-right: 15px;
+			margin-top: 15px;
+			float: right;
+			height: 44px;
+			/*background: blue*/;
+		}
+        
+        #name {
+	background-color: white !important;
+	width: 188.25px !important;
+	font-size: 3em !important;
+    height: 100.9px !important;
+	color: red !important;
+	vertical-align: middle !important;
+	line-height: 95px !important;
+	display: inline-block !important
+}
+#icon {
+    height: 100.9px !important;
+    width: 94.125px !important;
+	background-color: white !important;
+	vertical-align: middle !important;
+	line-height: 196px !important;
+	display: inline-block !important
+}
+		
+		
+        
+        /* -----------------------------------------  Styles for lyrics page ----------------------------- */
+            #lyric_container{
+                margin-left: 20px;
+                margin-right: 20px; 
+                border-bottom: 1px lightgray solid; 
+                width: 99%; 
+                height: 100%;
+                position: relative;
+            }
+            
+           /* .ui-draggable-dragging{
+                width: 40px !important;
+                height: 40px !important;
+                
+                
+            }*/
+            
+            #droppable_chords{
+                padding-top: 20px;
+            }
+            
+       
+            
+            #draggable_chord{
+                width: 92px;
+                height: 99.2px;
+            }
+            
+            .active_chord{
+                background: red;
+                width: 30px !important;
+                height: 30px !important;
+                text-align: center;
+                color: white;
+                vertical-align: middle;
+                position: absolute !important;
+            }
+            
+            #dialog-overlay {
+
+	/* set it to fill the whil screen */
+	width:100%; 
+	height:100%;
+	
+	/* transparency for different browsers */
+	filter:alpha(opacity=50); 
+	-moz-opacity:0.5; 
+	-khtml-opacity: 0.5; 
+	opacity: 0.5; 
+	background:#000; 
+
+	/* make sure it appear behind the dialog box but above everything else */
+	position:absolute; 
+	top:0; left:0; 
+	z-index:3000; 
+
+	/* hide it by default */
+	display:none;
+}
+
+
+#dialog-box {
+	
+	/* css3 drop shadow */
+	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+	
+	/* css3 border radius */
+	-moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+	
+	background:#eee;
+	/* styling of the dialog box, i have a fixed dimension for this demo */ 
+	width:328px; 
+	
+	/* make sure it has the highest z-index */
+	position:absolute; 
+	z-index:5000; 
+
+	/* hide it by default */
+	display:none;
+}
+
+#dialog-box .dialog-content {
+	/* style the content */
+	text-align:left; 
+	padding:10px; 
+	margin:13px;
+	color:#666; 
+	font-family:arial;
+	font-size:11px; 
+}
+
+div.ui-wrapper{
+overflow: hidden;
+position: static;
+width: none !important;
+height: none !important;
+/* top: auto; */
+left: auto;
+margin: 0px !important;
+padding-right: 0px !important;
+padding-bottom: 0px !important;
+}
+
+textarea#droppable_chords.ui-resizable{
+}
+        /* ----------------------------------------- End of styles for lyric pages ----------------------- */
+
+		       
