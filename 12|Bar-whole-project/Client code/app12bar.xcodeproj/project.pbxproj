@@ -78,7 +78,6 @@
 		CEFA1FE319BDA85300366C40 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1897DDC196BE6D500867D81 /* Social.framework */; };
 		CEFA1FE419BDA85300366C40 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E29AE41965FD3500D7B22E /* libsqlite3.dylib */; };
 		CEFA1FE519BDA85300366C40 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E1E29AE21965FD2E00D7B22E /* libsqlite3.0.dylib */; };
-		CEFA1FE719BDA85300366C40 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E182C94119A656EF000AD196 /* Crashlytics.framework */; };
 		CEFA1FE819BDA85300366C40 /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B7D6EF19649693004142CB /* CoreImage.framework */; };
 		CEFA1FE919BDA85300366C40 /* libGMGridView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B7D6CC19642EA9004142CB /* libGMGridView.a */; };
 		CEFA1FEA19BDA85300366C40 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B7D6C219642C9D004142CB /* QuartzCore.framework */; };
@@ -285,7 +284,6 @@
 		E15A398B19F7990A009EAC79 /* AnimationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E15A398919F7990A009EAC79 /* AnimationViewController.h */; };
 		E15A398C19F7990A009EAC79 /* AnimationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E15A398A19F7990A009EAC79 /* AnimationViewController.m */; };
 		E16ACA4B19B754F200494712 /* sharing_email.png in Resources */ = {isa = PBXBuildFile; fileRef = E16ACA4A19B754F200494712 /* sharing_email.png */; };
-		E182C94219A656EF000AD196 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E182C94119A656EF000AD196 /* Crashlytics.framework */; };
 		E1897DC5196AB83E00867D81 /* SetsMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E1897DC4196AB83E00867D81 /* SetsMenu.xib */; };
 		E1897DC9196AB92000867D81 /* SetsMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = E1897DC8196AB92000867D81 /* SetsMenu.m */; };
 		E1897DCC196AC1FC00867D81 /* NewSetDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = E1897DCB196AC1FC00867D81 /* NewSetDialog.m */; };
@@ -302,14 +300,10 @@
 		E1897DE9196D48A400867D81 /* cancel.png in Resources */ = {isa = PBXBuildFile; fileRef = E1897DE8196D48A400867D81 /* cancel.png */; };
 		E1897DEB196D62BB00867D81 /* New-Chart-Action-Tile.png in Resources */ = {isa = PBXBuildFile; fileRef = E1897DEA196D62BB00867D81 /* New-Chart-Action-Tile.png */; };
 		E1897DED196D6F7000867D81 /* 12Bar Tiles-Settings.png in Resources */ = {isa = PBXBuildFile; fileRef = E1897DEC196D6F7000867D81 /* 12Bar Tiles-Settings.png */; };
-		E18F07F41A6FAA8B00F2DBAC /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18F07EF1A6FAA8B00F2DBAC /* Parse.framework */; };
-		E18F07F51A6FAA8B00F2DBAC /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18F07F01A6FAA8B00F2DBAC /* ParseCrashReporting.framework */; };
-		E18F07F71A6FAA8B00F2DBAC /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18F07F21A6FAA8B00F2DBAC /* ParseUI.framework */; };
 		E18F07F91A6FAD9500F2DBAC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18F07F81A6FAD9500F2DBAC /* StoreKit.framework */; };
 		E18F07FB1A6FADD600F2DBAC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18F07FA1A6FADD600F2DBAC /* AudioToolbox.framework */; };
 		E18F07FD1A6FAEAC00F2DBAC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18F07FC1A6FAEAC00F2DBAC /* CoreLocation.framework */; };
 		E18F07FF1A6FB03200F2DBAC /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = E18F07FE1A6FB03200F2DBAC /* libstdc++.6.dylib */; };
-		E18F08011A6FB74100F2DBAC /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E18F08001A6FB74100F2DBAC /* ParseFacebookUtils.framework */; };
 		E1950839197FAB5C00C2EDC4 /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = E1950838197FAB5C00C2EDC4 /* iTunesArtwork.png */; };
 		E195083C197FAD7200C2EDC4 /* ServerUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = E195083B197FAD7200C2EDC4 /* ServerUpdater.m */; };
 		E19B13F91964299D00B6B5B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E19B13F81964299D00B6B5B5 /* Foundation.framework */; };
@@ -343,10 +337,11 @@
 		E1A1E10319A7ACAD004D888C /* icon80.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A1E0FF19A7ACAD004D888C /* icon80.png */; };
 		E1A57BBE19867B680068E8D3 /* lyrics_editor_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A57BBD19867B680068E8D3 /* lyrics_editor_bg.png */; };
 		E1A57BC019867C090068E8D3 /* notes_button.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A57BBF19867C090068E8D3 /* notes_button.png */; };
+		E1AA29DB1A778E0C007BA207 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1AA29DA1A778E0C007BA207 /* Crashlytics.framework */; };
+		E1AA29DE1A7791F2007BA207 /* libPods-Facebook-iOS-SDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1AA29DD1A7791F2007BA207 /* libPods-Facebook-iOS-SDK.a */; };
 		E1AB000D19ACF5F4001EB736 /* FacebookFriendsPickerController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1AB000B19ACF5F4001EB736 /* FacebookFriendsPickerController.h */; };
 		E1AB000E19ACF5F4001EB736 /* FacebookFriendsPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = E1AB000C19ACF5F4001EB736 /* FacebookFriendsPickerController.m */; };
 		E1B31EFF1A6FBB5300911FC5 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B31EFE1A6FBB5300911FC5 /* Accounts.framework */; };
-		E1B31F011A6FBCC300911FC5 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B31F001A6FBCC300911FC5 /* FacebookSDK.framework */; };
 		E1B7D6C319642C9D004142CB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B7D6C219642C9D004142CB /* QuartzCore.framework */; };
 		E1B7D6CD19642EF8004142CB /* libGMGridView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B7D6CC19642EA9004142CB /* libGMGridView.a */; };
 		E1B7D6F019649693004142CB /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B7D6EF19649693004142CB /* CoreImage.framework */; };
@@ -558,14 +553,12 @@
 		E15A397A19F543F2009EAC79 /* FPViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FPViewController.h; path = app12bar/FPViewController.h; sourceTree = SOURCE_ROOT; };
 		E15A397B19F543F2009EAC79 /* FPViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FPViewController.m; path = app12bar/FPViewController.m; sourceTree = SOURCE_ROOT; };
 		E15A397C19F543F2009EAC79 /* FPViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FPViewController.xib; path = app12bar/FPViewController.xib; sourceTree = SOURCE_ROOT; };
-		E15A398019F54758009EAC79 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		E15A398219F58C4C009EAC79 /* VFMailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VFMailViewController.h; path = app12bar/VFMailViewController.h; sourceTree = SOURCE_ROOT; };
 		E15A398319F58C4C009EAC79 /* VFMailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VFMailViewController.m; path = app12bar/VFMailViewController.m; sourceTree = SOURCE_ROOT; };
 		E15A398419F58C4C009EAC79 /* VFMailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VFMailViewController.xib; path = app12bar/VFMailViewController.xib; sourceTree = SOURCE_ROOT; };
 		E15A398919F7990A009EAC79 /* AnimationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnimationViewController.h; path = ../AnimationViewController.h; sourceTree = "<group>"; };
 		E15A398A19F7990A009EAC79 /* AnimationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnimationViewController.m; path = ../AnimationViewController.m; sourceTree = "<group>"; };
 		E16ACA4A19B754F200494712 /* sharing_email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sharing_email.png; sourceTree = "<group>"; };
-		E182C94119A656EF000AD196 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		E1897DC4196AB83E00867D81 /* SetsMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SetsMenu.xib; sourceTree = "<group>"; };
 		E1897DC7196AB92000867D81 /* SetsMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetsMenu.h; sourceTree = "<group>"; };
 		E1897DC8196AB92000867D81 /* SetsMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetsMenu.m; sourceTree = "<group>"; };
@@ -589,17 +582,10 @@
 		E1897DE8196D48A400867D81 /* cancel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel.png; sourceTree = "<group>"; };
 		E1897DEA196D62BB00867D81 /* New-Chart-Action-Tile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "New-Chart-Action-Tile.png"; sourceTree = "<group>"; };
 		E1897DEC196D6F7000867D81 /* 12Bar Tiles-Settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar Tiles-Settings.png"; sourceTree = "<group>"; };
-		E18F07EE1A6FAA8B00F2DBAC /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
-		E18F07EF1A6FAA8B00F2DBAC /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
-		E18F07F01A6FAA8B00F2DBAC /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
-		E18F07F11A6FAA8B00F2DBAC /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
-		E18F07F21A6FAA8B00F2DBAC /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		E18F07F81A6FAD9500F2DBAC /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		E18F07FA1A6FADD600F2DBAC /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E18F07FC1A6FAEAC00F2DBAC /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		E18F07FE1A6FB03200F2DBAC /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
-		E18F08001A6FB74100F2DBAC /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
-		E18F08021A6FB92400F2DBAC /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		E1950838197FAB5C00C2EDC4 /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		E195083A197FAD7200C2EDC4 /* ServerUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerUpdater.h; sourceTree = "<group>"; };
 		E195083B197FAD7200C2EDC4 /* ServerUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerUpdater.m; sourceTree = "<group>"; };
@@ -641,10 +627,15 @@
 		E1A1E0FF19A7ACAD004D888C /* icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon80.png; sourceTree = "<group>"; };
 		E1A57BBD19867B680068E8D3 /* lyrics_editor_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lyrics_editor_bg.png; sourceTree = "<group>"; };
 		E1A57BBF19867C090068E8D3 /* notes_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notes_button.png; sourceTree = "<group>"; };
+		E1AA29D21A778C33007BA207 /* libPods-Facebook-iOS-SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Facebook-iOS-SDK.a"; path = "Pods/build/Debug-iphoneos/libPods-Facebook-iOS-SDK.a"; sourceTree = "<group>"; };
+		E1AA29D41A778C37007BA207 /* libPods-CrashlyticsFramework.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CrashlyticsFramework.a"; path = "Pods/build/Debug-iphoneos/libPods-CrashlyticsFramework.a"; sourceTree = "<group>"; };
+		E1AA29D61A778D5A007BA207 /* libPods-Facebook-iOS-SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Facebook-iOS-SDK.a"; path = "Pods/build/Debug-iphoneos/libPods-Facebook-iOS-SDK.a"; sourceTree = "<group>"; };
+		E1AA29D81A778D6E007BA207 /* libPods-CrashlyticsFramework.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-CrashlyticsFramework.a"; path = "Pods/build/Debug-iphoneos/libPods-CrashlyticsFramework.a"; sourceTree = "<group>"; };
+		E1AA29DA1A778E0C007BA207 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		E1AA29DD1A7791F2007BA207 /* libPods-Facebook-iOS-SDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-Facebook-iOS-SDK.a"; path = "Pods/build/Debug-iphoneos/libPods-Facebook-iOS-SDK.a"; sourceTree = "<group>"; };
 		E1AB000B19ACF5F4001EB736 /* FacebookFriendsPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FacebookFriendsPickerController.h; path = app12bar/FacebookFriendsPickerController.h; sourceTree = SOURCE_ROOT; };
 		E1AB000C19ACF5F4001EB736 /* FacebookFriendsPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FacebookFriendsPickerController.m; path = app12bar/FacebookFriendsPickerController.m; sourceTree = SOURCE_ROOT; };
 		E1B31EFE1A6FBB5300911FC5 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
-		E1B31F001A6FBCC300911FC5 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		E1B7D6C219642C9D004142CB /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E1B7D6C719642EA9004142CB /* GMGridView.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GMGridView.xcodeproj; path = GMGridView/GMGridView.xcodeproj; sourceTree = "<group>"; };
 		E1B7D6EF19649693004142CB /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
@@ -780,7 +771,6 @@
 				CEFA1FE319BDA85300366C40 /* Social.framework in Frameworks */,
 				CEFA1FE419BDA85300366C40 /* libsqlite3.dylib in Frameworks */,
 				CEFA1FE519BDA85300366C40 /* libsqlite3.0.dylib in Frameworks */,
-				CEFA1FE719BDA85300366C40 /* Crashlytics.framework in Frameworks */,
 				CEFA1FE819BDA85300366C40 /* CoreImage.framework in Frameworks */,
 				CEFA1FE919BDA85300366C40 /* libGMGridView.a in Frameworks */,
 				CEFA1FEA19BDA85300366C40 /* QuartzCore.framework in Frameworks */,
@@ -794,11 +784,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E1AA29DE1A7791F2007BA207 /* libPods-Facebook-iOS-SDK.a in Frameworks */,
 				E1B31EFF1A6FBB5300911FC5 /* Accounts.framework in Frameworks */,
 				E1897DDD196BE6D500867D81 /* Social.framework in Frameworks */,
 				E18F07FF1A6FB03200F2DBAC /* libstdc++.6.dylib in Frameworks */,
 				E1EF72AE19BB366200A71426 /* libz.dylib in Frameworks */,
-				E18F08011A6FB74100F2DBAC /* ParseFacebookUtils.framework in Frameworks */,
+				E1AA29DB1A778E0C007BA207 /* Crashlytics.framework in Frameworks */,
 				E1EF72B219BB367E00A71426 /* SystemConfiguration.framework in Frameworks */,
 				E18F07F91A6FAD9500F2DBAC /* StoreKit.framework in Frameworks */,
 				E1EF72B619BB36AB00A71426 /* Security.framework in Frameworks */,
@@ -807,23 +798,18 @@
 				E18F07FD1A6FAEAC00F2DBAC /* CoreLocation.framework in Frameworks */,
 				E19B13FB1964299D00B6B5B5 /* CoreGraphics.framework in Frameworks */,
 				E18F07FB1A6FADD600F2DBAC /* AudioToolbox.framework in Frameworks */,
-				E1B31F011A6FBCC300911FC5 /* FacebookSDK.framework in Frameworks */,
 				CEAC87F71A5B4E9B0031C315 /* libPods-AFNetworking.a in Frameworks */,
 				CEAC87F81A5B4E9B0031C315 /* libPods.a in Frameworks */,
 				E10CE17D19E3C80F005C9058 /* CoreText.framework in Frameworks */,
 				E1EF72B419BB369600A71426 /* CFNetwork.framework in Frameworks */,
-				E18F07F71A6FAA8B00F2DBAC /* ParseUI.framework in Frameworks */,
 				E1EF72AC19BB365700A71426 /* libxml2.dylib in Frameworks */,
 				E1CC3BF1199ABCBE00570FAA /* MessageUI.framework in Frameworks */,
-				E18F07F51A6FAA8B00F2DBAC /* ParseCrashReporting.framework in Frameworks */,
 				E114FBA9198792D9001B34D7 /* SpriteKit.framework in Frameworks */,
 				E1E29AE51965FD3500D7B22E /* libsqlite3.dylib in Frameworks */,
 				E1E29AE31965FD2E00D7B22E /* libsqlite3.0.dylib in Frameworks */,
-				E182C94219A656EF000AD196 /* Crashlytics.framework in Frameworks */,
 				E1B7D6F019649693004142CB /* CoreImage.framework in Frameworks */,
 				E1B7D6CD19642EF8004142CB /* libGMGridView.a in Frameworks */,
 				E19B13FD1964299D00B6B5B5 /* UIKit.framework in Frameworks */,
-				E18F07F41A6FAA8B00F2DBAC /* Parse.framework in Frameworks */,
 				E19B13F91964299D00B6B5B5 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -941,29 +927,25 @@
 		E19B13F71964299D00B6B5B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E1B31F001A6FBCC300911FC5 /* FacebookSDK.framework */,
+				E1AA29DD1A7791F2007BA207 /* libPods-Facebook-iOS-SDK.a */,
+				E1AA29DA1A778E0C007BA207 /* Crashlytics.framework */,
+				E1AA29D81A778D6E007BA207 /* libPods-CrashlyticsFramework.a */,
+				E1AA29D61A778D5A007BA207 /* libPods-Facebook-iOS-SDK.a */,
+				E1AA29D41A778C37007BA207 /* libPods-CrashlyticsFramework.a */,
+				E1AA29D21A778C33007BA207 /* libPods-Facebook-iOS-SDK.a */,
 				E1B31EFE1A6FBB5300911FC5 /* Accounts.framework */,
-				E18F08021A6FB92400F2DBAC /* FacebookSDK.framework */,
-				E18F08001A6FB74100F2DBAC /* ParseFacebookUtils.framework */,
 				E18F07FE1A6FB03200F2DBAC /* libstdc++.6.dylib */,
 				E18F07FC1A6FAEAC00F2DBAC /* CoreLocation.framework */,
 				E18F07FA1A6FADD600F2DBAC /* AudioToolbox.framework */,
 				E18F07F81A6FAD9500F2DBAC /* StoreKit.framework */,
-				E18F07EE1A6FAA8B00F2DBAC /* Bolts.framework */,
-				E18F07EF1A6FAA8B00F2DBAC /* Parse.framework */,
-				E18F07F01A6FAA8B00F2DBAC /* ParseCrashReporting.framework */,
-				E18F07F11A6FAA8B00F2DBAC /* ParseFacebookUtils.framework */,
-				E18F07F21A6FAA8B00F2DBAC /* ParseUI.framework */,
 				CEAC87F51A5B4E9B0031C315 /* libPods-AFNetworking.a */,
 				CEAC87F61A5B4E9B0031C315 /* libPods.a */,
-				E15A398019F54758009EAC79 /* FacebookSDK.framework */,
 				E10CE17C19E3C80F005C9058 /* CoreText.framework */,
 				E1EF72B519BB36AB00A71426 /* Security.framework */,
 				E1EF72B319BB369600A71426 /* CFNetwork.framework */,
 				E1EF72B119BB367E00A71426 /* SystemConfiguration.framework */,
 				E1EF72AF19BB366D00A71426 /* MobileCoreServices.framework */,
 				E1EF72AD19BB366200A71426 /* libz.dylib */,
-				E182C94119A656EF000AD196 /* Crashlytics.framework */,
 				E1CC3BF0199ABCBE00570FAA /* MessageUI.framework */,
 				E114FBA8198792D9001B34D7 /* SpriteKit.framework */,
 				E1897DDC196BE6D500867D81 /* Social.framework */,
@@ -2179,7 +2161,10 @@
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
 				);
 				"OTHER_CODE_SIGN_FLAGS[sdk=*]" = "";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_MODULE_NAME = "12|Bar";
 				PRODUCT_NAME = "12|Bar";
 				PROVISIONING_PROFILE = "9d2ce8fe-82d0-4536-8289-46368b3be4a3";
@@ -2214,7 +2199,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
 				PRODUCT_MODULE_NAME = "12|Bar";
 				PRODUCT_NAME = "12|Bar";
 				PROVISIONING_PROFILE = "9d2ce8fe-82d0-4536-8289-46368b3be4a3";

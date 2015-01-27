@@ -2457,7 +2457,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "412"
             endingLineNumber = "412"
-            landmarkName = "-dragStarted:"
+            landmarkName = "-dragEnded:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -2505,7 +2505,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "416"
             endingLineNumber = "416"
-            landmarkName = "-dragEnded:"
+            landmarkName = "-delayEnd"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -3282,7 +3282,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "369"
             endingLineNumber = "369"
-            landmarkName = "-deletePart:"
+            landmarkName = "-droppedView:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4060,7 +4060,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "268"
             endingLineNumber = "268"
-            landmarkName = "-touchesShouldBegin:withEvent:inContentView:"
+            landmarkName = "-touchesBegan:withEvent:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -4076,8 +4076,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "251"
             endingLineNumber = "251"
-            landmarkName = "-gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:"
-            landmarkType = "5">
+            landmarkName = "@implementation LyricsEditorTextView"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

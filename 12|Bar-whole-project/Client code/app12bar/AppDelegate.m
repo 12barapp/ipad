@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "User.h"
-#import <Parse/Parse.h>
 
 @implementation AppDelegate
 @synthesize deviceToken;
@@ -28,8 +27,8 @@
         [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge categories:nil]];
     }
     
-    [Parse setApplicationId:@"aue0kgphMx4WBJiEuLEWimmcMDSeP9qrsI9EbPdh"
-                  clientKey:@"x7oeXcJMirVv7CKSJJfzaSEwihAazMePc4PZevwS"];
+    //[Parse setApplicationId:@"aue0kgphMx4WBJiEuLEWimmcMDSeP9qrsI9EbPdh"
+                //  clientKey:@"x7oeXcJMirVv7CKSJJfzaSEwihAazMePc4PZevwS"];
     
     // Register for Push Notitications
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
@@ -45,16 +44,16 @@
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)newDeviceToken {
     // Store the deviceToken in the current installation and save it to Parse.
-    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+/*    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:newDeviceToken];
-    [currentInstallation saveInBackground];
+    [currentInstallation saveInBackground]; */
     User *user = [User sharedManager];
-    [user setDeviceToken:[NSString stringWithFormat:@"%@",newDeviceToken]];
-    self.deviceToken = [NSString stringWithFormat:@"%@",newDeviceToken];
+    [user setDeviceToken:[NSString stringWithFormat:@""]];
+    self.deviceToken = [NSString stringWithFormat:@""];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [PFPush handlePush:userInfo];
+    //[PFPush handlePush:userInfo];
 }
 
 - (void)application:(UIApplication *)application

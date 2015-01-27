@@ -10,31 +10,31 @@
 	<string>app12bar</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>DD22E0FBEA2E5202D07B26C6F11FF8C4066F6258</key>
-		<string>https://bitbucket.org/aharchenko/12bar.git</string>
+		<key>2588231EC1248B6ADCA658C797BD78556636A8D1</key>
+		<string>https://github.com/12barapp/ipad.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>app12bar.xcworkspace</string>
+	<string>12|Bar-whole-project/Client code/app12bar.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>DD22E0FBEA2E5202D07B26C6F11FF8C4066F6258</key>
-		<string>..</string>
+		<key>2588231EC1248B6ADCA658C797BD78556636A8D1</key>
+		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://bitbucket.org/aharchenko/12bar.git</string>
+	<string>https://github.com/12barapp/ipad.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>DD22E0FBEA2E5202D07B26C6F11FF8C4066F6258</string>
+	<string>2588231EC1248B6ADCA658C797BD78556636A8D1</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>DD22E0FBEA2E5202D07B26C6F11FF8C4066F6258</string>
+			<string>2588231EC1248B6ADCA658C797BD78556636A8D1</string>
 			<key>IDESourceControlWCCName</key>
-			<string>12bar</string>
+			<string>ipad</string>
 		</dict>
 	</array>
 </dict>

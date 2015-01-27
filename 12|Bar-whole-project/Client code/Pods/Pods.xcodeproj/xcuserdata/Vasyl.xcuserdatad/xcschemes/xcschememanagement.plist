@@ -6,23 +6,53 @@
 	<dict>
 		<key>Pods-AFNetworking.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Bolts.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-CrashlyticsFramework.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Pods-Facebook-iOS-SDK.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>5</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>38A89D98945340ABF7A7021B</key>
+		<key>21C4C9CA0075D7E3E3DE0164</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CE3B4BB5F914B56C620C01A6</key>
+		<key>2EEBAE40F8986B1FDFC38CC1</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>4B0773420E439C2768335C3B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>75C587C54372AB4BE96A58FA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FECFB5828F693718D8AC5980</key>
 		<dict>
 			<key>primary</key>
 			<true/>
