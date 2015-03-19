@@ -7,6 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		40298E241A8AF7AD008D40C8 /* tuts_charts.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 40298E211A8AF7AD008D40C8 /* tuts_charts.pdf */; };
+		40298E251A8AF7AD008D40C8 /* tuts_home.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 40298E221A8AF7AD008D40C8 /* tuts_home.pdf */; };
+		40298E261A8AF7AD008D40C8 /* tuts_sets.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 40298E231A8AF7AD008D40C8 /* tuts_sets.pdf */; };
+		40298E281A8B047C008D40C8 /* tuts_all.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 40298E271A8B047C008D40C8 /* tuts_all.pdf */; };
+		4038CEF41AB05D4C00DEE5FB /* SJNotificationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4038CEF11AB05D4C00DEE5FB /* SJNotificationViewController.h */; };
+		4038CEF51AB05D4C00DEE5FB /* SJNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4038CEF21AB05D4C00DEE5FB /* SJNotificationViewController.m */; };
+		4038CEF61AB05D4C00DEE5FB /* SJNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4038CEF31AB05D4C00DEE5FB /* SJNotificationViewController.xib */; };
+		405E31D01AB33ADE0028C443 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 405E31CF1AB33ADE0028C443 /* Settings.bundle */; };
+		4099AC0A1AA4095A00BEE510 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4099AC081AA4095A00BEE510 /* Parse.framework */; };
+		4099AC0D1AA40D1600BEE510 /* ParseHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4099AC0B1AA40D1600BEE510 /* ParseHelper.h */; };
+		4099AC0E1AA40D1600BEE510 /* ParseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4099AC0C1AA40D1600BEE510 /* ParseHelper.m */; };
+		40E49FD11A88F6240021431A /* HelpViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 40E49FCF1A88F6240021431A /* HelpViewController.h */; };
+		40E49FD21A88F6240021431A /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E49FD01A88F6240021431A /* HelpViewController.m */; };
+		40E5AB0C1AB7DCD4009F6BF4 /* UIView+MGBadgeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 40E5AB0A1AB7DCD4009F6BF4 /* UIView+MGBadgeView.h */; };
+		40E5AB0D1AB7DCD4009F6BF4 /* UIView+MGBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E5AB0B1AB7DCD4009F6BF4 /* UIView+MGBadgeView.m */; };
 		CEAC87F71A5B4E9B0031C315 /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAC87F51A5B4E9B0031C315 /* libPods-AFNetworking.a */; };
 		CEAC87F81A5B4E9B0031C315 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAC87F61A5B4E9B0031C315 /* libPods.a */; };
 		CEFA1F8419BDA85300366C40 /* LyricsDragSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E114FBC119879ECD001B34D7 /* LyricsDragSource.m */; };
@@ -315,11 +330,6 @@
 		E19B140C1964299D00B6B5B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E19B140A1964299D00B6B5B5 /* Main.storyboard */; };
 		E19B140F1964299D00B6B5B5 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E19B140E1964299D00B6B5B5 /* HomeViewController.m */; };
 		E19B14111964299D00B6B5B5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E19B14101964299D00B6B5B5 /* Images.xcassets */; };
-		E19B14181964299D00B6B5B5 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E19B14171964299D00B6B5B5 /* XCTest.framework */; };
-		E19B14191964299D00B6B5B5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E19B13F81964299D00B6B5B5 /* Foundation.framework */; };
-		E19B141A1964299D00B6B5B5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E19B13FC1964299D00B6B5B5 /* UIKit.framework */; };
-		E19B14221964299D00B6B5B5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E19B14201964299D00B6B5B5 /* InfoPlist.strings */; };
-		E19B14241964299D00B6B5B5 /* app12barTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E19B14231964299D00B6B5B5 /* app12barTests.m */; };
 		E1A1C5FE1977082900BAA76E /* Order-Chart-Action-Tile.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A1C5FD1977082900BAA76E /* Order-Chart-Action-Tile.png */; };
 		E1A1C600197CF1F800BAA76E /* new_chord_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A1C5FF197CF1F800BAA76E /* new_chord_bg.png */; };
 		E1A1C602197CF46A00BAA76E /* new_set_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = E1A1C601197CF46A00BAA76E /* new_set_bg.png */; };
@@ -448,13 +458,6 @@
 			remoteGlobalIDString = 78509311149FAC2E000787E4;
 			remoteInfo = GMGridView;
 		};
-		E19B141B1964299D00B6B5B5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = E19B13ED1964299C00B6B5B5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = E19B13F41964299D00B6B5B5;
-			remoteInfo = app12bar;
-		};
 		E1B7D6CB19642EA9004142CB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = E1B7D6C719642EA9004142CB /* GMGridView.xcodeproj */;
@@ -472,6 +475,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		40298E211A8AF7AD008D40C8 /* tuts_charts.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = tuts_charts.pdf; sourceTree = "<group>"; };
+		40298E221A8AF7AD008D40C8 /* tuts_home.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = tuts_home.pdf; sourceTree = "<group>"; };
+		40298E231A8AF7AD008D40C8 /* tuts_sets.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = tuts_sets.pdf; sourceTree = "<group>"; };
+		40298E271A8B047C008D40C8 /* tuts_all.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = tuts_all.pdf; sourceTree = "<group>"; };
+		4038CEF11AB05D4C00DEE5FB /* SJNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJNotificationViewController.h; sourceTree = SOURCE_ROOT; };
+		4038CEF21AB05D4C00DEE5FB /* SJNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJNotificationViewController.m; sourceTree = SOURCE_ROOT; };
+		4038CEF31AB05D4C00DEE5FB /* SJNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SJNotificationViewController.xib; sourceTree = SOURCE_ROOT; };
+		405E31CF1AB33ADE0028C443 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		4099AC081AA4095A00BEE510 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
+		4099AC0B1AA40D1600BEE510 /* ParseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseHelper.h; sourceTree = "<group>"; };
+		4099AC0C1AA40D1600BEE510 /* ParseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseHelper.m; sourceTree = "<group>"; };
+		40AC446B1A85B9F900A57DFF /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		40E49FCF1A88F6240021431A /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = SOURCE_ROOT; };
+		40E49FD01A88F6240021431A /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = SOURCE_ROOT; };
+		40E5AB0A1AB7DCD4009F6BF4 /* UIView+MGBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MGBadgeView.h"; sourceTree = "<group>"; };
+		40E5AB0B1AB7DCD4009F6BF4 /* UIView+MGBadgeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MGBadgeView.m"; sourceTree = "<group>"; };
 		4856C6FB4AC9B2F86DB8181A /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		93E317E7403E3F7B411C907D /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		CEAC87F51A5B4E9B0031C315 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
@@ -603,7 +622,6 @@
 		E19B140D1964299D00B6B5B5 /* HomeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = ../HomeViewController.h; sourceTree = "<group>"; };
 		E19B140E1964299D00B6B5B5 /* HomeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = ../HomeViewController.m; sourceTree = "<group>"; };
 		E19B14101964299D00B6B5B5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E19B14161964299D00B6B5B5 /* app12barTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = app12barTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E19B14171964299D00B6B5B5 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E19B141F1964299D00B6B5B5 /* app12barTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "app12barTests-Info.plist"; sourceTree = "<group>"; };
 		E19B14211964299D00B6B5B5 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -784,24 +802,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1AA29DE1A7791F2007BA207 /* libPods-Facebook-iOS-SDK.a in Frameworks */,
-				E1B31EFF1A6FBB5300911FC5 /* Accounts.framework in Frameworks */,
-				E1897DDD196BE6D500867D81 /* Social.framework in Frameworks */,
-				E18F07FF1A6FB03200F2DBAC /* libstdc++.6.dylib in Frameworks */,
-				E1EF72AE19BB366200A71426 /* libz.dylib in Frameworks */,
-				E1AA29DB1A778E0C007BA207 /* Crashlytics.framework in Frameworks */,
 				E1EF72B219BB367E00A71426 /* SystemConfiguration.framework in Frameworks */,
 				E18F07F91A6FAD9500F2DBAC /* StoreKit.framework in Frameworks */,
 				E1EF72B619BB36AB00A71426 /* Security.framework in Frameworks */,
 				E1B7D6C319642C9D004142CB /* QuartzCore.framework in Frameworks */,
 				E1EF72B019BB366D00A71426 /* MobileCoreServices.framework in Frameworks */,
 				E18F07FD1A6FAEAC00F2DBAC /* CoreLocation.framework in Frameworks */,
-				E19B13FB1964299D00B6B5B5 /* CoreGraphics.framework in Frameworks */,
+				E1EF72B419BB369600A71426 /* CFNetwork.framework in Frameworks */,
 				E18F07FB1A6FADD600F2DBAC /* AudioToolbox.framework in Frameworks */,
+				E1AA29DE1A7791F2007BA207 /* libPods-Facebook-iOS-SDK.a in Frameworks */,
+				E1B31EFF1A6FBB5300911FC5 /* Accounts.framework in Frameworks */,
+				E1897DDD196BE6D500867D81 /* Social.framework in Frameworks */,
+				E18F07FF1A6FB03200F2DBAC /* libstdc++.6.dylib in Frameworks */,
+				E1EF72AE19BB366200A71426 /* libz.dylib in Frameworks */,
+				E1AA29DB1A778E0C007BA207 /* Crashlytics.framework in Frameworks */,
+				4099AC0A1AA4095A00BEE510 /* Parse.framework in Frameworks */,
+				E19B13FB1964299D00B6B5B5 /* CoreGraphics.framework in Frameworks */,
 				CEAC87F71A5B4E9B0031C315 /* libPods-AFNetworking.a in Frameworks */,
 				CEAC87F81A5B4E9B0031C315 /* libPods.a in Frameworks */,
 				E10CE17D19E3C80F005C9058 /* CoreText.framework in Frameworks */,
-				E1EF72B419BB369600A71426 /* CFNetwork.framework in Frameworks */,
 				E1EF72AC19BB365700A71426 /* libxml2.dylib in Frameworks */,
 				E1CC3BF1199ABCBE00570FAA /* MessageUI.framework in Frameworks */,
 				E114FBA9198792D9001B34D7 /* SpriteKit.framework in Frameworks */,
@@ -814,19 +833,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E19B14131964299D00B6B5B5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E19B14181964299D00B6B5B5 /* XCTest.framework in Frameworks */,
-				E19B141A1964299D00B6B5B5 /* UIKit.framework in Frameworks */,
-				E19B14191964299D00B6B5B5 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4038CEF01AB05D3B00DEE5FB /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				4038CEF11AB05D4C00DEE5FB /* SJNotificationViewController.h */,
+				4038CEF21AB05D4C00DEE5FB /* SJNotificationViewController.m */,
+				4038CEF31AB05D4C00DEE5FB /* SJNotificationViewController.xib */,
+			);
+			name = Notifications;
+			sourceTree = "<group>";
+		};
+		407C5FCF1A85437300645AF0 /* Tuts */ = {
+			isa = PBXGroup;
+			children = (
+				40298E271A8B047C008D40C8 /* tuts_all.pdf */,
+				40298E211A8AF7AD008D40C8 /* tuts_charts.pdf */,
+				40298E221A8AF7AD008D40C8 /* tuts_home.pdf */,
+				40298E231A8AF7AD008D40C8 /* tuts_sets.pdf */,
+			);
+			name = Tuts;
+			sourceTree = "<group>";
+		};
 		916E103B582C755579B3DB03 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -918,7 +948,6 @@
 			isa = PBXGroup;
 			children = (
 				E19B13F51964299D00B6B5B5 /* 12|Bar.app */,
-				E19B14161964299D00B6B5B5 /* app12barTests.xctest */,
 				CEFA208319BDA85300366C40 /* app12bar copy.app */,
 			);
 			name = Products;
@@ -927,6 +956,8 @@
 		E19B13F71964299D00B6B5B5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4099AC081AA4095A00BEE510 /* Parse.framework */,
+				40AC446B1A85B9F900A57DFF /* FacebookSDK.framework */,
 				E1AA29DD1A7791F2007BA207 /* libPods-Facebook-iOS-SDK.a */,
 				E1AA29DA1A778E0C007BA207 /* Crashlytics.framework */,
 				E1AA29D81A778D6E007BA207 /* libPods-CrashlyticsFramework.a */,
@@ -969,6 +1000,7 @@
 				E1E29AD01965FD0600D7B22E /* 12bar.sqlite */,
 				E1E29AC91965FC0500D7B22E /* Classes */,
 				E1B7D70619651D52004142CB /* Images */,
+				407C5FCF1A85437300645AF0 /* Tuts */,
 				E1B7D6F6196518A4004142CB /* XIBS */,
 				E19B140A1964299D00B6B5B5 /* Main.storyboard */,
 				E19B14101964299D00B6B5B5 /* Images.xcassets */,
@@ -981,6 +1013,7 @@
 		E19B13FF1964299D00B6B5B5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				405E31CF1AB33ADE0028C443 /* Settings.bundle */,
 				E19B14001964299D00B6B5B5 /* app12bar-Info.plist */,
 				E19B14011964299D00B6B5B5 /* InfoPlist.strings */,
 				E19B14041964299D00B6B5B5 /* main.m */,
@@ -1018,6 +1051,7 @@
 		E1B7D6E619649193004142CB /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				4038CEF01AB05D3B00DEE5FB /* Notifications */,
 				E1C1EF4319EE5CAC00831B00 /* Home popups */,
 				E1C1EF4019EE5BEC00831B00 /* Pickers */,
 				E1C1EF3F19EE5BC200831B00 /* Settings */,
@@ -1036,6 +1070,8 @@
 				E15A397B19F543F2009EAC79 /* FPViewController.m */,
 				E15A398219F58C4C009EAC79 /* VFMailViewController.h */,
 				E15A398319F58C4C009EAC79 /* VFMailViewController.m */,
+				40E49FCF1A88F6240021431A /* HelpViewController.h */,
+				40E49FD01A88F6240021431A /* HelpViewController.m */,
 			);
 			name = Views;
 			path = ../Popups;
@@ -1251,6 +1287,8 @@
 				E1B7D70119651C13004142CB /* UIView+Animation.h */,
 				E1B7D70219651C13004142CB /* UIView+Animation.m */,
 				E1B7D6F1196498B7004142CB /* FXBlurView.h */,
+				40E5AB0A1AB7DCD4009F6BF4 /* UIView+MGBadgeView.h */,
+				40E5AB0B1AB7DCD4009F6BF4 /* UIView+MGBadgeView.m */,
 				E1B7D6F2196498B7004142CB /* FXBlurView.m */,
 				E1C64FBE1A6441680024DA11 /* RegExCategories.h */,
 				E1C64FBF1A6441680024DA11 /* RegExCategories.m */,
@@ -1271,6 +1309,8 @@
 				E1CC3BEB199AAFBC00570FAA /* JsonSetHelper.m */,
 				E1485F0119DE81D30050A445 /* TransposeChordHelper.h */,
 				E1485F0219DE81D30050A445 /* TransposeChordHelper.m */,
+				4099AC0B1AA40D1600BEE510 /* ParseHelper.h */,
+				4099AC0C1AA40D1600BEE510 /* ParseHelper.m */,
 			);
 			name = "Utils&Helpers";
 			path = ..;
@@ -1381,7 +1421,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E114FC1319922D35001B34D7 /* AtkDefaultDragAndDropManagerDelegate.h in Headers */,
+				4038CEF41AB05D4C00DEE5FB /* SJNotificationViewController.h in Headers */,
 				E114FC1419922D35001B34D7 /* AtkDefaultDragAndDropManagerDelegate.m in Headers */,
+				4099AC0D1AA40D1600BEE510 /* ParseHelper.h in Headers */,
 				E1307C331A27F0FD00593064 /* CustomLabel.h in Headers */,
 				E15A398519F58C4C009EAC79 /* VFMailViewController.h in Headers */,
 				E1CC3C00199CAFD300570FAA /* ChangeKeysView.h in Headers */,
@@ -1394,6 +1436,7 @@
 				E1CC3BE8199AAF8900570FAA /* JsonChordHelper.h in Headers */,
 				E114FC1519922D35001B34D7 /* AtkDragAndDrop.h in Headers */,
 				E10CE17119E32CE0005C9058 /* LyricsEditorTextView.h in Headers */,
+				40E5AB0C1AB7DCD4009F6BF4 /* UIView+MGBadgeView.h in Headers */,
 				E114FC1619922D35001B34D7 /* AtkDragAndDropLifecycleProtocol.h in Headers */,
 				E1485F0319DE81D30050A445 /* TransposeChordHelper.h in Headers */,
 				E15A398B19F7990A009EAC79 /* AnimationViewController.h in Headers */,
@@ -1417,6 +1460,7 @@
 				E114FC2019922D35001B34D7 /* UIView+AtkDragAndDrop.m in Headers */,
 				E1CC3B6A1996B16F00570FAA /* NotesSetView.h in Headers */,
 				E1CC3B891998BEC000570FAA /* CoreSettings.h in Headers */,
+				40E49FD11A88F6240021431A /* HelpViewController.h in Headers */,
 				E137E7B019B5B7960070AD00 /* SharedNotifierViewController.h in Headers */,
 				E15A397D19F543F2009EAC79 /* FPViewController.h in Headers */,
 				E114FC2119922D35001B34D7 /* UIView+AtkImage.h in Headers */,
@@ -1470,24 +1514,6 @@
 			productReference = E19B13F51964299D00B6B5B5 /* 12|Bar.app */;
 			productType = "com.apple.product-type.application";
 		};
-		E19B14151964299D00B6B5B5 /* app12barTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = E19B142A1964299D00B6B5B5 /* Build configuration list for PBXNativeTarget "app12barTests" */;
-			buildPhases = (
-				E19B14121964299D00B6B5B5 /* Sources */,
-				E19B14131964299D00B6B5B5 /* Frameworks */,
-				E19B14141964299D00B6B5B5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				E19B141C1964299D00B6B5B5 /* PBXTargetDependency */,
-			);
-			name = app12barTests;
-			productName = app12barTests;
-			productReference = E19B14161964299D00B6B5B5 /* app12barTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1501,10 +1527,7 @@
 						DevelopmentTeam = Y3XF5GS5U8;
 					};
 					E19B13F41964299D00B6B5B5 = {
-						DevelopmentTeam = K7BPR6DDLM;
-					};
-					E19B14151964299D00B6B5B5 = {
-						TestTargetID = E19B13F41964299D00B6B5B5;
+						DevelopmentTeam = Y3XF5GS5U8;
 					};
 				};
 			};
@@ -1528,7 +1551,6 @@
 			projectRoot = "";
 			targets = (
 				E19B13F41964299D00B6B5B5 /* app12bar */,
-				E19B14151964299D00B6B5B5 /* app12barTests */,
 				CEFA1F8019BDA85300366C40 /* us.12bar.app */,
 			);
 		};
@@ -1644,11 +1666,13 @@
 			files = (
 				E1CC3B94199A5C1400570FAA /* ErrorDialog.xib in Resources */,
 				E1B7D73619651D80004142CB /* share.png in Resources */,
+				40298E241A8AF7AD008D40C8 /* tuts_charts.pdf in Resources */,
 				E1B7D72C19651D80004142CB /* nejasno2.png in Resources */,
 				E108892C19ADE1900039DD67 /* EnterEmail.xib in Resources */,
 				E1B7D72F19651D80004142CB /* notes_btn.png in Resources */,
 				E1A1C604197CF72500BAA76E /* chord_order_bg.png in Resources */,
 				E1A1C60C197CFED600BAA76E /* chord_info_bg.png in Resources */,
+				40298E281A8B047C008D40C8 /* tuts_all.pdf in Resources */,
 				E1040331196542ED00C1D588 /* about_settings.png in Resources */,
 				E1A57BBE19867B680068E8D3 /* lyrics_editor_bg.png in Resources */,
 				E1A1E10119A7ACAD004D888C /* icon.png in Resources */,
@@ -1662,6 +1686,7 @@
 				E1D5D47F1986454D0084CCDF /* NotesDialog.xib in Resources */,
 				E15A397F19F543F2009EAC79 /* FPViewController.xib in Resources */,
 				E10CE16B19E31B8F005C9058 /* set_new.png in Resources */,
+				40298E261A8AF7AD008D40C8 /* tuts_sets.pdf in Resources */,
 				E1D5D4241980F6210084CCDF /* LoginScreen.xib in Resources */,
 				E19B14111964299D00B6B5B5 /* Images.xcassets in Resources */,
 				E1897DDF196C3B5200867D81 /* SetInfo.xib in Resources */,
@@ -1669,9 +1694,11 @@
 				E1040326196525DD00C1D588 /* NewSetDialog.xib in Resources */,
 				E1E0FC90196E5D1900EDAD65 /* FriendMail.xib in Resources */,
 				E1B7D72819651D80004142CB /* instagram.png in Resources */,
+				4038CEF61AB05D4C00DEE5FB /* SJNotificationViewController.xib in Resources */,
 				E1B8FF3A19A23434003EF107 /* notes_icon.png in Resources */,
 				E106E2E61A4811D900EBBEA5 /* twelvebar.sqlite in Resources */,
 				E1485EC719D9F60C0050A445 /* chart_order.png in Resources */,
+				405E31D01AB33ADE0028C443 /* Settings.bundle in Resources */,
 				E1A1E10219A7ACAD004D888C /* icon40.png in Resources */,
 				E1B8FF2A199E7D22003EF107 /* Change-Keys-Action-Tile.png in Resources */,
 				E1A1C602197CF46A00BAA76E /* new_set_bg.png in Resources */,
@@ -1682,6 +1709,7 @@
 				E1A1C60A197CFD2600BAA76E /* sets_menu_bg.png in Resources */,
 				E1950839197FAB5C00C2EDC4 /* iTunesArtwork.png in Resources */,
 				E1B7D73819651D80004142CB /* tab2_inactive.png in Resources */,
+				40298E251A8AF7AD008D40C8 /* tuts_home.pdf in Resources */,
 				E1B7D72419651D80004142CB /* edit.png in Resources */,
 				E19B14031964299D00B6B5B5 /* InfoPlist.strings in Resources */,
 				E1A1C60E197D019A00BAA76E /* set_info_bg.png in Resources */,
@@ -1738,14 +1766,6 @@
 				E1CC3B671996B0F000570FAA /* NotesSetDialog.xib in Resources */,
 				E1CC3BF3199B6CB200570FAA /* Settings.plist in Resources */,
 				E15A398719F58C4C009EAC79 /* VFMailViewController.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E19B14141964299D00B6B5B5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E19B14221964299D00B6B5B5 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1897,14 +1917,18 @@
 				E104033719654DC500C1D588 /* ChartInfo.m in Sources */,
 				E1E29ADD1965FD1100D7B22E /* FMDatabase.m in Sources */,
 				E1A1C611197D145900BAA76E /* SignaturePickerViewController.m in Sources */,
+				40E5AB0D1AB7DCD4009F6BF4 /* UIView+MGBadgeView.m in Sources */,
 				E19B14091964299D00B6B5B5 /* AppDelegate.m in Sources */,
 				E1CC3C01199CAFD300570FAA /* ChangeKeysView.m in Sources */,
 				E1D5D4291980F69F0084CCDF /* LoginScreenView.m in Sources */,
+				4038CEF51AB05D4C00DEE5FB /* SJNotificationViewController.m in Sources */,
+				4099AC0E1AA40D1600BEE510 /* ParseHelper.m in Sources */,
 				E1E29AE11965FD1100D7B22E /* FMResultSet.m in Sources */,
 				E114FBBD19879B82001B34D7 /* UIScrollView+AtkDragAndDrop.m in Sources */,
 				E1E0FC93196E621200EDAD65 /* FriendMail.m in Sources */,
 				E1B7D6F3196498B7004142CB /* FXBlurView.m in Sources */,
 				E1D5D433198193040084CCDF /* FriendPickerView.m in Sources */,
+				40E49FD21A88F6240021431A /* HelpViewController.m in Sources */,
 				E1897DE5196C835700867D81 /* SettingsDialog.m in Sources */,
 				E1897DCC196AC1FC00867D81 /* NewSetDialog.m in Sources */,
 				E137E7AB19B4A10E0070AD00 /* FriendEmailTyper.m in Sources */,
@@ -1952,14 +1976,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E19B14121964299D00B6B5B5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				E19B14241964299D00B6B5B5 /* app12barTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1967,11 +1983,6 @@
 			isa = PBXTargetDependency;
 			name = GMGridView;
 			targetProxy = CEFA1F8219BDA85300366C40 /* PBXContainerItemProxy */;
-		};
-		E19B141C1964299D00B6B5B5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = E19B13F41964299D00B6B5B5 /* app12bar */;
-			targetProxy = E19B141B1964299D00B6B5B5 /* PBXContainerItemProxy */;
 		};
 		E1E0FC8B196D87F000EDAD65 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2011,13 +2022,14 @@
 		CEFA208119BDA85300366C40 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-4";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/nlabhart/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "app12bar/app12bar-Prefix.pch";
@@ -2029,7 +2041,6 @@
 				INFOPLIST_FILE = "app12bar copy-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "app12bar copy";
-				PROVISIONING_PROFILE = "8e4bbe52-a57e-459a-bf4c-8b0aff7cd681";
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "GMGridView/**";
 				WRAPPER_EXTENSION = app;
@@ -2039,13 +2050,14 @@
 		CEFA208219BDA85300366C40 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-4";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-2";
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/nlabhart/Documents/FacebookSDK,
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "app12bar/app12bar-Prefix.pch";
@@ -2057,7 +2069,6 @@
 				INFOPLIST_FILE = "app12bar copy-Info.plist";
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "app12bar copy";
-				PROVISIONING_PROFILE = "8e4bbe52-a57e-459a-bf4c-8b0aff7cd681";
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "GMGridView/**";
 				WRAPPER_EXTENSION = app;
@@ -2080,7 +2091,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: 12Bar (Y3XF5GS5U8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: 12Bar (Y3XF5GS5U8)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -2096,7 +2108,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -2119,7 +2131,8 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: 12Bar (Y3XF5GS5U8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: 12Bar (Y3XF5GS5U8)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -2129,7 +2142,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -2140,8 +2153,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F1D0E7A4170C5AD2D029C0A0 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-4";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2156,6 +2169,7 @@
 					"$(SDKROOT)/usr/include/libxml2/**",
 				);
 				INFOPLIST_FILE = "app12bar/app12bar-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -2167,7 +2181,7 @@
 				);
 				PRODUCT_MODULE_NAME = "12|Bar";
 				PRODUCT_NAME = "12|Bar";
-				PROVISIONING_PROFILE = "9d2ce8fe-82d0-4536-8289-46368b3be4a3";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "GMGridView/**";
 				VALIDATE_PRODUCT = YES;
@@ -2179,8 +2193,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 93E317E7403E3F7B411C907D /* Pods.release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-4";
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-3";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2195,6 +2209,7 @@
 					"$(SDKROOT)/usr/include/libxml2/**",
 				);
 				INFOPLIST_FILE = "app12bar/app12bar-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/build/Debug-iphoneos",
@@ -2205,51 +2220,11 @@
 				);
 				PRODUCT_MODULE_NAME = "12|Bar";
 				PRODUCT_NAME = "12|Bar";
-				PROVISIONING_PROFILE = "9d2ce8fe-82d0-4536-8289-46368b3be4a3";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = NO;
 				USER_HEADER_SEARCH_PATHS = "GMGridView/**";
 				VALIDATE_PRODUCT = NO;
 				WRAPPER_EXTENSION = app;
-			};
-			name = Release;
-		};
-		E19B142B1964299D00B6B5B5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/app12bar.app/app12bar";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "app12bar/app12bar-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "app12barTests/app12barTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		E19B142C1964299D00B6B5B5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/app12bar.app/app12bar";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "app12bar/app12bar-Prefix.pch";
-				INFOPLIST_FILE = "app12barTests/app12barTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
 			};
 			name = Release;
 		};
@@ -2279,15 +2254,6 @@
 			buildConfigurations = (
 				E19B14281964299D00B6B5B5 /* Debug */,
 				E19B14291964299D00B6B5B5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		E19B142A1964299D00B6B5B5 /* Build configuration list for PBXNativeTarget "app12barTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E19B142B1964299D00B6B5B5 /* Debug */,
-				E19B142C1964299D00B6B5B5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

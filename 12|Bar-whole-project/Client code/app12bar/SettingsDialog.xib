@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,33 +12,29 @@
             <subviews>
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iNd-qI-O5G">
                     <rect key="frame" x="197" y="322" width="376" height="379"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fav-JD-Ynu">
                             <rect key="frame" x="94" y="119" width="274" height="64"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="40"/>
                             <color key="textColor" red="0.73333334922790527" green="0.73333334922790527" blue="0.73333334922790527" alpha="1" colorSpace="deviceRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ONO-UO-7FO">
                             <rect key="frame" x="0.0" y="191" width="94" height="94"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
-                            <state key="normal" title="Sound"/>
+                            <state key="normal" title="Tutorials"/>
                             <userDefinedRuntimeAttributes>
                                 <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
                                     <color key="value" red="0.13333334028720856" green="0.64313727617263794" blue="0.88627457618713379" alpha="1" colorSpace="deviceRGB"/>
                                 </userDefinedRuntimeAttribute>
                             </userDefinedRuntimeAttributes>
                             <connections>
-                                <action selector="switchSound:" destination="iN0-l3-epB" eventType="touchUpInside" id="ysW-2C-R3U"/>
+                                <action selector="recallTuts:" destination="iN0-l3-epB" eventType="touchUpInside" id="2Zq-bh-mPe"/>
                             </connections>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uh2-4l-diO">
                             <rect key="frame" x="94" y="191" width="94" height="94"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
                             <state key="normal" title="Light/Dark"/>
@@ -53,7 +49,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qcb-Zn-CLB">
                             <rect key="frame" x="188" y="191" width="94" height="94"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
                             <state key="normal" title="Chords"/>
@@ -68,7 +63,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HqS-fL-b52">
                             <rect key="frame" x="282" y="191" width="94" height="94"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
                             <state key="normal" title="Lyrics"/>
@@ -81,24 +75,8 @@
                                 <action selector="setDisplayOnlyLyrics:" destination="iN0-l3-epB" eventType="touchUpInside" id="4FZ-L8-MIS"/>
                             </connections>
                         </button>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cnc-Vq-05Y">
-                            <rect key="frame" x="282" y="285" width="94" height="94"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
-                            <state key="normal" title="Privacy"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                    <color key="value" red="0.70196080207824707" green="0.70196080207824707" blue="0.70196080207824707" alpha="1" colorSpace="deviceRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
-                            <connections>
-                                <action selector="setDisplayAll:" destination="iN0-l3-epB" eventType="touchUpInside" id="z2j-ha-twT"/>
-                            </connections>
-                        </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gZf-e5-t61">
                             <rect key="frame" x="0.0" y="285" width="94" height="94"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
                             <state key="normal" title="Log Out"/>
@@ -113,7 +91,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="awP-kZ-btP">
                             <rect key="frame" x="94" y="285" width="94" height="94"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
                             <state key="normal" title="Tell a Friend"/>
@@ -128,7 +105,6 @@
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N6C-Rz-qic">
                             <rect key="frame" x="188" y="285" width="94" height="94"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
                             <state key="normal" title="About"/>
@@ -141,12 +117,25 @@
                                 <action selector="showAbout:" destination="iN0-l3-epB" eventType="touchUpInside" id="yeU-rz-ji1"/>
                             </connections>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cnc-Vq-05Y">
+                            <rect key="frame" x="282" y="285" width="94" height="94"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
+                            <state key="normal" title="Shared"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                                    <color key="value" red="0.70196080207824707" green="0.70196080207824707" blue="0.70196080207824707" alpha="1" colorSpace="deviceRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="displaySharedCharts:" destination="iN0-l3-epB" eventType="touchUpInside" id="blb-Ba-8FS"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <color key="backgroundColor" red="0.12941177189350128" green="0.11764706671237946" blue="0.11764706671237946" alpha="1" colorSpace="deviceRGB"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yb3-uS-aFS">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yb3-uS-aFS">
                     <rect key="frame" x="335" y="766" width="100" height="100"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" image="btn_done.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -156,18 +145,23 @@
                 </button>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <connections>
                 <outlet property="chordsButton" destination="Qcb-Zn-CLB" id="GbP-d3-4oF"/>
                 <outlet property="dialogContainer" destination="iNd-qI-O5G" id="oNm-rk-XET"/>
                 <outlet property="loginButtonTitle" destination="gZf-e5-t61" id="b28-1w-C3l"/>
                 <outlet property="lyricsButton" destination="HqS-fL-b52" id="Br3-aC-cGC"/>
-                <outlet property="soundButton" destination="ONO-UO-7FO" id="Lv4-Kp-tDn"/>
+                <outlet property="sharedButton" destination="cnc-Vq-05Y" id="KDC-7I-k3j"/>
                 <outlet property="themeButton" destination="uh2-4l-diO" id="2X1-C4-pYN"/>
+                <outlet property="tutsButton" destination="ONO-UO-7FO" id="dTW-ej-rLL"/>
             </connections>
         </view>
     </objects>
     <resources>
         <image name="btn_done.png" width="400" height="420"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
 </document>

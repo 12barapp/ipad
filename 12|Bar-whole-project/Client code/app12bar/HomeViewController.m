@@ -8,6 +8,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import "HomeViewController.h"
 #import "GMGridView.h"
+#import "HelpViewController.h"
+#import "ParseHelper.h"
+#import "SJNotificationViewController.h"
+#import "UIView+MGBadgeView.h"
+
 #import <Social/Social.h>
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -95,36 +100,57 @@
     FBFriendPickerViewController *friendPickerController = (FBFriendPickerViewController*)sender;
     NSArray * tempFriends = friendPickerController.selection;
     NSString* sharedID = [[NSString alloc] init];
-    for (int  i = 0; i < tempFriends.count; i++) {
-        if (i == 0) {
+
+    [ParseHelper initialize];
+    
+    for (int  i = 0; i < tempFriends.count; i++)
+    {
+//        NSLog(@"%@",[tempFriends objectAtIndex:i]);
+        
+        if (i == 0)
             sharedID = [tempFriends objectAtIndex:i][@"id"];
-        }else
-        sharedID =[sharedID stringByAppendingString: [NSString stringWithFormat:@",%@",[tempFriends objectAtIndex:i][@"id"]]];
+        else
+            sharedID = [sharedID stringByAppendingString:
+                        [NSString stringWithFormat:@",%@",[tempFriends objectAtIndex:i][@"id"]]];
     }
     [[sender presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    
     if (![sharedID isEqualToString:@""]){
-        if (self.isSetSharing) {
+        if (self.isSetSharing)
+        {
             NSDictionary *tempSet = [db getSetWithId:[self.currentUser setId]];
-            if ([@"0" isEqualToString:tempSet[@"serverId"]]){
+            if ([@"0" isEqualToString:tempSet[@"serverId"]])
+            {
                 [self.serverUpdater passNewSetWithId:[self.currentUser setId]];
             }
+            
             NSMutableArray * charts = [db getChordsForSet:[self.currentUser setId]];
-            for (int i = 0; i < [charts count]; i++) {
+            for (int i = 0; i < [charts count]; i++)
+            {
                 NSDictionary* chart = [db getChartById:[charts objectAtIndex:i][@"chordId"]];
-                if ([@"0" isEqualToString:chart[@"serverId"]]) {
+                if ([@"0" isEqualToString:chart[@"serverId"]])
+                {
                     [self.serverUpdater passNewChartWithId:chart[@"chordId"]];
                 }
             }
             [self.serverUpdater shareSet:tempSet[@"setId"] withFriends:sharedID];
-        } else {
+            [ParseHelper sendPushNotification:[NSString stringWithFormat:@"%@ shared a set with you!", [self.currentUser getFBName]]
+                              withFacebookIDs:sharedID];
+        }
+        else
+        {
 
             NSDictionary *tempChart = [db getChartById:[self.currentUser chartId]];
             if ([@"0" isEqualToString:tempChart[@"serverId"]]) {
                 [self.serverUpdater passNewChartWithId:[self.currentUser chartId]];
             }
             [self.serverUpdater shareChart:tempChart[@"chordId"] withFriends:sharedID];
+            [ParseHelper sendPushNotification:[NSString stringWithFormat:@"%@ shared a chart with you!", [self.currentUser getFBName]]
+                              withFacebookIDs:sharedID];
         }
     }
+    
+    [self closeInfo];
 }
 
 - (void)facebookViewControllerCancelWasPressed:(id)sender {
@@ -154,6 +180,17 @@
     
 }
 
+-(void)checkForSharedItems:(NSTimer*)timer
+{
+    if (![@"" isEqualToString:[self.currentUser mySecretKey]] && [self.currentUser mySecretKey] != nil) {
+        NSLog(@"---- Checking for Shared Items ----");
+        
+        [self.serverUpdater getSharedItemsCount:^(int result) {
+            NSLog(@"Count of Shared Items: %d", result);
+        }];
+    }
+}
+
 #pragma mark ServerUpdater delegates
 
 -(void)updateChart:(NSString*)chartId withServerId:(NSString*)serverId{
@@ -161,9 +198,8 @@
 }
 
 
-
-
--(void)notifyAboutSharedData:(NSDictionary*)data andShared:(NSString*)shared {
+-(void)notifyAboutSharedData:(NSDictionary*)data andShared:(NSString*)shared
+{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     SharedNotifierViewController *viewController = (SharedNotifierViewController*)[storyboard
                                                            instantiateViewControllerWithIdentifier:@"notifierController"];
@@ -176,15 +212,27 @@
         NSMutableArray *updatedSets = [[NSMutableArray alloc] init];
         BOOL chartsWasUpdated = false;
         BOOL setsWasUpdated = false;
-        for (int i = 0; i <  [data[@"freeChords"] count]; i++) {
-            if ([data[@"freeChords"] objectAtIndex:i][@"share_status"] != nil){
-                if ([[data[@"freeChords"] objectAtIndex:i][@"share_status"] isEqualToString:@"1"]) {
-                    [sharedCharts addObject:[data[@"freeChords"] objectAtIndex:i]];
-                } else {
+        for (int i = 0; i <  [data[@"freeChords"] count]; i++)
+        {
+            NSLog(@"%@", [data[@"freeChords"] objectAtIndex:i][@"cTitle"]);
+            //if ([data[@"freeChords"] objectAtIndex:i][@"share_status"] != nil){
+                
+                //NSLog(@"%@",[data[@"freeChords"] objectAtIndex:i][@"share_status"]);
+                
+                if (![[data[@"freeChords"] objectAtIndex:i][@"share_status"] isEqual:[NSNull null]])
+                {
+                    if ([[data[@"freeChords"] objectAtIndex:i][@"share_status"] isEqualToString:@"1"]) {
+                        [sharedCharts addObject:[data[@"freeChords"] objectAtIndex:i]];
+                    } else {
+                        chartsWasUpdated = true;
+                        [updatedCharts addObject:[data[@"freeChords"] objectAtIndex:i]];
+                    }
+                }
+                else {
                     chartsWasUpdated = true;
                     [updatedCharts addObject:[data[@"freeChords"] objectAtIndex:i]];
                 }
-            }
+            //}
         }
         
         for (int i = 0; i <  [data[@"sets"] count]; i++) {
@@ -223,9 +271,16 @@
         
       
         if ([sharedSets count] > 0 || [sharedCharts count] > 0) {
-            [viewController showSharedCharts:sharedCharts andSets:sharedSets];
-            viewController.delegate = self;
-            [self presentViewController:viewController animated:YES completion:NULL];
+//            [viewController showSharedCharts:sharedCharts andSets:sharedSets];
+//            viewController.delegate = self;
+//            [self presentViewController:viewController animated:YES completion:NULL];
+//            
+            int count = sharedSets.count + sharedCharts.count;
+            
+            [self.settingsButton.badgeView setBadgeValue:count];
+            [self.settingsButton.badgeView setPosition:MGBadgePositionTopLeft];
+            [self.settingsButton.badgeView setBadgeColor:[UIColor redColor]];
+            [self.settingsButton.badgeView setOutlineWidth:0.5];
         }
        
     } else {
@@ -321,13 +376,19 @@
 
 -(void)closeInfo{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
 }
 
 -(void)updateExistingSet:(NSString*)title artist:(NSString*)artist date:(NSString*)date location:(NSString*)location{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
    // [setHelper updateExistingSet:title artist:artist date:date location:location];
     NSDictionary *set = [db getSetWithId:[self.currentUser setId]];
@@ -348,7 +409,10 @@
 
 -(void)updateExistingChordWith:(NSString*)title artist:(NSString*)artist key:(NSString*)key time_sig:(NSString*)time_sig genre:(NSString*)genre bpm:(NSString*)bpm notes:(NSString*)notes transposeIndex:(int)tIndex{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     [chordHelper updateExistingChordWith:title artist:artist key:key time_sig:time_sig genre:genre bpm:bpm notes:notes transposeIndex:tIndex];
     [self loadNormalChords];
@@ -361,7 +425,10 @@
 
 -(void)doneNewSet:(NSString*)title artist:(NSString*)artist date:(NSString*)date location:(NSString*)location{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     if(self.currentUser.selectedSet == nil){
         self.currentUser.selectedSet = 0;
@@ -382,7 +449,10 @@
    
     [db addNewChart:title artist:artist key:key time_sig:time_sig genre:genre bpm:bpm notes:@"" lyrics:[[NSMutableArray alloc] init] chartId:[NSString stringWithFormat:@"%ld",linkedChordId]owner:[self.currentUser getIdForUser]];
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     [self loadNormalChords];
     if ([self.currentUser getUsedMode] == MODE_FB)
@@ -394,7 +464,9 @@
 -(void)orderCharts{
     blurView.hidden = NO;
     newChordDialog = [OrderChordsDialog orderDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 
@@ -458,27 +530,42 @@
 -(void)searchCharts{
     blurView.hidden = NO;
     newChordDialog = [SearchChordDialog chordSearchDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 -(void)addChord{
     blurView.hidden = NO;
     newChordDialog = [NewChordDialog newChordDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    //[self.view addSubviewWithFadeAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionTransitionFlipFromLeft];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 #pragma mark Friend Picker Delegates
 -(void)cancel{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
-   
+    
 };
 
 -(void)shareWithFriends{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
+    
+    SJNotificationViewController *_notificationController = [[SJNotificationViewController alloc] initWithNibName:@"SJNotificationViewController" bundle:nil];
+    [_notificationController setParentView:self.view];
+    [_notificationController setNotificationTitle:@"Hello"];
+    [_notificationController show];
+    
 };
 
 #pragma Facebook Delegates
@@ -502,17 +589,35 @@
 #pragma mark Login Screen Delegates
 -(void)loginWithFacebook{
    
-    if (self->internetActive == YES && self->hostActive == YES){
+    if (self->internetActive == YES && self->hostActive == YES)
+    {
         [self addCover];
         if (FBSession.activeSession.isOpen )
         {
             [self UserInformation];
-            [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+            //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+            [self animateModalPaneOut:newChordDialog];
+            
             setsArray = [NSMutableArray arrayWithArray:[self fiveOfA]];
             idForChords = [NSMutableArray arrayWithArray:[self fiveOfA]];
             [redTiles reloadChordsWithData:setsArray];
             [setsGrid reloadChordsWithData:setsArray];
-            [self hideCover];
+            
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self hideCover];
+                
+                if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+                    [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge categories:nil]];
+                }
+                
+                [ParseHelper registerInstallationforFacebookID:[self.currentUser getIdForUser]];
+                
+                [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(checkForSharedItems:) userInfo:nil repeats:YES];
+            });
+            
+            
+            [self checkForFirstTimeLoad];
         }
         else
         {
@@ -521,17 +626,38 @@
              {
                  if(!error)
                  {
-                     [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+                     //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+                     [self animateModalPaneOut:newChordDialog];
+                     
                      [self UserInformation];
                      
                      setsArray = [NSMutableArray arrayWithArray:[self fiveOfA]];
                      idForChords = [NSMutableArray arrayWithArray:[self fiveOfA]];
                      [redTiles reloadChordsWithData:setsArray];
                      [setsGrid reloadChordsWithData:setsArray];
+                     
+                     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
+                     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                         
+                         [self hideCover];
+                         
+                         if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
+                             [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge categories:nil]];
+                         }
+                         
+                         [ParseHelper registerInstallationforFacebookID:[self.currentUser getIdForUser]];
+                         
+                         [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(checkForSharedItems:) userInfo:nil repeats:YES];
+                     });
+                     
+                     [self checkForFirstTimeLoad];
                  }else
                  {
+                     NSLog(@"inside error if");
                      [self hideOnlyCover];
-                     [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+                     //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+                     [self animateModalPaneOut:newChordDialog];
+                     
                      [self showLoginScreen];
                  }
              }];
@@ -550,6 +676,11 @@
                 [[[FBSession activeSession] accessTokenData] accessToken];
                 NSString *userName = [result objectForKey:@"name"];
                 NSString *userid= [result objectForKey:@"id"];
+                
+                //NSLog(@"%@", userName);
+                //NSLog(@"%@", userid);
+                
+                
                 [self.currentUser setUsedMode:MODE_FB];
                 //self.serverUpdater = [ServerUpdater sharedManager];
                 self.serverUpdater.delegate = self;
@@ -557,7 +688,10 @@
                 [self.currentUser setUserFbName:userName];
                 [self.serverUpdater loginUserWithFb:userid];
                 blurView.hidden = YES;
-                [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+                
+                //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+                [self animateModalPaneOut:newChordDialog];
+                
                 newChordDialog = nil;
                 setsArray = [NSMutableArray arrayWithArray:[self fiveOfA]];
                 idForChords = [NSMutableArray arrayWithArray:[self fiveOfA]];
@@ -565,15 +699,46 @@
                 [setsGrid reloadChordsWithData:setsArray];
                 
             }
+            else {
+                NSLog(@"%@",error);
+            }
         }];
+}
+
+-(void)checkForFirstTimeLoad
+{
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"tutsHome_firstLaunch"])
+    {
+        // On first launch, this block will execute
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
+        [viewController setHelpFile:@"tuts_home"];
+        viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)); // 1
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
+            
+            [self presentViewController:viewController animated:YES completion:nil];
+        });
+        
+        // Set the "hasPerformedFirstLaunch" key so this block won't execute again
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"tutsHome_firstLaunch"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 -(void)loginWithEmail{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     blurView.hidden = NO;
     newChordDialog = [EmailTyper emailTyper:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 -(void)freeView{
@@ -593,15 +758,23 @@
     setsArray = [NSMutableArray arrayWithArray:[self fiveOfA]];
     idForChords = [NSMutableArray arrayWithArray:[self fiveOfA]];
     [self startLoad];
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
+    
+    [self checkForFirstTimeLoad];
 }
 
 #pragma Mark Email login delegates
 -(void)cancelEmail{
     blurView.hidden = YES;
     [self.currentUser setUsedMode:MODE_FREE];
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     [self showLoginScreen];
 }
@@ -620,42 +793,66 @@
     [setsGrid reloadChordsWithData:setsArray];
     [self.currentUser setUsedMode:MODE_EMAIL];
     
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
 }
 
 
 #pragma mark About delegate
 -(void)closeAbout{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     blurView.hidden = NO;
     newChordDialog = [SettingsDialog settingsDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [(SettingsDialog*)newChordDialog setNumberOfSharedItems:self.settingsButton.badgeView.badgeValue];
+    [(SettingsDialog*)newChordDialog initSettings];
+    [(SettingsDialog*)newChordDialog setParentController:self];
+    [(SettingsDialog*)newChordDialog setParentDelegate:self];
+    
+    //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 #pragma mark Tell a Friend delegates
 
 -(void)cancelMail{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     blurView.hidden = NO;
     newChordDialog = [SettingsDialog settingsDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 };
 
 -(void)sendMail:(NSString*)to andMes:(NSString*)m{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     blurView.hidden = NO;
     newChordDialog = [SettingsDialog settingsDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 };
 
 #pragma mark Settings delegate methods
 -(void)logOut{
     
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     [blurView updateAsynchronously:YES completion:nil];
     blurView.hidden = NO;
@@ -698,11 +895,15 @@
 }
 
 -(void)showAbout{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     blurView.hidden = NO;
     newChordDialog = [About about:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:newChordDialog];
 }
 
 
@@ -756,7 +957,9 @@
 
 -(void)cancelEmailSharing{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseIn];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneOut:newChordDialog];
+    
 }
 
 
@@ -766,10 +969,16 @@
     
     
     if ([self.currentUser getUsedMode] == MODE_EMAIL) {
-        [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseIn];
+        //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseIn];
+        [self animateModalPaneOut:newChordDialog];
+        
         blurView.hidden = NO;
         newChordDialog = [FriendEmailTyper emailFriend:self];
-        [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+        
+        //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+        
+        [self animateModalPaneIn:newChordDialog];
+        
     }else if ([self.currentUser getUsedMode] == MODE_FB){
         self.isSetSharing = false;
         [self sendRequest];
@@ -799,7 +1008,7 @@
                                          action:@selector(facebookViewControllerDoneWasPressed:)];
     friendPickerController.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                                       initWithTitle:@"Done"
-                                                      style:UIBarButtonItemStyleBordered
+                                                      style:UIBarButtonItemStylePlain
                                                       target:self
                                                       action:@selector(facebookViewControllerDoneWasPressed:)];
     [friendPickerController loadData];
@@ -808,16 +1017,23 @@
 }
 
 -(void)chordEdit{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     newChordDialog = [NewChordDialog newChordDialog:self] ;
     NSDictionary* dc = [db getChartById:[self.currentUser chartId]];
     [(NewChordDialog*)newChordDialog setDataForEDiting:dc[@"cTitle"] artist:dc[@"artist"] key:dc[@"key"] time_sig:dc[@"time_sig"] genre:dc[@"genre"] bpm:dc[@"bpm"] notes:dc[@"notes"]];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 };
 
 -(void)chordPerform{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     blurView.hidden = YES;
    
@@ -828,78 +1044,120 @@
     ((LyricsTextEditorViewController*)viewController).isPerformMode = YES;
     [(LyricsTextEditorViewController*)viewController activatePerformMode];
     [(LyricsTextEditorViewController*)viewController customInit];
+
+    viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:viewController animated:YES completion:NULL];
 };
 
--(void)chordDelete{
-    NSDictionary *chart = [db getChartById:[self.currentUser chartId]];
-    if ([chart[@"owner"] isEqualToString:[self.currentUser getIdForUser]]) {
-        [self.serverUpdater removeChart:chart[@"chordId"]];
-    } else {
-        [self.serverUpdater removeChartForMe:chart[@"chordId"]];
-    }
-    [db removeChartWithId:[self.currentUser chartId]];
-    [self loadNormalChords];
-    
-    [self.serverUpdater removeChart:[self.currentUser chartId]];
-    
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
-    newChordDialog = nil;
-    blurView.hidden = YES;
-    [blurView updateAsynchronously:YES completion:nil];
-};
+-(void)chordDelete
+{
+    UIAlertView *confirm = [[UIAlertView alloc] initWithTitle:@"Delete Chart"
+                                                      message:@"Are you sure you want to delete this chart?"
+                                                     delegate:self
+                                            cancelButtonTitle:@"Cancel"
+                                            otherButtonTitles:@"Delete", nil];
+    confirm.tag = 1;
+    [confirm show];
+
+//    [db removeChartWithId:[self.currentUser chartId]];
+//    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [self animateModalPaneOut:newChordDialog];
+//    
+//    newChordDialog = nil;
+//    blurView.hidden = YES;
+//    if ([self.currentUser getUsedMode] == MODE_FB)
+//    {
+//        NSDictionary *chart = [db getChartById:[self.currentUser chartId]];
+//        
+//        if ([chart[@"owner"] isEqualToString:[self.currentUser getIdForUser]]) {
+//            [self.serverUpdater removeChart:chart[@"chordId"]];
+//        } else {
+//            [self.serverUpdater removeChartForMe:chart[@"chordId"]];
+//        }
+//    }
+//    
+//    [blurView updateAsynchronously:YES completion:nil];
+//    
+//    [self loadNormalChords];
+//    [self.serverUpdater removeChart:[self.currentUser chartId]];
+}
 
 #pragma mark Set Info Delegates
 
--(void)deleteSet{
+-(void)deleteSet
+{
+    UIAlertView *confirm = [[UIAlertView alloc] initWithTitle:@"Delete Set"
+                                                      message:@"Are you sure you want to delete this set?"
+                                                     delegate:self
+                                            cancelButtonTitle:@"Cancel"
+                                            otherButtonTitles:@"Delete", nil];
+    confirm.tag = 2;
+    [confirm show];
    
-    [db removeSetWithId:[self.currentUser setId]];
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
-    newChordDialog = nil;
-    blurView.hidden = YES;
-    if ([self.currentUser getUsedMode] == MODE_FB) {
-        NSDictionary *set = [db getSetWithId:[self.currentUser setId]];
-        if ([set[@"owner"] isEqualToString:[self.currentUser getIdForUser]]) {
-           [self.serverUpdater removeSet:[self.currentUser setId]];
-        } else {
-            [self.serverUpdater removeSetForMe:[self.currentUser setId]];
-        }
-        
-    }
-    [blurView updateAsynchronously:YES completion:nil];
-   [self loadNormalSets];
-    [self.serverUpdater removeSet:[self.currentUser setId]];
+//    [db removeSetWithId:[self.currentUser setId]];
+//    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [self animateModalPaneOut:newChordDialog];
+//    
+//    newChordDialog = nil;
+//    blurView.hidden = YES;
+//    if ([self.currentUser getUsedMode] == MODE_FB)
+//    {
+//        NSDictionary *set = [db getSetWithId:[self.currentUser setId]];
+//        if ([set[@"owner"] isEqualToString:[self.currentUser getIdForUser]]) {
+//           [self.serverUpdater removeSet:[self.currentUser setId]];
+//        } else {
+//            [self.serverUpdater removeSetForMe:[self.currentUser setId]];
+//        }
+//    }
+//    
+//    [blurView updateAsynchronously:YES completion:nil];
+//    
+//    [self loadNormalSets];
+//    [self.serverUpdater removeSet:[self.currentUser setId]];
     
 };
 
 -(void)editSet{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     blurView.hidden = NO;
     newChordDialog = [NewSetDialog newSetDialog:self];
     NSDictionary* dc =[db getSetWithId:[self.currentUser setId]];
     [(NewSetDialog*)newChordDialog setDataForEDiting:dc[@"title"] artist:dc[@"artist"] date:dc[@"date"] location:dc[@"location"]];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:newChordDialog];
 };
 
 -(void)performSet{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
     blurView.hidden = YES;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     PerformSetController *viewController = (PerformSetController *)[storyboard instantiateViewControllerWithIdentifier:@"performer"];
     [viewController setToPerformMode];
+    
+    viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:viewController animated:YES completion:nil];
     
 };
 
 -(void)shareSet{
     if ([self.currentUser getUsedMode] == MODE_EMAIL) {
-        [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseIn];
+        //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseIn];
+        [self animateModalPaneOut:newChordDialog];
+        
         blurView.hidden = NO;
         newChordDialog = [FriendEmailTyper emailFriend:self];
         [(FriendEmailTyper*)newChordDialog setSharingSet:YES];
-        [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+        
+        //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+        [self animateModalPaneIn:newChordDialog];
+        
     }else if ([self.currentUser getUsedMode] == MODE_FB){
         self.isSetSharing = true;
         [self sendRequest];
@@ -974,44 +1232,55 @@
     [self.currentUser setSetId:[(CustomButton*)label getUniqueID]];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     HomeViewController *viewController = (HomeViewController *)[storyboard instantiateViewControllerWithIdentifier:@"performer"];
+    
+    viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:viewController animated:YES completion:NULL];
     
 };
-- (void)showSetInfo:(UITapGestureRecognizer*)label{
-        blurView.hidden = NO;
-        [self.currentUser setSetId:[(CustomButton*)label getUniqueID]];
-        newChordDialog = [SetInfo setInfo:self];
-        NSDictionary* dc =[db getSetWithId:[self.currentUser setId]];
-        [(SetInfo*)newChordDialog showInfo:dc[@"title"] author:dc[@"artist"] date:dc[@"date"] location:dc[@"location"]];
-        [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+- (void)showSetInfo:(UITapGestureRecognizer*)label
+{
+    blurView.hidden = NO;
+    [self.currentUser setSetId:[(CustomButton*)label getUniqueID]];
+    newChordDialog = [SetInfo setInfo:self];
+    NSDictionary* dc =[db getSetWithId:[self.currentUser setId]];
+    [(SetInfo*)newChordDialog showInfo:dc[@"title"] author:dc[@"artist"] date:dc[@"date"] location:dc[@"location"]];
+
+    //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:newChordDialog];
 }
 
 #pragma mark Order Set delegates
 -(void)orderSetByTitle{
     [self.currentUser setOrderKeyForSets:@"title"];
     [self loadNormalSets];
+    [self closeOrder];
 };
 
 -(void)orderSetByAuthor{
     [self.currentUser setOrderKeyForSets:@"artist"];
     [self loadNormalSets];
+    [self closeOrder];
 };
 
 -(void)orderSetByDate{
     [self.currentUser setOrderKeyForSets:@"date"];
     [self loadNormalSets];
+    [self closeOrder];
 };
 
 -(void)orderSetByLocation{
     [self.currentUser setOrderKeyForSets:@"location"];
     [self loadNormalSets];
+    [self closeOrder];
 }
 
 
 #pragma mark Order Chord
 // from order
 -(void)closeOrder{ blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
 }
 
@@ -1061,37 +1330,49 @@
 #pragma mark Search Set Dialog
 -(void)searchSetByAuthor:(NSString*)searchText
 {
-    isSetSearch = true;
-    NSMutableArray* searchresult = [db findSetWithCriteria:@"author" andPhrase:searchText];
-    [(SetsMenu*)setsMenu setSearchToGray];
-    [self reloadSetsWithSearchResult:searchresult];
-    [self closeSearch];
+    if (![searchText isEqualToString:@""])
+    {
+        isSetSearch = true;
+        NSMutableArray* searchresult = [db findSetWithCriteria:@"author" andPhrase:searchText];
+        [(SetsMenu*)setsMenu setSearchToGray];
+        [self reloadSetsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 }
 
 -(void)searchSetByTitle:(NSString*)searchText{
-    isSetSearch = true;
-    
-    NSMutableArray* searchresult = [db findSetWithCriteria:@"title" andPhrase:searchText];
+    if (![searchText isEqualToString:@""])
+    {
+        isSetSearch = true;
+        
+        NSMutableArray* searchresult = [db findSetWithCriteria:@"title" andPhrase:searchText];
 
-    [(SetsMenu*)setsMenu setSearchToGray];
-    [self reloadSetsWithSearchResult:searchresult];
-    [self closeSearch];
+        [(SetsMenu*)setsMenu setSearchToGray];
+        [self reloadSetsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 }
 
 -(void)searchSetByDate:(NSString*)searchText{
-    isSetSearch = true;
-     NSMutableArray* searchresult = [db findSetWithCriteria:@"date" andPhrase:searchText];
-    [(SetsMenu*)setsMenu setSearchToGray];
-    [self reloadSetsWithSearchResult:searchresult];
-    [self closeSearch];
+    if (![searchText isEqualToString:@""])
+    {
+        isSetSearch = true;
+         NSMutableArray* searchresult = [db findSetWithCriteria:@"date" andPhrase:searchText];
+        [(SetsMenu*)setsMenu setSearchToGray];
+        [self reloadSetsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 }
 
 -(void)searchSetByLocation:(NSString*)searchText{
-    isSetSearch = true;
-    NSMutableArray* searchresult = [db findSetWithCriteria:@"location" andPhrase:searchText];
-    [(SetsMenu*)setsMenu setSearchToGray];
-    [self reloadSetsWithSearchResult:searchresult];
-    [self closeSearch];
+    if (![searchText isEqualToString:@""])
+    {
+        isSetSearch = true;
+        NSMutableArray* searchresult = [db findSetWithCriteria:@"location" andPhrase:searchText];
+        [(SetsMenu*)setsMenu setSearchToGray];
+        [self reloadSetsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 }
 
 -(void)reloadSetsWithSearchResult:(NSMutableArray*)result{
@@ -1158,65 +1439,87 @@
 }
 
 -(void)searchByAuthor:(NSString*)searchText{
+    if (![searchText isEqualToString:@""])
+    {
         isChordsSearch = true;
-    NSMutableArray* searchresult = [db findChartWithCriteria:@"author" andPhrase:searchText];
-    [(ChordsMenu*)chartsMenu setSearchToGray];
-    [self reloadChordsWithSearchResult:searchresult];
-    [self closeSearch];
+        NSMutableArray* searchresult = [db findChartWithCriteria:@"author" andPhrase:searchText];
+        [(ChordsMenu*)chartsMenu setSearchToGray];
+        [self reloadChordsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 };
 -(void)searchByTitle:(NSString*)searchText{
-   
+    if (![searchText isEqualToString:@""])
+    {
         isChordsSearch = true;
-     NSMutableArray* searchresult = [db findChartWithCriteria:@"title" andPhrase:searchText];
-    [(ChordsMenu*)chartsMenu setSearchToGray];
+        NSMutableArray* searchresult = [db findChartWithCriteria:@"title" andPhrase:searchText];
+        [(ChordsMenu*)chartsMenu setSearchToGray];
 
-    [self reloadChordsWithSearchResult:searchresult];
-    [self closeSearch];
+        [self reloadChordsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 };
 
 -(void)searchByKey:(NSString*)searchText{
+    if (![searchText isEqualToString:@""])
+    {
         isChordsSearch = true;
-    NSMutableArray* searchresult = [db findChartWithCriteria:@"key" andPhrase:searchText];
-    [(ChordsMenu*)chartsMenu setSearchToGray];
-    [self reloadChordsWithSearchResult:searchresult];
-    
-    [self closeSearch];
+        NSMutableArray* searchresult = [db findChartWithCriteria:@"key" andPhrase:searchText];
+        [(ChordsMenu*)chartsMenu setSearchToGray];
+        [self reloadChordsWithSearchResult:searchresult];
+        
+        [self closeSearch];
+    }
 }
 
 -(void)searchByLyrics:(NSString*)searchText{
+    if (![searchText isEqualToString:@""])
+    {
         isChordsSearch = true;
-    NSMutableArray* searchresult = [db findChartWithCriteria:@"lyrics" andPhrase:searchText];
-    [(ChordsMenu*)chartsMenu setSearchToGray];
-    [self reloadChordsWithSearchResult:searchresult];
-    [self closeSearch];
+        NSMutableArray* searchresult = [db findChartWithCriteria:@"lyrics" andPhrase:searchText];
+        [(ChordsMenu*)chartsMenu setSearchToGray];
+        [self reloadChordsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 }
 
 -(void)searchByTime:(NSString*)searchText{
+    if (![searchText isEqualToString:@""])
+    {
         isChordsSearch = true;
-    NSMutableArray* searchresult = [db findChartWithCriteria:@"time" andPhrase:searchText];
-    [(ChordsMenu*)chartsMenu setSearchToGray];
-    [self reloadChordsWithSearchResult:searchresult];
-    [self closeSearch];
+        NSMutableArray* searchresult = [db findChartWithCriteria:@"time" andPhrase:searchText];
+        [(ChordsMenu*)chartsMenu setSearchToGray];
+        [self reloadChordsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 }
 
 -(void)searchByBpm:(NSString*)searchText{
+    if (![searchText isEqualToString:@""])
+    {
         isChordsSearch = true;
-   NSMutableArray* searchresult = [db findChartWithCriteria:@"bpm" andPhrase:searchText];
-    [(ChordsMenu*)chartsMenu setSearchToGray];
-    [self reloadChordsWithSearchResult:searchresult];
-    [self closeSearch];
+       NSMutableArray* searchresult = [db findChartWithCriteria:@"bpm" andPhrase:searchText];
+        [(ChordsMenu*)chartsMenu setSearchToGray];
+        [self reloadChordsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 }
 
 -(void)searchByGenre:(NSString*)searchText{
-    isChordsSearch = true;
-    NSMutableArray* searchresult = [db findChartWithCriteria:@"genre" andPhrase:searchText];
-    [(ChordsMenu*)chartsMenu setSearchToGray];
-    [self reloadChordsWithSearchResult:searchresult];
-    [self closeSearch];
+    if (![searchText isEqualToString:@""])
+    {
+        isChordsSearch = true;
+        NSMutableArray* searchresult = [db findChartWithCriteria:@"genre" andPhrase:searchText];
+        [(ChordsMenu*)chartsMenu setSearchToGray];
+        [self reloadChordsWithSearchResult:searchresult];
+        [self closeSearch];
+    }
 };
 -(void)closeSearch{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;};
 //----------------------------------------
 #pragma mark Sets Menu Delegate
@@ -1224,7 +1527,9 @@
 -(void)SetOrder{
     blurView.hidden = NO;
     newChordDialog = [OrderSetsDialog orderSetsDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:newChordDialog];
 };
 
 
@@ -1232,13 +1537,17 @@
 -(void)SetSearch{
     blurView.hidden = NO;
     newChordDialog = [SearchSetDialog setSearchDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:newChordDialog];
 };
 
 -(void)SetNew{
     blurView.hidden = NO;
     newChordDialog = [NewSetDialog newSetDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 };
 
 
@@ -1249,7 +1558,9 @@
 
 -(void)setCancel{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
 };
 
@@ -1260,13 +1571,17 @@
 ////////////// Order Set Delegate methods
 -(void)orderSetsDone{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
 }
 
 -(void)closeSetSearch{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
 }
 
@@ -1278,12 +1593,66 @@
     blurView.hidden = NO;
     newChordDialog = nil;
     newChordDialog = [LoginScreenView loginScreen:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:newChordDialog];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    [self.serverUpdater continueCheck];
+    if (alertView.tag == 1 && buttonIndex == 1)
+    {
+        NSDictionary *chart = [db getChartById:[self.currentUser chartId]];
+        
+        [db removeChartWithId:[self.currentUser chartId]];
+        //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+        [self animateModalPaneOut:newChordDialog];
+        
+        newChordDialog = nil;
+        blurView.hidden = YES;
+        if ([self.currentUser getUsedMode] == MODE_FB)
+        {
+            if ([chart[@"owner"] isEqualToString:[self.currentUser getIdForUser]]) {
+                [self.serverUpdater removeChart:chart[@"chordId"]];
+            } else {
+                [self.serverUpdater removeChartForMe:chart[@"chordId"]];
+            }
+        }
+        
+        [blurView updateAsynchronously:YES completion:nil];
+        
+        [self loadNormalChords];
+        [self.serverUpdater removeChart:[self.currentUser chartId]];
+    }
+    else if (alertView.tag == 2 && buttonIndex == 1)
+    {
+        NSDictionary *set = [db getSetWithId:[self.currentUser setId]];
+        
+        [db removeSetWithId:[self.currentUser setId]];
+        //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+        [self animateModalPaneOut:newChordDialog];
+        
+        newChordDialog = nil;
+        blurView.hidden = YES;
+        if ([self.currentUser getUsedMode] == MODE_FB)
+        {
+            if ([set[@"owner"] isEqualToString:[self.currentUser getIdForUser]]) {
+                [self.serverUpdater removeSet:[self.currentUser setId]];
+            } else {
+                [self.serverUpdater removeSetForMe:[self.currentUser setId]];
+            }
+        }
+        
+        [blurView updateAsynchronously:YES completion:nil];
+        
+        [self loadNormalSets];
+        [self.serverUpdater removeSet:[self.currentUser setId]];
+        
+    }
+    else
+    {
+        [self.serverUpdater continueCheck];
+    }
 }
 
 -(void)backToLogin{
@@ -1333,21 +1702,45 @@
     setsArray = [NSMutableArray arrayWithArray:[self fiveOfA]];
     idForChords = [NSMutableArray arrayWithArray:[self fiveOfA]];
     idForSets = [NSMutableArray arrayWithArray:[self fiveOfA]];
-    [self showLoginScreen];
+    
      self.dragAndDropManager = [[AtkDragAndDropManager alloc] init];
     [blurView updateAsynchronously:YES completion:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveTestNotification:) name:@"updateParent" object:nil];
     [self.setsPager.panGestureRecognizer setMinimumNumberOfTouches:2];
     [self.chordsPager.panGestureRecognizer setMinimumNumberOfTouches:2];
+    
+    //blurView.underlyingView
+    UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapOnBlurView)];
+    tapGest.numberOfTapsRequired = 1;
+    
+    [blurView.underlyingView addGestureRecognizer:tapGest];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(checkShare)
+                                             selector:@selector(checkForSharedItems:)
                                                  name:@"appDidBecomeActive"
                                                object:nil];
+    
+    [self showLoginScreen];
+}
+
+- (void)handleTapOnBlurView
+{
+    if (![newChordDialog isKindOfClass:[LoginScreenView class]] &&
+        ![newChordDialog isKindOfClass:[NewChordDialog class]] &&
+        ![newChordDialog isKindOfClass:[NewSetDialog class]]) {
+        blurView.hidden = YES;
+        [self animateModalPaneOut:newChordDialog];
+        newChordDialog = nil;
+    }
 }
 
 -(void)checkShare{
     if (![@"" isEqualToString:[self.currentUser mySecretKey]] && [self.currentUser mySecretKey] != nil){
-        [self.serverUpdater getSharedData];
+        //[self.serverUpdater getSharedData];
+        
+        [self.serverUpdater getSharedItemsCount:^(int result) {
+            NSLog(@"Count of Shared Items: %d",result);
+        }];
     }
 }
 
@@ -1423,13 +1816,17 @@
 - (IBAction)showSettings:(id)sender {
     blurView.hidden = NO;
     newChordDialog = [SettingsDialog settingsDialog:self];
+    [(SettingsDialog*)newChordDialog setNumberOfSharedItems:self.settingsButton.badgeView.badgeValue];
     [(SettingsDialog*)newChordDialog initSettings];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 -(void)closeSettings{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseIn];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneOut:newChordDialog];
+    
     newChordDialog = nil;
 }
 
@@ -1475,6 +1872,8 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LyricsTextEditorViewController *viewController = (LyricsTextEditorViewController *)[storyboard instantiateViewControllerWithIdentifier:@"editor"];
+    
+    viewController.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self presentViewController:viewController animated:YES completion:NULL];
     
 }
@@ -1486,7 +1885,8 @@
     NSDictionary* dc = [db getChartById:[self.currentUser chartId]];
     [(ChartInfo*)newChordDialog showInfo:dc[@"cTitle"] author:dc[@"artist"] key:dc[@"key"] time:dc[@"time_sig"] bpm:dc[@"bpm"] genre:dc[@"genre"]];
    
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:newChordDialog];
 }
 
 -(void)checkUpdatedData{
@@ -1573,6 +1973,44 @@
     [hostReachable startNotifier];
     
     // now patiently wait for the notification
+}
+
+- (void)animateModalPaneIn:(UIView *)viewToAnimate
+{
+    CATransition *trans = [CATransition animation];
+    trans.duration = 0.15;
+    trans.type = kCATransitionMoveIn;
+    trans.subtype = kCATransitionFromLeft;
+    
+    [viewToAnimate.layer addAnimation:trans forKey:nil];
+    [self.view addSubview:viewToAnimate];
+}
+
+- (void)animateModalPaneOut:(UIView *)viewToAnimate
+{
+//    CATransition *trans = [CATransition animation];
+//    trans.duration = 0.2;
+//    trans.type = kCATransitionPush;
+//    trans.subtype = kCATransitionFromLeft;
+//    
+//    
+//    [viewToAnimate.layer addAnimation:trans forKey:nil];
+    
+    CGRect temp = viewToAnimate.frame;
+    temp.origin.x = [[UIScreen mainScreen] bounds].size.width ;
+    [UIView animateWithDuration:0.15
+                          delay:0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         viewToAnimate.frame = temp;
+                     }completion:^(BOOL finished){
+                         [viewToAnimate removeFromSuperview];
+                     }];
+}
+
+- (void)animateViewControllerFlip:(UIViewController *)controller
+{
+    
 }
 
 @end

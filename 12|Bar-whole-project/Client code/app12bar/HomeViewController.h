@@ -99,6 +99,7 @@
 @property (nonatomic, assign)          BOOL isSetSharing;
 @property (nonatomic, strong)          UIView *coverView;
 
+@property (weak, nonatomic) IBOutlet UIButton *settingsButton;
 
 -(void)redrawChords;
 

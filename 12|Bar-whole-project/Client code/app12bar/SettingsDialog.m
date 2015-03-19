@@ -7,8 +7,17 @@
 //
 
 #import "SettingsDialog.h"
+#import "HelpViewController.h"
+#import "UIView+MGBadgeView.h"
+#import "ServerUpdater.h"
+#import "User.h"
+#import "SharedNotifierViewController.h"
 
-@implementation SettingsDialog
+@implementation SettingsDialog {
+    ServerUpdater *serverUpdater;
+}
+
+
 static CoreSettings *setting;
 - (id)initWithFrame:(CGRect)frame
 {
@@ -28,6 +37,8 @@ static CoreSettings *setting;
     [me.dialogContainer.layer setShadowRadius:10.0];
     [me.dialogContainer.layer setShadowOffset:CGSizeMake(7.0, 7.0)];
     me.delegate = pickDelegate;
+    
+    me.parentController = pickDelegate;
     
     return me;
 }
@@ -69,6 +80,12 @@ static CoreSettings *setting;
         [self.loginButtonTitle setTitle:@"Login" forState:(UIControlStateNormal)];
     }
     
+    self.tutsButton.backgroundColor = [self colorWithHexString:@"#b3b3b3"];
+    
+    [self.sharedButton.badgeView setBadgeValue:self.numberOfSharedItems];
+    [self.sharedButton.badgeView setPosition:MGBadgePositionTopLeft];
+    [self.sharedButton.badgeView setBadgeColor:[UIColor redColor]];
+    [self.sharedButton.badgeView setOutlineWidth:0.75];
 }
 
 - (IBAction)closeSettings:(id)sender{
@@ -128,6 +145,15 @@ static CoreSettings *setting;
     [self.delegate showPrivacy];
 }
 
+- (IBAction)displaySharedCharts:(id)sender {
+    serverUpdater = [ServerUpdater sharedManager];
+//    serverUpdater.delegate = self.parentDelegate;
+    
+    if (![@"" isEqualToString:[self.currentUser mySecretKey]] && [self.currentUser mySecretKey] != nil){
+        [serverUpdater getSharedData];
+    }
+}
+
 - (IBAction)switchSound:(id)sender {
     if ([setting isSoundActive]) {
         soundActive = false;
@@ -138,6 +164,22 @@ static CoreSettings *setting;
          [setting activeSound:soundActive];
         ((UIButton*)sender).backgroundColor = [self colorWithHexString:@"#29abe2"];
     }
+}
+
+- (IBAction)recallTuts:(id)sender {
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
+    [viewController setHelpFile:@"tuts_all"];
+    viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+    
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)); // 1
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
+        
+        [self.parentController presentViewController:viewController animated:YES completion:nil];
+    });
+    
+    //[self.delegate closeSettings];
 }
 
 - (IBAction)logOut:(id)sender {

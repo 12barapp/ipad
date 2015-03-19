@@ -7,6 +7,7 @@
 //
 
 #import "PerformSetController.h"
+#import "HelpViewController.h"
 
 @interface PerformSetController (){
     IBOutlet FXBlurView *blurView;
@@ -64,7 +65,8 @@ static DBManager *db;
     notes = [notes stringByReplacingOccurrencesOfString:@"\n" withString:@"|!|"];
     [db updateNotes:notes forSetWithId:[self.currentUser setId]];
    
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
     
     /*if ([self.currentUser getUsedMode] == MODE_FB)
@@ -83,7 +85,9 @@ static DBManager *db;
     newChordDialog = [NotesSetView notesDialog:self];
     NSDictionary* sets =[db getSetWithId:[self.currentUser setId]];
     [(NotesSetView*)newChordDialog showNotes:[sets[@"notes"] stringByReplacingOccurrencesOfString:@"|!|" withString:@"\n"]];
-    [self.view addSubviewWithFadeAnimation:newChordDialog duration:0.5f option:(UIViewAnimationOptionTransitionCrossDissolve)];
+//    [self.view addSubviewWithFadeAnimation:newChordDialog duration:0.5f option:(UIViewAnimationOptionTransitionCrossDissolve)];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 
@@ -117,10 +121,86 @@ static DBManager *db;
     self.chordsTable.frame = CGRectMake(0, screenHeight/10, screenWidth, screenHeight - (screenHeight/10));
     [self.chordsTable setContentSize:CGSizeMake(screenWidth, screenHeight - (screenHeight/10))];
     [self initBlur];
+    
+    UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapOnBlurView)];
+    tapGest.numberOfTapsRequired = 1;
+    
+    [blurView.underlyingView addGestureRecognizer:tapGest];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"tutsSets_firstLaunch"])
+    {
+        // On first launch, this block will execute
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
+        [viewController setHelpFile:@"tuts_sets"];
+        viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)); // 1
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
+            
+            [self presentViewController:viewController animated:YES completion:nil];
+        });
+        
+        // Set the "hasPerformedFirstLaunch" key so this block won't execute again
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"tutsSets_firstLaunch"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+- (void)handleTapOnBlurView
+{
+    if (![newChordDialog isKindOfClass:[LoginScreenView class]]) {
+        blurView.hidden = YES;
+        [self animateModalPaneOut:newChordDialog];
+        newChordDialog = nil;
+    }
+}
+
+- (void)animateModalPaneIn:(UIView *)viewToAnimate
+{
+    CATransition *trans = [CATransition animation];
+    trans.duration = 0.15;
+    trans.type = kCATransitionMoveIn;
+    trans.subtype = kCATransitionFromLeft;
+    
+    [viewToAnimate.layer addAnimation:trans forKey:nil];
+    [self.view addSubview:viewToAnimate];
+}
+
+- (void)animateModalPaneOut:(UIView *)viewToAnimate
+{
+    //    CATransition *trans = [CATransition animation];
+    //    trans.duration = 0.2;
+    //    trans.type = kCATransitionPush;
+    //    trans.subtype = kCATransitionFromLeft;
+    //
+    //
+    //    [viewToAnimate.layer addAnimation:trans forKey:nil];
+    
+    CGRect temp = viewToAnimate.frame;
+    temp.origin.x = [[UIScreen mainScreen] bounds].size.width ;
+    [UIView animateWithDuration:0.15
+                          delay:0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         viewToAnimate.frame = temp;
+                     }completion:^(BOOL finished){
+                         [viewToAnimate removeFromSuperview];
+                     }];
 }
 
 -(void)setToPerformMode{
     self.isPerform = true;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
+}
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
@@ -134,6 +214,7 @@ static DBManager *db;
     [self.dataArray removeObjectAtIndex:fromIndexPath.row];
     [self.dataArray insertObject:item atIndex:toIndexPath.row];
 }
+
 /*
 - (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
     return YES;
@@ -183,7 +264,9 @@ static DBManager *db;
     newChordDialog = [NewChordDialog newChordDialog:self];
     NSDictionary* dc = [db getChartById:[self.currentUser chartId]];
     [(NewChordDialog*)newChordDialog setDataForEDiting:dc[@"cTitle"] artist:dc[@"artist"] key:dc[@"key"] time_sig:dc[@"time_sig"] genre:dc[@"genre"] bpm:dc[@"bpm"] notes:dc[@"notes"]];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 -(void)doneNewChord:(NSString*)title artist:(NSString*)artist key:(NSString*)key time_sig:(NSString*)time_sig genre:(NSString*)genre bpm:(NSString*)bpm notes:(NSString*)notes{
@@ -211,7 +294,8 @@ static DBManager *db;
       
     }
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
     [blurView updateAsynchronously:YES completion:nil];
     self.dataArray = [db getChordsForSet:[self.currentUser setId]];
@@ -222,7 +306,8 @@ static DBManager *db;
 -(void)updateExistingChordWith:(NSString*)title artist:(NSString*)artist key:(NSString*)key time_sig:(NSString*)time_sig genre:(NSString*)genre bpm:(NSString*)bpm notes:(NSString*)notes transposeIndex:(int)tIndex{
     blurView.hidden = YES;
     setWasEdited = true;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
     JsonChordHelper *chordHelper = [[JsonChordHelper alloc] init];
    
@@ -240,7 +325,8 @@ static DBManager *db;
 
 -(void)closeInfo{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
 }
 
@@ -248,7 +334,9 @@ static DBManager *db;
     [blurView updateAsynchronously:YES completion:nil];
     blurView.hidden = NO;
     newChordDialog = [NewChordDialog newChordDialog:self];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)rowIndex {
@@ -344,8 +432,8 @@ static DBManager *db;
     NSDictionary* dc = [db getChartById:[(CustomButton*)sender getUniqueID]];
     [(ChartInfo*)newChordDialog showInfo:dc[@"cTitle"] author:dc[@"artist"] key:dc[@"key"] time:dc[@"time_sig"] bpm:dc[@"bpm"] genre:dc[@"genre"]];
     
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.1 option:(UIViewAnimationOptionCurveEaseIn)];
-    
+//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.1 option:(UIViewAnimationOptionCurveEaseIn)];
+    [self animateModalPaneIn:newChordDialog];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -389,21 +477,25 @@ static DBManager *db;
 
 -(void)chordShare{
     blurView.hidden = YES;
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
 }
 
 -(void)chordEdit{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
     newChordDialog = [NewChordDialog newChordDialog:self] ;
     NSDictionary* dc = [db getChartById:[self.currentUser chartId]];
     [(NewChordDialog*)newChordDialog setDataForEDiting:dc[@"cTitle"] artist:dc[@"artist"] key:dc[@"key"] time_sig:dc[@"time_sig"] genre:dc[@"genre"] bpm:dc[@"bpm"] notes:dc[@"notes"]];
-    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    //[self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:newChordDialog];
 };
 
 -(void)chordPerform{
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
     blurView.hidden = YES;
     self.currentUser.selectedChordJson = [db getChartById:[self.currentUser chartId]];
@@ -418,7 +510,8 @@ static DBManager *db;
 -(void)chordDelete{
     setWasEdited = true;
     [db removeChart:[self.currentUser chartId] fromSet:[self.currentUser setId]];
-    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+//    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
     blurView.hidden = YES;
     if([self.currentUser getUsedMode] == MODE_FB){

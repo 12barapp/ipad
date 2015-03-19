@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CoreSettings.h"
 #import "User.h"
+#import "ServerUpdater.h"
 
 @class SettingsDialog;
 @protocol SettingsDialogDelegate
@@ -18,7 +19,7 @@
 -(void)showAbout;
 -(void)showPrivacy;
 @end
-@interface SettingsDialog : UIView{
+@interface SettingsDialog : UIView {
     BOOL soundActive;
     BOOL showChords;
     BOOL showLyrics;
@@ -31,6 +32,12 @@
 @property (strong, nonatomic) IBOutlet UIButton *lyricsButton;
 @property (strong, nonatomic) IBOutlet UIButton *themeButton;
 @property (strong, nonatomic) IBOutlet UIButton *soundButton;
+@property (strong, nonatomic) IBOutlet UIButton *tutsButton;
+@property (strong, nonatomic) IBOutlet UIButton *sharedButton;
+
+@property NSInteger numberOfSharedItems;
+@property UIViewController *parentController;
+@property id <ServerUpdaterDelegate> parentDelegate;
 
 
 @property(assign)id<SettingsDialogDelegate> delegate;

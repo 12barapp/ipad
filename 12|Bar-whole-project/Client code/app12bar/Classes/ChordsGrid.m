@@ -20,7 +20,7 @@
 -(id)initWithData:(NSMutableArray*)data andIds:(NSMutableArray*)ids_ withFrame:(CGRect)rect andContainer:(UIView*)container owner:(UIViewController*)parent{
     self = [super init];
     if (self){
-        redColors = @[@"#ED1C24", @"#E53E3E", @"#E25D5D", @"#E07E7E", @"#ED9D9D"];
+        redColors = @[@"#ED1C24", @"#E25D5D", @"#E53E3E", @"#E07E7E", @"#ED9D9D"];
         NSInteger spacing = 0;
         
         self.dataSource = data;
@@ -106,7 +106,8 @@
         [cell setMyId:index];
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
 
-        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[arc4random()%redColors.count]];
+//        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[arc4random()%redColors.count]];
+        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[index % redColors.count]];
         view.layer.masksToBounds = NO;
         view.layer.cornerRadius = 0;
         
@@ -129,6 +130,7 @@
     
     [dotsButton setImage:[UIImage imageNamed:@"dots_icon"] forState:(UIControlStateNormal)];
     [dotsButton  setImageEdgeInsets:UIEdgeInsetsMake(10, 0, 10, 0)];
+    dotsButton.layer.opacity = 0.25;
     
     dotsButton.tag = index;
     
@@ -152,8 +154,8 @@
     UITapGestureRecognizer *titleGestureInfo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapLabelWithGesture:)];
     titleGestureInfo.numberOfTapsRequired = 1;
     [cellView addGestureRecognizer:titleGestureInfo];
+
     cellView.userInteractionEnabled = YES;
-    
     
     [chartTitle addTarget:self action:@selector(didTapLabelWithGesture:) forControlEvents:(UIControlEventTouchUpInside)];
     

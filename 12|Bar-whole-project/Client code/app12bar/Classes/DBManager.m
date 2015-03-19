@@ -181,7 +181,8 @@ static DBManager *instance=nil;
 
 -(NSMutableArray*)getMyChartsWithOrder:(NSString*)orderKey{
     NSMutableArray *myCharts = [[NSMutableArray alloc] init];
-    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT  chartId, title from chords where user_id=\'%@\' OR user_id='free' ORDER BY \'%@\'", [self.currentUser userId], orderKey]];
+    //NSLog(@"%@",[NSString stringWithFormat:@"select DISTINCT  chartId, title from chords where user_id=\'%@\' OR user_id='free' ORDER BY \'%@\'", [self.currentUser userId], orderKey]);
+    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT  chartId, title from chords where user_id=\'%@\' OR user_id='free' ORDER BY %@", [self.currentUser userId], orderKey]];
     
     int currentChordNum = 0;
     int cntOfChords = 0;
@@ -191,6 +192,9 @@ static DBManager *instance=nil;
     if ( allCharts > 0) {
         if(results ) {
             while([results next]){
+                
+                //NSLog(@"%@",[results stringForColumn:@"title"]);
+                
                 [tempChartTitles addObject:[results stringForColumn:@"title"]];
                 [tempChartIds addObject:[results stringForColumn:@"chartId"]];
                 currentChordNum++;
@@ -220,7 +224,7 @@ static DBManager *instance=nil;
 
 -(NSMutableArray*)getMySetsWithOrder:(NSString*)orderKey{
     NSMutableArray *mySets = [[NSMutableArray alloc] init];
-    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT  setId, title from sets where user_id=\'%@\' OR user_id='free' ORDER BY \'%@\'",[self.currentUser userId] ,orderKey]];
+    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT  setId, title from sets where user_id=\'%@\' OR user_id='free' ORDER BY %@",[self.currentUser userId] ,orderKey]];
     NSMutableArray *tempSetTitles = [NSMutableArray arrayWithArray:[self fiveOfA]];
     NSMutableArray *tempSetIds = [NSMutableArray arrayWithArray:[self fiveOfA]];
     int currentSetNum = 0;
@@ -261,7 +265,7 @@ static DBManager *instance=nil;
 }
 
 -(int)countOfCharts{
-    FMResultSet *countOfChartsResult = [db executeQuery:[NSString stringWithFormat:@"select COUNT(DISTINCT chartId) as cnt from chords where user_id=\'%@\'", [self.currentUser userId]]];
+    FMResultSet *countOfChartsResult = [db executeQuery:[NSString stringWithFormat:@"select COUNT(DISTINCT chartId) as cnt from chords where user_id=\'%@\' or user_id=\'free\'", [self.currentUser userId]]];
     int countOfChords = 0;
     if(countOfChartsResult && [countOfChartsResult next]) {
         countOfChords = [countOfChartsResult intForColumn:@"cnt"];

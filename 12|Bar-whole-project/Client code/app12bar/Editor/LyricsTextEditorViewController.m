@@ -7,6 +7,7 @@
 //
 
 #import "LyricsTextEditorViewController.h"
+#import "HelpViewController.h"
 
 
 #define TEXT_FONT_SIZE 22.0
@@ -79,7 +80,8 @@
     screenHeight = screenHeight_;
     screenWidth = screenWidth_;
     
-    if (self.isPerformMode) {
+    if (self.isPerformMode)
+    {
         self.textEditor = [[LyricsEditorTextView alloc] initWithFrame:CGRectMake(screenWidth/8, Y_OFFSET, ((screenWidth/8)*8-(screenWidth/8)), (screenHeight - (screenHeight/10)))];
         self.lyricsScrollView.frame = CGRectMake(0, 0, screenWidth, ((screenHeight/10)*7));
         if ([setting isLightTheme]) {
@@ -89,7 +91,8 @@
         }
         self.lyricsWrapper.frame = CGRectMake(0, screenHeight/10, screenWidth, screenHeight );
         [self.textEditor setPerformMode];
-    } else {
+    }
+    else {
         self.textEditor = [[LyricsEditorTextView alloc] initWithFrame:CGRectMake(screenWidth/8, Y_OFFSET, ((screenWidth/8)*8-(screenWidth/8)), (screenHeight/10)*7)];
         self.lyricsScrollView.frame = CGRectMake(0, 0, screenWidth, screenHeight - ((screenHeight/10)*2));
         self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
@@ -140,8 +143,39 @@
         [swipeRight setDirection:(UISwipeGestureRecognizerDirectionRight)];
         [self.view addGestureRecognizer:swipeRight];
     }
+
+    UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapOnBlurView)];
+    tapGest.numberOfTapsRequired = 1;
+    
+    [blurView.underlyingView addGestureRecognizer:tapGest];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"tutsCharts_firstLaunch"])
+    {
+        // On first launch, this block will execute
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
+        [viewController setHelpFile:@"tuts_charts"];
+        viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)); // 1
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
+            
+            [self presentViewController:viewController animated:YES completion:nil];
+        });
+        
+        // Set the "hasPerformedFirstLaunch" key so this block won't execute again
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"tutsCharts_firstLaunch"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
 }
 
+- (void)handleTapOnBlurView
+{
+    blurView.hidden = YES;
+    [self animateModalPaneOut:somePopup];
+    somePopup = nil;
+}
 - (CGFloat)layoutManager:(NSLayoutManager *)layoutManager lineSpacingAfterGlyphAtIndex:(NSUInteger)glyphIndex withProposedLineFragmentRect:(CGRect)rect
 {
     return 0.0f; // For really wide spacing; pick your own value
@@ -208,15 +242,31 @@
     CATransition *animation = [CATransition animation];
     [animation setDuration:0.5];
     [animation setType:kCATransitionMoveIn];
-    if (direction == 0) {
+    
+    CATransition *animationCurl = [CATransition animation];
+    [animationCurl setDuration:0.75];
+    [animationCurl setTimingFunction:UIViewAnimationCurveEaseInOut];
+    [animationCurl setRemovedOnCompletion:NO];
+    
+    
+    if (direction == 0)
+    {
         [animation setSubtype:kCATransitionFromRight];
+        [animationCurl setSubtype:kCATransitionFromTop];
+        animationCurl.fillMode = kCAFillModeForwards;
+        animationCurl.type = @"pageCurl";
+        
         self.chordToPerform++;
         if (self.chordToPerform >= self.chordIds.count ) {
             self.chordToPerform = 0;
         }
-    } else {
+    }
+    else
+    {
         [animation setSubtype:kCATransitionFromLeft];
-       
+        [animationCurl setSubtype:kCATransitionFromTop];
+        animationCurl.fillMode = kCAFillModeBackwards;
+        animationCurl.type = @"pageUnCurl";
         
         self.chordToPerform--;
         if (self.chordToPerform < 0 ) {
@@ -224,6 +274,7 @@
         }
 
     }
+    
     [self.textEditor clearAllChords];
     editedJson = [db getChartById:[self.chordIds objectAtIndex:self.chordToPerform]];
     [self.currentUser setChartId:[self.chordIds objectAtIndex:self.chordToPerform]];
@@ -233,8 +284,10 @@
    
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
     
-    [[theWindow layer] addAnimation:animation forKey:@"SwitchToView2"];
-     [self lyricsPreview];
+    //[[theWindow layer] addAnimation:animation forKey:@"SwitchToView2"];
+    [[theWindow layer] addAnimation:animationCurl forKey:@"SwitchToView2"];
+    
+    [self lyricsPreview];
     
     [self.textEditor setNeedsDisplay];
     [self calcTextHeight];
@@ -248,13 +301,12 @@
     [viewController activatePerformMode];
     [viewController customInit];
     [viewController setIsPerformMode:YES];
+    
     [self presentViewController:viewController animated:NO completion:^{
-        
+    
     }];
-    
+
     [self dismissViewControllerAnimated:NO completion:nil];
-    
-   
     
 }
 
@@ -459,7 +511,7 @@
     [blurView updateAsynchronously:YES completion:nil];
     NSLog(@"%f",self.textEditor.font.lineHeight);
     [self.textEditor setNeedsDisplay];
-   // self.lyricsScrollView.backgroundColor = [UIColor grayColor];
+    //self.lyricsScrollView.backgroundColor = [UIColor grayColor];
 }
 
 -(void)calcTextHeight{
@@ -914,7 +966,8 @@
     notes = [notes stringByReplacingOccurrencesOfString:@"\"" withString:@"*!*"];
     [db updateNotes:notes forChartId:[self.currentUser chartId]];
     blurView.hidden = YES;
-    [somePopup removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionShowHideTransitionViews)];    
+    //[somePopup removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionShowHideTransitionViews)];
+    [self animateModalPaneOut:somePopup];
 }
 
 
@@ -942,7 +995,9 @@
     [blurView updateAsynchronously:YES completion:nil];
     somePopup = [ModifyChordsView modifyChordsDialog:(LyricsDragSource*)chord.superview andSecondDelegate:self];
     blurView.hidden = NO;
-    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    //[self.view addSubviewWithZoomInAnimation:somePopup duration:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+
+    [self animateModalPaneIn:somePopup];
 }
 
 -(void)showKeysEditor:(UITapGestureRecognizer*)sender{
@@ -950,12 +1005,15 @@
     somePopup = [ChangeKeysView changeKeysDialog:self andSecondDelegate:self];
     
     blurView.hidden = NO;
-    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+//    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    [self animateModalPaneIn:somePopup];
 }
 
 -(void)closeKeyDialog {
     blurView.hidden = YES;
-    [somePopup removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    //[somePopup removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    [self animateModalPaneOut:somePopup];
+    
     somePopup = nil;
 }
 
@@ -967,7 +1025,9 @@
     NSString *txt = [mArr[@"notes"] stringByReplacingOccurrencesOfString:@"%!%" withString:@"\n"];
     txt = [txt stringByReplacingOccurrencesOfString:@"*!*" withString:@"\""];
     [(NotesDlg*)somePopup showNotes:txt];
-    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+
+    //    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:somePopup];
 }
 
 - (NSString *) escapeString:(NSString *)string {
@@ -1022,6 +1082,40 @@
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     return jsonString;
 }
+
+- (void)animateModalPaneIn:(UIView *)viewToAnimate
+{
+    CATransition *trans = [CATransition animation];
+    trans.duration = 0.15;
+    trans.type = kCATransitionMoveIn;
+    trans.subtype = kCATransitionFromLeft;
+    
+    [viewToAnimate.layer addAnimation:trans forKey:nil];
+    [self.view addSubview:viewToAnimate];
+}
+
+- (void)animateModalPaneOut:(UIView *)viewToAnimate
+{
+    //    CATransition *trans = [CATransition animation];
+    //    trans.duration = 0.2;
+    //    trans.type = kCATransitionPush;
+    //    trans.subtype = kCATransitionFromLeft;
+    //
+    //
+    //    [viewToAnimate.layer addAnimation:trans forKey:nil];
+    
+    CGRect temp = viewToAnimate.frame;
+    temp.origin.x = [[UIScreen mainScreen] bounds].size.width ;
+    [UIView animateWithDuration:0.15
+                          delay:0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         viewToAnimate.frame = temp;
+                     }completion:^(BOOL finished){
+                         [viewToAnimate removeFromSuperview];
+                     }];
+}
+
 
 @end
 

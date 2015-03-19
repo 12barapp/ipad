@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "User.h"
+#import "ParseHelper.h"
 
 @implementation AppDelegate
 @synthesize deviceToken;
@@ -22,10 +23,6 @@
     [FBProfilePictureView class];
     [FBFriendPickerViewController class];
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    
-    if ([UIApplication instancesRespondToSelector:@selector(registerUserNotificationSettings:)]) {
-        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge categories:nil]];
-    }
     
     //[Parse setApplicationId:@"aue0kgphMx4WBJiEuLEWimmcMDSeP9qrsI9EbPdh"
                 //  clientKey:@"x7oeXcJMirVv7CKSJJfzaSEwihAazMePc4PZevwS"];
@@ -47,18 +44,24 @@
 /*    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:newDeviceToken];
     [currentInstallation saveInBackground]; */
+    
     User *user = [User sharedManager];
     [user setDeviceToken:[NSString stringWithFormat:@""]];
     self.deviceToken = [NSString stringWithFormat:@""];
+    
+    [ParseHelper initialize];
+    [ParseHelper registerInstallationforPushNotifications:newDeviceToken];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    //[PFPush handlePush:userInfo];
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    [ParseHelper initialize];
+    [ParseHelper handlePush:userInfo];
 }
 
 - (void)application:(UIApplication *)application
-didReceiveLocalNotification:(UILocalNotification *)notification {
-    
+didReceiveLocalNotification:(UILocalNotification *)notification
+{
     notification.applicationIconBadgeNumber = 0;
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
 }

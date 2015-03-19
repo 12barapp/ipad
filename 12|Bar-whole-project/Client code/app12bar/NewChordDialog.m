@@ -96,7 +96,8 @@
         [self.artistText becomeFirstResponder];
     } else if(textField == self.artistText) {
         [self.artistText resignFirstResponder];
-        [self showKeyPicker:self.timePick];
+        //[self showKeyPicker:self.timePick];
+        //[self chordDone:nil];
     }
     return YES;
 }
@@ -147,7 +148,14 @@
     return ch;
 }
 
--(void)setDataForEDiting:(NSString*)title artist:(NSString*)artist key:(NSString*)key time_sig:(NSString*)time_sig genre:(NSString*)genre bpm:(NSString*)bpm notes:(NSString*)notes{
+-(void)setDataForEDiting:(NSString*)title
+                  artist:(NSString*)artist
+                     key:(NSString*)key
+                time_sig:(NSString*)time_sig
+                   genre:(NSString*)genre
+                     bpm:(NSString*)bpm
+                   notes:(NSString*)notes
+{
     isEditing = true;
     self.titleText.text = title;
     self.artistText.text = artist;
@@ -169,15 +177,18 @@
         switch (selectedField) {
             case 0:
                 [self.keyPick setTitle:value forState:UIControlStateNormal];
+                //[self showGenrePicker:nil];
                 break;
             case 1:
                 [self.genrePick setTitle:value forState:UIControlStateNormal];
+                //[self showTimeSigPicker:nil];
                 break;
             case 2:
                 [self.bpmPick setTitle:value forState:UIControlStateNormal];
                 break;
             case 3:
                 [self.timePick setTitle:value forState:UIControlStateNormal];
+                //[self showBPMPicker:nil];
                 break;
             default:
                 break;
@@ -198,8 +209,10 @@
     self.popuperView = [[UIPopoverController alloc]initWithContentViewController:controller];
     [self.popuperView setDelegate:self];
     self.popuperView.popoverContentSize = CGSizeMake(150, 210);
-    [controller reloadForKey];
+    
     [self.popuperView presentPopoverFromRect:self.keyPick.frame inView:self.dialogContainer permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    [controller reloadForKey:self.keyPick.titleLabel.text];
 }
 
 - (IBAction)showGenrePicker:(id)sender {
@@ -214,9 +227,11 @@
     controller.delegate = self;
     self.popuperView = [[UIPopoverController alloc]initWithContentViewController:controller];
     [self.popuperView setDelegate:self];
-    [controller reloadForGenre];
+    
     self.popuperView.popoverContentSize = CGSizeMake(250, 210);
     [self.popuperView presentPopoverFromRect:self.genrePick.frame inView:self.dialogContainer permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+    [controller reloadForGenre:self.genrePick.titleLabel.text];
 }
 
 - (IBAction)showBPMPicker:(id)sender {
@@ -233,7 +248,8 @@
     [self.popuperView setDelegate:self];
    
     [self.popuperView presentPopoverFromRect:self.bpmPick.frame inView:self.dialogContainer permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-     [controller reloadForBpm];
+    
+    [controller reloadForBpm:self.bpmPick.titleLabel.text];
 }
 
 - (IBAction)showTimeSigPicker:(id)sender {
@@ -249,9 +265,10 @@
     self.popuperView = [[UIPopoverController alloc]initWithContentViewController:controller];
     [self.popuperView setDelegate:self];
     self.popuperView.popoverContentSize = CGSizeMake(150, 210);
-    [controller reloadForTime];
+
     [self.popuperView presentPopoverFromRect:self.timePick.frame inView:self.dialogContainer permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     
+    [controller reloadForTime:self.timePick.titleLabel.text];
 
 }
 
