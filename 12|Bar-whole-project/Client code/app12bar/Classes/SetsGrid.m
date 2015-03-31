@@ -127,7 +127,7 @@
     setTitle.tag = index;
     [setTitle setUniqueID:[ids objectAtIndex:index]];
     [setTitle setTitle:[dataSource objectAtIndex:index] forState:UIControlStateNormal];
-    [setTitle.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:14.0]];
+    [setTitle.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:13.0]];
     [setTitle.titleLabel setNumberOfLines:3];
     [setTitle addTarget:self action:@selector(didTapSetLabelWithGesture:) forControlEvents:(UIControlEventTouchUpInside)];
     setTitle.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;

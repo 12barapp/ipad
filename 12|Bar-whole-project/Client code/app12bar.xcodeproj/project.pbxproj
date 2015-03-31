@@ -11,6 +11,19 @@
 		40298E251A8AF7AD008D40C8 /* tuts_home.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 40298E221A8AF7AD008D40C8 /* tuts_home.pdf */; };
 		40298E261A8AF7AD008D40C8 /* tuts_sets.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 40298E231A8AF7AD008D40C8 /* tuts_sets.pdf */; };
 		40298E281A8B047C008D40C8 /* tuts_all.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 40298E271A8B047C008D40C8 /* tuts_all.pdf */; };
+		403491501AC5BE88004F3186 /* 12Bar_Charts_Tuts-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 403491461AC5BE88004F3186 /* 12Bar_Charts_Tuts-01.png */; };
+		403491511AC5BE88004F3186 /* 12Bar_Charts_Tuts-02.png in Resources */ = {isa = PBXBuildFile; fileRef = 403491471AC5BE88004F3186 /* 12Bar_Charts_Tuts-02.png */; };
+		403491521AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 403491481AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-01.png */; };
+		403491531AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-02.png in Resources */ = {isa = PBXBuildFile; fileRef = 403491491AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-02.png */; };
+		403491541AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-03.png in Resources */ = {isa = PBXBuildFile; fileRef = 4034914A1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-03.png */; };
+		403491551AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-04.png in Resources */ = {isa = PBXBuildFile; fileRef = 4034914B1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-04.png */; };
+		403491561AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-05.png in Resources */ = {isa = PBXBuildFile; fileRef = 4034914C1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-05.png */; };
+		403491571AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-06.png in Resources */ = {isa = PBXBuildFile; fileRef = 4034914D1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-06.png */; };
+		403491581AC5BE88004F3186 /* 12Bar_Homescreen_Tuts.png in Resources */ = {isa = PBXBuildFile; fileRef = 4034914E1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts.png */; };
+		403491591AC5BE88004F3186 /* 12Bar_Sets_Tuts-01.png in Resources */ = {isa = PBXBuildFile; fileRef = 4034914F1AC5BE88004F3186 /* 12Bar_Sets_Tuts-01.png */; };
+		4034915B1AC5BF21004F3186 /* TutorialDialog.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4034915A1AC5BF21004F3186 /* TutorialDialog.xib */; };
+		4034915E1AC5C17C004F3186 /* TutorialsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4034915C1AC5C17C004F3186 /* TutorialsView.h */; };
+		4034915F1AC5C17C004F3186 /* TutorialsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4034915D1AC5C17C004F3186 /* TutorialsView.m */; };
 		4038CEF41AB05D4C00DEE5FB /* SJNotificationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4038CEF11AB05D4C00DEE5FB /* SJNotificationViewController.h */; };
 		4038CEF51AB05D4C00DEE5FB /* SJNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4038CEF21AB05D4C00DEE5FB /* SJNotificationViewController.m */; };
 		4038CEF61AB05D4C00DEE5FB /* SJNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4038CEF31AB05D4C00DEE5FB /* SJNotificationViewController.xib */; };
@@ -18,6 +31,8 @@
 		4099AC0A1AA4095A00BEE510 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4099AC081AA4095A00BEE510 /* Parse.framework */; };
 		4099AC0D1AA40D1600BEE510 /* ParseHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4099AC0B1AA40D1600BEE510 /* ParseHelper.h */; };
 		4099AC0E1AA40D1600BEE510 /* ParseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4099AC0C1AA40D1600BEE510 /* ParseHelper.m */; };
+		40C9316B1AC5286A000CA645 /* AddChartTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C931691AC5286A000CA645 /* AddChartTableViewCell.h */; };
+		40C9316C1AC5286A000CA645 /* AddChartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C9316A1AC5286A000CA645 /* AddChartTableViewCell.m */; };
 		40E49FD11A88F6240021431A /* HelpViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 40E49FCF1A88F6240021431A /* HelpViewController.h */; };
 		40E49FD21A88F6240021431A /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E49FD01A88F6240021431A /* HelpViewController.m */; };
 		40E5AB0C1AB7DCD4009F6BF4 /* UIView+MGBadgeView.h in Headers */ = {isa = PBXBuildFile; fileRef = 40E5AB0A1AB7DCD4009F6BF4 /* UIView+MGBadgeView.h */; };
@@ -479,6 +494,19 @@
 		40298E221A8AF7AD008D40C8 /* tuts_home.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = tuts_home.pdf; sourceTree = "<group>"; };
 		40298E231A8AF7AD008D40C8 /* tuts_sets.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = tuts_sets.pdf; sourceTree = "<group>"; };
 		40298E271A8B047C008D40C8 /* tuts_all.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = tuts_all.pdf; sourceTree = "<group>"; };
+		403491461AC5BE88004F3186 /* 12Bar_Charts_Tuts-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar_Charts_Tuts-01.png"; sourceTree = "<group>"; };
+		403491471AC5BE88004F3186 /* 12Bar_Charts_Tuts-02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar_Charts_Tuts-02.png"; sourceTree = "<group>"; };
+		403491481AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar_Homescreen_Tuts-01.png"; sourceTree = "<group>"; };
+		403491491AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar_Homescreen_Tuts-02.png"; sourceTree = "<group>"; };
+		4034914A1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar_Homescreen_Tuts-03.png"; sourceTree = "<group>"; };
+		4034914B1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar_Homescreen_Tuts-04.png"; sourceTree = "<group>"; };
+		4034914C1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar_Homescreen_Tuts-05.png"; sourceTree = "<group>"; };
+		4034914D1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-06.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar_Homescreen_Tuts-06.png"; sourceTree = "<group>"; };
+		4034914E1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 12Bar_Homescreen_Tuts.png; sourceTree = "<group>"; };
+		4034914F1AC5BE88004F3186 /* 12Bar_Sets_Tuts-01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "12Bar_Sets_Tuts-01.png"; sourceTree = "<group>"; };
+		4034915A1AC5BF21004F3186 /* TutorialDialog.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TutorialDialog.xib; sourceTree = "<group>"; };
+		4034915C1AC5C17C004F3186 /* TutorialsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TutorialsView.h; sourceTree = SOURCE_ROOT; };
+		4034915D1AC5C17C004F3186 /* TutorialsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TutorialsView.m; sourceTree = SOURCE_ROOT; };
 		4038CEF11AB05D4C00DEE5FB /* SJNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJNotificationViewController.h; sourceTree = SOURCE_ROOT; };
 		4038CEF21AB05D4C00DEE5FB /* SJNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJNotificationViewController.m; sourceTree = SOURCE_ROOT; };
 		4038CEF31AB05D4C00DEE5FB /* SJNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SJNotificationViewController.xib; sourceTree = SOURCE_ROOT; };
@@ -487,6 +515,8 @@
 		4099AC0B1AA40D1600BEE510 /* ParseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseHelper.h; sourceTree = "<group>"; };
 		4099AC0C1AA40D1600BEE510 /* ParseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseHelper.m; sourceTree = "<group>"; };
 		40AC446B1A85B9F900A57DFF /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		40C931691AC5286A000CA645 /* AddChartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddChartTableViewCell.h; sourceTree = "<group>"; };
+		40C9316A1AC5286A000CA645 /* AddChartTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddChartTableViewCell.m; sourceTree = "<group>"; };
 		40E49FCF1A88F6240021431A /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = SOURCE_ROOT; };
 		40E49FD01A88F6240021431A /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = SOURCE_ROOT; };
 		40E5AB0A1AB7DCD4009F6BF4 /* UIView+MGBadgeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MGBadgeView.h"; sourceTree = "<group>"; };
@@ -836,6 +866,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		403491451AC5BE6B004F3186 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				403491461AC5BE88004F3186 /* 12Bar_Charts_Tuts-01.png */,
+				403491471AC5BE88004F3186 /* 12Bar_Charts_Tuts-02.png */,
+				403491481AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-01.png */,
+				403491491AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-02.png */,
+				4034914A1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-03.png */,
+				4034914B1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-04.png */,
+				4034914C1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-05.png */,
+				4034914D1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-06.png */,
+				4034914E1AC5BE88004F3186 /* 12Bar_Homescreen_Tuts.png */,
+				4034914F1AC5BE88004F3186 /* 12Bar_Sets_Tuts-01.png */,
+			);
+			name = images;
+			sourceTree = "<group>";
+		};
 		4038CEF01AB05D3B00DEE5FB /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -849,6 +896,7 @@
 		407C5FCF1A85437300645AF0 /* Tuts */ = {
 			isa = PBXGroup;
 			children = (
+				403491451AC5BE6B004F3186 /* images */,
 				40298E271A8B047C008D40C8 /* tuts_all.pdf */,
 				40298E211A8AF7AD008D40C8 /* tuts_charts.pdf */,
 				40298E221A8AF7AD008D40C8 /* tuts_home.pdf */,
@@ -921,6 +969,8 @@
 				E1307C361A27F1D400593064 /* CustomButton.m */,
 				E158E6DE1A2F03770013A103 /* CustomTableCell.h */,
 				E158E6DF1A2F03770013A103 /* CustomTableCell.m */,
+				40C931691AC5286A000CA645 /* AddChartTableViewCell.h */,
+				40C9316A1AC5286A000CA645 /* AddChartTableViewCell.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -1072,6 +1122,8 @@
 				E15A398319F58C4C009EAC79 /* VFMailViewController.m */,
 				40E49FCF1A88F6240021431A /* HelpViewController.h */,
 				40E49FD01A88F6240021431A /* HelpViewController.m */,
+				4034915C1AC5C17C004F3186 /* TutorialsView.h */,
+				4034915D1AC5C17C004F3186 /* TutorialsView.m */,
 			);
 			name = Views;
 			path = ../Popups;
@@ -1102,6 +1154,7 @@
 				E1CC3C02199CC1B000570FAA /* ModifyChordsDialog.xib */,
 				E108892B19ADE1900039DD67 /* EnterEmail.xib */,
 				E137E7A619B4A0B20070AD00 /* ShareEmail.xib */,
+				4034915A1AC5BF21004F3186 /* TutorialDialog.xib */,
 			);
 			name = XIBS;
 			sourceTree = "<group>";
@@ -1443,6 +1496,7 @@
 				E1AB000D19ACF5F4001EB736 /* FacebookFriendsPickerController.h in Headers */,
 				E114FC1719922D35001B34D7 /* AtkDragAndDropManager.h in Headers */,
 				E1C64FC01A6441680024DA11 /* RegExCategories.h in Headers */,
+				4034915E1AC5C17C004F3186 /* TutorialsView.h in Headers */,
 				E114FC1819922D35001B34D7 /* AtkDragAndDropManager.m in Headers */,
 				E1307C371A27F1D400593064 /* CustomButton.h in Headers */,
 				E114FC1919922D35001B34D7 /* AtkDragSourceProtocol.h in Headers */,
@@ -1459,6 +1513,7 @@
 				E114FC1F19922D35001B34D7 /* UIView+AtkDragAndDrop.h in Headers */,
 				E114FC2019922D35001B34D7 /* UIView+AtkDragAndDrop.m in Headers */,
 				E1CC3B6A1996B16F00570FAA /* NotesSetView.h in Headers */,
+				40C9316B1AC5286A000CA645 /* AddChartTableViewCell.h in Headers */,
 				E1CC3B891998BEC000570FAA /* CoreSettings.h in Headers */,
 				40E49FD11A88F6240021431A /* HelpViewController.h in Headers */,
 				E137E7B019B5B7960070AD00 /* SharedNotifierViewController.h in Headers */,
@@ -1503,6 +1558,7 @@
 				E114FC1219922D17001B34D7 /* Headers */,
 				E182C94019A65696000AD196 /* ShellScript */,
 				016B4CBF8A5F3B0BCEB2C3D2 /* Copy Pods Resources */,
+				409386351AC13728003EBBD8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1676,20 +1732,25 @@
 				E1040331196542ED00C1D588 /* about_settings.png in Resources */,
 				E1A57BBE19867B680068E8D3 /* lyrics_editor_bg.png in Resources */,
 				E1A1E10119A7ACAD004D888C /* icon.png in Resources */,
+				403491591AC5BE88004F3186 /* 12Bar_Sets_Tuts-01.png in Resources */,
 				E108892E19ADE2C70039DD67 /* email_window.png in Resources */,
 				E114FBC81988DE7A001B34D7 /* tab1_active.png in Resources */,
 				E1CC3C03199CC1B000570FAA /* ModifyChordsDialog.xib in Resources */,
 				E1B7D73519651D80004142CB /* search.png in Resources */,
+				403491541AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-03.png in Resources */,
+				4034915B1AC5BF21004F3186 /* TutorialDialog.xib in Resources */,
 				E1B7D72219651D80004142CB /* btn_done.png in Resources */,
 				E109563019BE227E005D52E9 /* app12bar copy-Info.plist in Resources */,
 				E114FBCB1988E5C3001B34D7 /* dots_icon.png in Resources */,
 				E1D5D47F1986454D0084CCDF /* NotesDialog.xib in Resources */,
 				E15A397F19F543F2009EAC79 /* FPViewController.xib in Resources */,
+				403491511AC5BE88004F3186 /* 12Bar_Charts_Tuts-02.png in Resources */,
 				E10CE16B19E31B8F005C9058 /* set_new.png in Resources */,
 				40298E261A8AF7AD008D40C8 /* tuts_sets.pdf in Resources */,
 				E1D5D4241980F6210084CCDF /* LoginScreen.xib in Resources */,
 				E19B14111964299D00B6B5B5 /* Images.xcassets in Resources */,
 				E1897DDF196C3B5200867D81 /* SetInfo.xib in Resources */,
+				403491521AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-01.png in Resources */,
 				E1D5D47A1982A9E20084CCDF /* sets_list_head_bg.png in Resources */,
 				E1040326196525DD00C1D588 /* NewSetDialog.xib in Resources */,
 				E1E0FC90196E5D1900EDAD65 /* FriendMail.xib in Resources */,
@@ -1698,6 +1759,7 @@
 				E1B8FF3A19A23434003EF107 /* notes_icon.png in Resources */,
 				E106E2E61A4811D900EBBEA5 /* twelvebar.sqlite in Resources */,
 				E1485EC719D9F60C0050A445 /* chart_order.png in Resources */,
+				403491501AC5BE88004F3186 /* 12Bar_Charts_Tuts-01.png in Resources */,
 				405E31D01AB33ADE0028C443 /* Settings.bundle in Resources */,
 				E1A1E10219A7ACAD004D888C /* icon40.png in Resources */,
 				E1B8FF2A199E7D22003EF107 /* Change-Keys-Action-Tile.png in Resources */,
@@ -1723,6 +1785,7 @@
 				E1B7D6F8196518CA004142CB /* NewChordDialog.xib in Resources */,
 				E1B7D72619651D80004142CB /* facebook.png in Resources */,
 				E1B7D72319651D80004142CB /* delete.png in Resources */,
+				403491551AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-04.png in Resources */,
 				E1B7D73119651D80004142CB /* order.png in Resources */,
 				E1B7D72E19651D80004142CB /* new.png in Resources */,
 				E1897DED196D6F7000867D81 /* 12Bar Tiles-Settings.png in Resources */,
@@ -1745,6 +1808,7 @@
 				E137E7AD19B5B7370070AD00 /* btn_accept.png in Resources */,
 				E1B7D72919651D80004142CB /* mail-1.png in Resources */,
 				E1E0FC95196E690F00EDAD65 /* About.xib in Resources */,
+				403491561AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-05.png in Resources */,
 				E1A1E10319A7ACAD004D888C /* icon80.png in Resources */,
 				E1B7D72719651D80004142CB /* gaika.png in Resources */,
 				E1D5D430198191390084CCDF /* FriendPicker.xib in Resources */,
@@ -1758,12 +1822,15 @@
 				E1B7D73419651D80004142CB /* search_blue.png in Resources */,
 				E1A1E10019A7ACAD004D888C /* akzWvWn8.png in Resources */,
 				E1A57BC019867C090068E8D3 /* notes_button.png in Resources */,
+				403491531AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-02.png in Resources */,
 				E10403291965286C00C1D588 /* OrderChordsDialog.xib in Resources */,
 				E1CC3B86199785F200570FAA /* set_list_menu.png in Resources */,
 				E1B7D73219651D80004142CB /* perform.png in Resources */,
 				E1897DE9196D48A400867D81 /* cancel.png in Resources */,
 				E1B8FF3419A1F78B003EF107 /* twitter.png in Resources */,
 				E1CC3B671996B0F000570FAA /* NotesSetDialog.xib in Resources */,
+				403491581AC5BE88004F3186 /* 12Bar_Homescreen_Tuts.png in Resources */,
+				403491571AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-06.png in Resources */,
 				E1CC3BF3199B6CB200570FAA /* Settings.plist in Resources */,
 				E15A398719F58C4C009EAC79 /* VFMailViewController.xib in Resources */,
 			);
@@ -1786,6 +1853,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		409386351AC13728003EBBD8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\nbuildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
 		};
 		BB88E8F8F04C4EF8AC2A4461 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1906,12 +1986,15 @@
 				E1E29AC019658FB400D7B22E /* SearchChordDialog.m in Sources */,
 				E1CC3BE1199AACA000570FAA /* ColorHelper.m in Sources */,
 				E15A398C19F7990A009EAC79 /* AnimationViewController.m in Sources */,
+				E1D5D4781982616A0084CCDF /* PerformSetController.m in Sources */,
 				E158E6E11A2F03770013A103 /* CustomTableCell.m in Sources */,
 				E1485F0419DE81D30050A445 /* TransposeChordHelper.m in Sources */,
 				E15A397E19F543F2009EAC79 /* FPViewController.m in Sources */,
 				E1897DD1196ACD2400867D81 /* OrderSetsDialog.m in Sources */,
 				E10CE17219E32CE0005C9058 /* LyricsEditorTextView.m in Sources */,
+				40C9316C1AC5286A000CA645 /* AddChartTableViewCell.m in Sources */,
 				E1C64FC11A6441680024DA11 /* RegExCategories.m in Sources */,
+				4034915F1AC5C17C004F3186 /* TutorialsView.m in Sources */,
 				E15A398619F58C4C009EAC79 /* VFMailViewController.m in Sources */,
 				E19B140F1964299D00B6B5B5 /* HomeViewController.m in Sources */,
 				E104033719654DC500C1D588 /* ChartInfo.m in Sources */,
@@ -1969,7 +2052,6 @@
 				E1E0FC98196E6AF900EDAD65 /* About.m in Sources */,
 				E114FBBE19879B82001B34D7 /* UIView+AtkDragAndDrop.m in Sources */,
 				E195083C197FAD7200C2EDC4 /* ServerUpdater.m in Sources */,
-				E1D5D4781982616A0084CCDF /* PerformSetController.m in Sources */,
 				E1CC3BE9199AAF8900570FAA /* JsonChordHelper.m in Sources */,
 				E1E29AE01965FD1100D7B22E /* FMDatabaseQueue.m in Sources */,
 				E137E7B119B5B7960070AD00 /* SharedNotifierViewController.m in Sources */,

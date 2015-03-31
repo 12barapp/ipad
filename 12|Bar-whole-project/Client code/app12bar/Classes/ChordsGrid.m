@@ -20,7 +20,8 @@
 -(id)initWithData:(NSMutableArray*)data andIds:(NSMutableArray*)ids_ withFrame:(CGRect)rect andContainer:(UIView*)container owner:(UIViewController*)parent{
     self = [super init];
     if (self){
-        redColors = @[@"#ED1C24", @"#E25D5D", @"#E53E3E", @"#E07E7E", @"#ED9D9D"];
+        //redColors = @[@"#ED1C24", @"#E25D5D", @"#E53E3E", @"#E07E7E", @"#ED9D9D"];
+        redColors = @[@"#EA465A", @"#EE6B7B", @"#F07E8C", @"#F2909C", @"#F4A2AC"];
         NSInteger spacing = 0;
         
         self.dataSource = data;
@@ -107,6 +108,7 @@
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
 
 //        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[arc4random()%redColors.count]];
+//        NSLog(@"%d %@", (index % redColors.count), redColors[index % redColors.count]);
         view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[index % redColors.count]];
         view.layer.masksToBounds = NO;
         view.layer.cornerRadius = 0;
@@ -116,6 +118,8 @@
     
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
    
+    NSLog(@"width %f",(screenWidth/8));
+    NSLog(@"height %f", (screenSize.height/10));
     UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth/8, screenSize.height/10)];
     
     UIView *dotsView = [[UIView alloc] initWithFrame:CGRectMake(((screenWidth/8)-40), 0, 35, 30)];
@@ -140,7 +144,7 @@
     [dotsView addSubview:dotsButton];
     [cellView addSubview:dotsView];
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 0, 5, 5);
-    CGRect paddedFrame = UIEdgeInsetsInsetRect(CGRectMake(0, 40, 94, 60), contentInsets);
+    CGRect paddedFrame = UIEdgeInsetsInsetRect(CGRectMake(0, 40, 90, 60), contentInsets);
     
     CustomButton *chartTitle = [[CustomButton alloc] initWithFrame:paddedFrame];
     chartTitle.tag = index;
@@ -148,7 +152,7 @@
     chartTitle.enabled = YES;
     [chartTitle setUniqueID:[ids objectAtIndex:index]];
     [chartTitle setTitle:[self.dataSource objectAtIndex:index] forState:UIControlStateNormal];
-    [chartTitle.titleLabel setFont:[UIFont fontWithName:MY_FONT size:14.0]];
+    [chartTitle.titleLabel setFont:[UIFont fontWithName:MY_FONT size:13.0]];
     [chartTitle.titleLabel setNumberOfLines:3];
   //  chartTitle.backgroundColor = [UIColor grayColor];
     UITapGestureRecognizer *titleGestureInfo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapLabelWithGesture:)];

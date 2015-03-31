@@ -18,6 +18,8 @@
 -(void)mailTofriend;
 -(void)showAbout;
 -(void)showPrivacy;
+-(void)recallTuts;
+
 @end
 @interface SettingsDialog : UIView {
     BOOL soundActive;

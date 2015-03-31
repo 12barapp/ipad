@@ -8,6 +8,7 @@
 
 #import "LyricsTextEditorViewController.h"
 #import "HelpViewController.h"
+#import "TutorialsView.h"
 
 
 #define TEXT_FONT_SIZE 22.0
@@ -160,7 +161,8 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)); // 1
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
             
-            [self presentViewController:viewController animated:YES completion:nil];
+            //[self presentViewController:viewController animated:YES completion:nil];
+            [self recallTutsWithOptions:TutorialSetCharts];
         });
         
         // Set the "hasPerformedFirstLaunch" key so this block won't execute again
@@ -168,6 +170,16 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     
+}
+
+- (void)recallTutsWithOptions:(TutorialSet) set {
+    [self animateModalPaneOut:somePopup];
+    
+    somePopup = nil;
+    blurView.hidden = NO;
+    somePopup = [TutorialsView tutorials:set];
+    
+    [self animateModalPaneIn:somePopup];
 }
 
 - (void)handleTapOnBlurView
@@ -503,7 +515,7 @@
         [self calcTextHeight];
     }else {
         
-        [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, self.textEditor.frame.size.height+screenHeight/10)];
+        [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, self.textEditor.frame.size.height+((screenHeight/10)))];
          self.leftPartsContainer.frame = CGRectMake(0, PARTS_Y_OFFSET, self.leftPartsContainer.frame.size.width, self.textEditor.frame.size.height+screenHeight/10);
     }
     
@@ -529,7 +541,11 @@
     int leftPartHeight = frame.size.height;
     if (leftPartHeight < ((screenHeight/10)*7))
         leftPartHeight = ((screenHeight/10)*7);
-    self.leftPartsContainer.frame = CGRectMake(0, PARTS_Y_OFFSET, self.leftPartsContainer.frame.size.width, leftPartHeight);
+    self.leftPartsContainer.frame = CGRectMake(0, PARTS_Y_OFFSET, self.leftPartsContainer.frame.size.width, leftPartHeight+(screenHeight/10));
+    
+    [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, leftPartHeight+(screenHeight/10))];
+    self.textEditor.frame = CGRectMake(screenWidth/8, Y_OFFSET, ((screenWidth/8)*8-(screenWidth/8)), leftPartHeight+(screenHeight/10));
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated

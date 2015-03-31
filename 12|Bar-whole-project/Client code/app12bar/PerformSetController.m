@@ -8,6 +8,8 @@
 
 #import "PerformSetController.h"
 #import "HelpViewController.h"
+#import "CustomTableCell.h"
+#import "AddChartTableViewCell.h"
 
 @interface PerformSetController (){
     IBOutlet FXBlurView *blurView;
@@ -127,6 +129,12 @@ static DBManager *db;
     
     [blurView.underlyingView addGestureRecognizer:tapGest];
     
+    [self.chordsTable setSeparatorInset:UIEdgeInsetsZero];
+    if (!self.isPerform) {
+        [self.chordsTable setEditing:YES];
+        [self.chordsTable setScrollEnabled:NO];
+    }
+    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"tutsSets_firstLaunch"])
     {
         // On first launch, this block will execute
@@ -138,13 +146,24 @@ static DBManager *db;
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)); // 1
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
             
-            [self presentViewController:viewController animated:YES completion:nil];
+            //[self presentViewController:viewController animated:YES completion:nil];
+            [self recallTutsWithOptions:TutorialSetSets];
         });
         
         // Set the "hasPerformedFirstLaunch" key so this block won't execute again
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"tutsSets_firstLaunch"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
+}
+
+- (void)recallTutsWithOptions:(TutorialSet) set {
+    [self animateModalPaneOut:newChordDialog];
+    
+    newChordDialog = nil;
+    blurView.hidden = NO;
+    newChordDialog = [TutorialsView tutorials:set];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 - (void)handleTapOnBlurView
@@ -193,73 +212,6 @@ static DBManager *db;
     self.isPerform = true;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return UITableViewCellEditingStyleNone;
-}
-- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
-    return NO;
-}
-
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-    NSDictionary *item = [self.dataArray objectAtIndex:fromIndexPath.row];
-    [self.dataArray removeObjectAtIndex:fromIndexPath.row];
-    [self.dataArray insertObject:item atIndex:toIndexPath.row];
-}
-
-/*
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-
- 
-- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    // do something here
-}*/
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)_indexPath {
-	if (_indexPath.row == [self.dataArray count]) {
-        [self showFormForNewChord];
-    } else {
-       int iP = _indexPath.row;
-        @try {
-            [self.currentUser setChartId:[self.dataArray objectAtIndex:iP][@"chordId"]];
-           
-            /*int idx = 0;
-            NSString* chordId = [cell getUniqueId];
-            for (NSMutableDictionary* chord in self.currentUser.mainJson[@"freeChords"]) {
-                if ([chordId isEqualToString:chord[@"chordId"]])
-                    self.currentUser.selectedChord = [NSNumber numberWithInt:idx] ;
-                idx++;
-            }*/
-            
-            self.currentUser.selectedChordJson = [db getChartById:[self.currentUser chartId]];
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            LyricsTextEditorViewController *viewController = (LyricsTextEditorViewController*)[storyboard instantiateViewControllerWithIdentifier:@"editor"];
-            if (self.isPerform) {
-                [viewController setIsPerformMode:YES];
-                [viewController imInSet:iP];
-                [viewController setIds:chordsId];
-            }
-            [self presentViewController:viewController animated:YES completion:NULL];
-        }
-        @catch (NSException *exception) {
-            // ignore eny error
-            NSLog(@"Exception: %@",exception.description);
-        }
-    }
-}
-
 -(void)editChordWithIndex:(int)index{
     newChordDialog = [NewChordDialog newChordDialog:self];
     NSDictionary* dc = [db getChartById:[self.currentUser chartId]];
@@ -297,8 +249,11 @@ static DBManager *db;
 //    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
     [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
-    [blurView updateAsynchronously:YES completion:nil];
     self.dataArray = [db getChordsForSet:[self.currentUser setId]];
+    
+    [blurView updateAsynchronously:YES completion:^{
+        [self.chordsTable reloadData];
+    }];
   
     [self.chordsTable reloadData];
 }
@@ -339,116 +294,247 @@ static DBManager *db;
     [self animateModalPaneIn:newChordDialog];
 }
 
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (!self.isPerform) {
+        return YES;
+    }
+    else return NO;
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return UITableViewCellEditingStyleNone;
+}
+- (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath {
+    return NO;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (!self.isPerform) {
+        NSInteger row = indexPath.row + 1;
+        
+        if ([self.chordsTable numberOfRowsInSection:0] == row) {
+            return NO;
+        }
+        return YES;
+    }
+    else return NO;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath
+       toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+    
+    NSInteger row = proposedDestinationIndexPath.row + 1;
+    
+    if ([self.chordsTable numberOfRowsInSection:0] == row) {
+        return sourceIndexPath;
+    }
+
+    return proposedDestinationIndexPath;
+    
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+    NSInteger row = indexPath.row + 1;
+    
+    if ([self.chordsTable numberOfRowsInSection:0] != row) {
+        NSDictionary *item = [self.dataArray objectAtIndex:fromIndexPath.row];
+        [self.dataArray removeObjectAtIndex:fromIndexPath.row];
+        [self.dataArray insertObject:item atIndex:toIndexPath.row];
+    }
+}
+
+- (void)launchChordChart:(UITableViewCell *)cell {
+    
+    NSIndexPath *indexP = [self.chordsTable indexPathForCell:cell];
+    NSInteger iP = indexP.row;
+    @try {
+        [self.currentUser setChartId:[self.dataArray objectAtIndex:iP][@"chordId"]];
+        
+        self.currentUser.selectedChordJson = [db getChartById:[self.currentUser chartId]];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        LyricsTextEditorViewController *viewController = (LyricsTextEditorViewController*)[storyboard instantiateViewControllerWithIdentifier:@"editor"];
+        if (self.isPerform) {
+            [viewController setIsPerformMode:YES];
+            [viewController imInSet:(int)iP];
+            [viewController setIds:chordsId];
+        }
+        [self presentViewController:viewController animated:YES completion:NULL];
+    }
+    @catch (NSException *exception) {
+        // ignore eny error
+        NSLog(@"Exception: %@",exception.description);
+    }
+}
+
+- (void)showAddNewChart:(UITableViewCell *)cell {
+    [self showFormForNewChord];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)_indexPath {
+//    if (_indexPath.row == [self.dataArray count]) {
+//        [self showFormForNewChord];
+//    } else {
+//        int iP = _indexPath.row;
+//        @try {
+//            [self.currentUser setChartId:[self.dataArray objectAtIndex:iP][@"chordId"]];
+//            
+//            /*int idx = 0;
+//             NSString* chordId = [cell getUniqueId];
+//             for (NSMutableDictionary* chord in self.currentUser.mainJson[@"freeChords"]) {
+//             if ([chordId isEqualToString:chord[@"chordId"]])
+//             self.currentUser.selectedChord = [NSNumber numberWithInt:idx] ;
+//             idx++;
+//             }*/
+//            
+//            self.currentUser.selectedChordJson = [db getChartById:[self.currentUser chartId]];
+//            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//            LyricsTextEditorViewController *viewController = (LyricsTextEditorViewController*)[storyboard instantiateViewControllerWithIdentifier:@"editor"];
+//            if (self.isPerform) {
+//                [viewController setIsPerformMode:YES];
+//                [viewController imInSet:iP];
+//                [viewController setIds:chordsId];
+//            }
+//            [self presentViewController:viewController animated:YES completion:NULL];
+//        }
+//        @catch (NSException *exception) {
+//            // ignore eny error
+//            NSLog(@"Exception: %@",exception.description);
+//        }
+//    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)rowIndex {
     CustomTableCell *cell;
+    AddChartTableViewCell *addCell;
     UIView *leftChordContainer;
     UILabel *chordAuthor;
     UILabel *chordOtherInfo;
     UILabel *chordGenre;
-    UILabel *chordBigTitle;
+    UIButton *chordBigTitle;
     CustomButton *menuBtn;
     
     if (rowIndex.row == [self.dataArray count]) {
        static NSString *CellIdentifierAdd = @"addChordCell";
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierAdd];
-        if (self.isPerform) {
-           // cell.hidden = YES;
-        }
-        if (cell == nil) {
-            cell = [[CustomTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierAdd];
+        addCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierAdd];
+
+        if (addCell == nil) {
+            addCell = [[AddChartTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierAdd];
         }
         
         leftChordContainer = [cell viewWithTag:1];
         leftChordContainer.frame = CGRectMake(0, 0, screenWidth/8, screenHeight/10);
+        
+        addCell.delegate = self;
+        
+        return addCell;
+        
     } else {
         
         static NSString *CellIdentifier = @"chordCell";
         
-        
         cell = (CustomTableCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
         NSString *linkedChordId = @"";
         if ([db getChordsForSet:[self.currentUser setId]] != 0) {
 
             linkedChordId = [[db getChordsForSet:[self.currentUser setId]] objectAtIndex:rowIndex.row][@"chordId"];
+            [cell setUniqueId:linkedChordId];
             
-            chordBigTitle =(UILabel*)[cell viewWithTag:2];
-
+            NSDictionary *oneChord = [db getChartById:linkedChordId];
+            [chordsId addObject:linkedChordId];
             
+            chordBigTitle =(UIButton*)[cell viewWithTag:99];
             self.smallSetTitle = (UILabel*)[cell viewWithTag:5];
             chordAuthor = (UILabel*)[cell viewWithTag:6];
             chordOtherInfo = (UILabel*)[cell viewWithTag:7];
             chordGenre = (UILabel*)[cell viewWithTag:8];
+            
+            if (self.isPerform) {
+                
+                [chordBigTitle setTitle:oneChord[@"cTitle"] forState:UIControlStateNormal];
+                self.smallSetTitle.text =  oneChord[@"cTitle"];
+                chordAuthor.text = oneChord[@"artist"];
+                chordGenre.text = oneChord[@"genre"];
+                chordOtherInfo.text = [NSString stringWithFormat:@"%@ • %@ • %@",oneChord[@"key"],oneChord[@"time_sig"],oneChord[@"bpm"]];
+            }
+            else {
+                [chordBigTitle setTitle:@"" forState:UIControlStateNormal];
+                self.smallSetTitle.text = @"";
+                chordAuthor.text = @"";
+                chordGenre.text = @"";
+                chordOtherInfo.text = @"";
+                
+                [cell setSmallTitle:oneChord[@"cTitle"]];
+                [cell setAuthor:oneChord[@"artist"]];
+                [cell setOtherInfo:[NSString stringWithFormat:@"%@ • %@ • %@",oneChord[@"key"],oneChord[@"time_sig"],oneChord[@"bpm"]]];
+                [cell setGenre:oneChord[@"genre"]];
+            }
 
-                NSDictionary *oneChord = [db getChartById:linkedChordId];
-                    [chordsId addObject:linkedChordId];
-                    [cell setUniqueId:oneChord[@"chordId"]];
-                    chordBigTitle.text = oneChord[@"cTitle"];
-                    self.smallSetTitle.text =  oneChord[@"cTitle"];
-                    chordAuthor.text = oneChord[@"artist"];
-                    chordGenre.text = oneChord[@"genre"];
-                    chordOtherInfo.text = [NSString stringWithFormat:@"%@ • %@ • %@",oneChord[@"key"],oneChord[@"time_sig"],oneChord[@"bpm"]];
-            
-            
             
         }
+        
+//            menuBtn = (CustomButton*)[cell viewWithTag:10];
+//            [menuBtn setUniqueID:linkedChordId];
+//            if ([self.currentUser getUsedMode]==0) {
+//                menuBtn.hidden = YES;
+//            }
+//            
+//            if (self.isPerform) {
+//                menuBtn.hidden = YES;
+//            }
+//            menuBtn.frame = CGRectMake(0/*screenWidth-screenWidth/8*/, 0, screenWidth/8, screenHeight/10);
+//            [menuBtn addTarget:self action:@selector(showInfoForChord:) forControlEvents:(UIControlEventTouchUpInside)];
+//            
+//            CALayer *bottomBorder = [CALayer layer];
+//            
+//            bottomBorder.frame = CGRectMake(0.0f, 5.0f, 1.0f, screenHeight/10-10);
+//            
+//            bottomBorder.backgroundColor = [UIColor colorWithWhite:0.8f
+//                                                             alpha:1.0f].CGColor;
+//
+//        //[menuBtn.layer addSublayer:bottomBorder];
+        
         leftChordContainer = [cell viewWithTag:1];
-        menuBtn = (CustomButton*)[cell viewWithTag:10];
-        [menuBtn setUniqueID:linkedChordId];
-        if ([self.currentUser getUsedMode]==0) {
-            menuBtn.hidden = YES;
-        }
-        
-        if (self.isPerform) {
-            menuBtn.hidden = YES;
-        }
-        menuBtn.frame = CGRectMake(screenWidth-screenWidth/8, 0, screenWidth/8, screenHeight/10);
-        [menuBtn addTarget:self action:@selector(showInfoForChord:) forControlEvents:(UIControlEventTouchUpInside)];
-        
-        CALayer *bottomBorder = [CALayer layer];
-        
-        bottomBorder.frame = CGRectMake(0.0f, 5.0f, 1.0f, screenHeight/10-10);
-        
-        bottomBorder.backgroundColor = [UIColor colorWithWhite:0.8f
-                                                         alpha:1.0f].CGColor;
-
-        [menuBtn.layer addSublayer:bottomBorder];
         leftChordContainer.frame = CGRectMake(0, 0, screenWidth/8, screenHeight/10);
+        
+        cell.isPerform = self.isPerform;
+        cell.delegate = self;
+        cell.layoutMargins = UIEdgeInsetsZero;
+        cell.preservesSuperviewLayoutMargins = NO;
+        
         if (cell == nil) {
             cell = [[CustomTableCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         }
     }
 
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
 
--(IBAction)showInfoForChord:(id)sender{
+- (void)showChartInfo:(UITableViewCell *)cell {
     [blurView updateAsynchronously:YES completion:nil];
     blurView.hidden = NO;
-    CustomTableCell *cell = (CustomTableCell *)[[[sender superview] superview] superview];
+    
     indexPath = [self.chordsTable indexPathForCell:cell];
-        newChordDialog = [ChartInfo chartInfo:self];
-    [self.currentUser setChartId:[(CustomButton*)sender getUniqueID]];
-    NSDictionary* dc = [db getChartById:[(CustomButton*)sender getUniqueID]];
+    newChordDialog = [ChartInfo chartInfo:self];
+    
+    [self.currentUser setChartId:[(CustomTableCell *)cell getUniqueId]];
+    NSDictionary* dc = [db getChartById:[(CustomTableCell *)cell getUniqueId]];
     [(ChartInfo*)newChordDialog showInfo:dc[@"cTitle"] author:dc[@"artist"] key:dc[@"key"] time:dc[@"time_sig"] bpm:dc[@"bpm"] genre:dc[@"genre"]];
     
-//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.1 option:(UIViewAnimationOptionCurveEaseIn)];
     [self animateModalPaneIn:newChordDialog];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return screenHeight/10;
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     int moreSections = 1;
     if (self.isPerform) {
         moreSections = 0;
@@ -458,12 +544,6 @@ static DBManager *db;
     }else
         self.chordsTable.frame = CGRectMake(0, screenHeight/10, screenWidth, screenHeight - (screenHeight/10));
     return [self.dataArray count]+moreSections;
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)initBlur{
@@ -494,16 +574,17 @@ static DBManager *db;
 };
 
 -(void)chordPerform{
-//    [newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
     [self animateModalPaneOut:newChordDialog];
     newChordDialog = nil;
     blurView.hidden = YES;
     self.currentUser.selectedChordJson = [db getChartById:[self.currentUser chartId]];
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LyricsTextEditorViewController *viewController = [storyboard instantiateViewControllerWithIdentifier:@"editor"];
     viewController.isPerformMode = YES;
     [viewController activatePerformMode];
     [viewController customInit];
+    
     [self presentViewController:viewController animated:YES completion:NULL];
 }
 

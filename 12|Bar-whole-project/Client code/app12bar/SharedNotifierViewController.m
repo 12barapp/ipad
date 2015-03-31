@@ -8,6 +8,7 @@
 
 #import "SharedNotifierViewController.h"
 #import "FXBlurView.h"
+#import "ServerUpdater.h"
 
 @interface SharedNotifierViewController () {
     

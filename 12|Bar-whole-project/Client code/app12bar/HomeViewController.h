@@ -52,6 +52,7 @@
 #import "CustomLabel.h"
 #import "Reachability.h"
 #import "DGChord.h"
+#import "TutorialsView.h"
 
 
 @interface HomeViewController : UIViewController<UIScrollViewDelegate,MFMailComposeViewControllerDelegate,FBViewControllerDelegate,FBFriendPickerDelegate,NewChordDialogDelegate, ChartInfoDelegate, ChordsMenuDelegate, OrderChordsDialogDelegate, SearchChordDialogDelegate, FBFriendPickerDelegate, ChordsGridDelegate, SetsMenuDelegate, NewSetDialogDelegate, OrderSetsDialogDelegate, SearchSetDialogDelegate, LoginScreenDelegate,DGZoneDelegate, FBLoginViewDelegate, UIAlertViewDelegate, ServerUpdaterDelegate, SharedNotifierDelegate, SetsGridDelegate>{

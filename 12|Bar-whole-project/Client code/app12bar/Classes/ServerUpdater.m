@@ -440,6 +440,9 @@
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET"
                                                                       URLString:SERVER_DATA_STRING
                                                                      parameters:params error:&error];
+    
+    //NSLog(@"%@",[request URL]);
+    
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
@@ -486,17 +489,27 @@
 
 - (void)getSharedItemsCount:(void (^)(int result))completionHandler {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    NSDictionary *params = @{@"user_id": [self.currentUser realID],
+//                             @"secret_key":[self.currentUser mySecretKey],
+//                             @"last_created_date_chart":[self.currentUser latestCreateChartDate],
+//                             @"last_updated_date_chart":[self.currentUser latestUpdatedChartDate],
+//                             @"last_created_date_set":[self.currentUser latestCreatedSetDate],
+//                             @"last_updated_date_set":[self.currentUser latestUpdatedSetDate]
+//                             };
     NSDictionary *params = @{@"user_id": [self.currentUser realID],
                              @"secret_key":[self.currentUser mySecretKey],
-                             @"last_created_date_chart":[self.currentUser latestCreateChartDate],
-                             @"last_updated_date_chart":[self.currentUser latestUpdatedChartDate],
-                             @"last_created_date_set":[self.currentUser latestCreatedSetDate],
-                             @"last_updated_date_set":[self.currentUser latestUpdatedSetDate]
+                             @"last_created_date_chart":@"",
+                             @"last_updated_date_chart":@"",
+                             @"last_created_date_set":@"",
+                             @"last_updated_date_set":@""
                              };
     NSError *error;
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET"
                                                                       URLString:SERVER_DATA_STRING
                                                                      parameters:params error:&error];
+    
+    //NSLog(@"%@",[request URL]);
+    
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
@@ -504,36 +517,26 @@
                                                                    error:&error];
         if (response != nil)
         {
+            NSUInteger chordsShareCount = 0;
+            NSUInteger setsShareCount = 0;
+            
             if (![@"no data" isEqualToString:[response objectForKey:@"reason"]])
             {
                 NSDictionary *data = [response objectForKey:@"data"];
                 
-                int chordsCount = [data[@"freeChords"] count];
-                int setsCount = [data[@"sets"] count];
+                for (NSDictionary *chart in data[@"freeChords"]) {
+                    if ([chart[@"share_status"]  isEqual: @"1"])
+                         chordsShareCount++;
+                }
                 
-                completionHandler(chordsCount + setsCount);
+                for (NSDictionary *set in data[@"sets"]) {
+                    if ([set[@"share_status"]  isEqual: @"1"])
+                        setsShareCount++;
+                }
+
                 
-//                [self.currentUser setLatesDateForChart:[response objectForKey:@"latest_created_chart"]];
-//                [self.currentUser setLatestUpdateDateForChart:[response objectForKey:@"last_updated_chart"]];
-//                [self.currentUser setLatestCreatedDateForSet:[response objectForKey:@"latest_created_set"]];
-//                [self.currentUser setLatestUpdateDateForSet:[response objectForKey:@"last_updated_set"]];
-//                
-//                if (self.checkShare && checkUpdates)
-//                {
-//                    NSLog(@"checkShare & CheckUpdates == YES");
-//                    [self.delegate notifyAboutSharedData:[response objectForKey:@"data"] andShared:@""];
-//                }
-//                else
-//                {
-//                    NSLog(@"checkShare & CheckUpdates != YES");
-//                    [self getSharedData];
-//                    [self.delegate setUserData:[response objectForKey:@"data"]];
-//                    [self.delegate notifyAboutSharedData:[response objectForKey:@"data"] andShared:@""];
-//                    [self.delegate hideCover];
-//                    [self continueCheck];
-//                }
             }
-            else NSLog(@"No Data Found");
+            completionHandler((int)(chordsShareCount + setsShareCount));
         }
         else
         {
@@ -551,8 +554,81 @@
     [manager.operationQueue addOperation:operation];
 }
 
-- (void)getSharedItems:(void (^)(NSDictionary *data))completionHandler {
+- (void)getSharedItems:(void (^)(NSArray *charts, NSArray *sets))completionHandler {
     
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    NSDictionary *params = @{@"user_id": [self.currentUser realID],
+//                             @"secret_key":[self.currentUser mySecretKey],
+//                             @"last_created_date_chart":[self.currentUser latestCreateChartDate],
+//                             @"last_updated_date_chart":[self.currentUser latestUpdatedChartDate],
+//                             @"last_created_date_set":[self.currentUser latestCreatedSetDate],
+//                             @"last_updated_date_set":[self.currentUser latestUpdatedSetDate]
+//                             };
+    
+    NSDictionary *params = @{@"user_id": [self.currentUser realID],
+                             @"secret_key":[self.currentUser mySecretKey],
+                             @"last_created_date_chart":@"",
+                             @"last_updated_date_chart":@"",
+                             @"last_created_date_set":@"",
+                             @"last_updated_date_set":@""
+                             };
+    
+    NSError *error;
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET"
+                                                                      URLString:SERVER_DATA_STRING
+                                                                     parameters:params error:&error];
+    
+    NSLog(@"%@",[request URL]);
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *error;
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions
+                                                                   error:&error];
+        if (response != nil)
+        {
+            if (![@"no data" isEqualToString:[response objectForKey:@"reason"]])
+            {
+                NSDictionary *data = [response objectForKey:@"data"];
+                
+                [self.currentUser setLatesDateForChart:[response objectForKey:@"latest_created_chart"]];
+                [self.currentUser setLatestUpdateDateForChart:[response objectForKey:@"last_updated_chart"]];
+                [self.currentUser setLatestCreatedDateForSet:[response objectForKey:@"latest_created_set"]];
+                [self.currentUser setLatestUpdateDateForSet:[response objectForKey:@"last_updated_set"]];
+                
+//                [self.delegate notifyAboutSharedData:[response objectForKey:@"data"] andShared:@""];
+                
+                NSMutableArray *sharedCharts = [[NSMutableArray alloc] init];
+                for (NSDictionary *chart in data[@"freeChords"]) {
+                    if ([chart[@"share_status"]  isEqual: @"1"]) {
+                        [sharedCharts addObject:chart];
+                    }
+                }
+                
+                NSMutableArray *sharedSets = [[NSMutableArray alloc] init];
+                for (NSDictionary *set in data[@"sets"]) {
+                    if ([set[@"share_status"]  isEqual: @"1"]) {
+                        [sharedSets addObject:set];
+                    }
+                }
+                
+                completionHandler([sharedCharts copy], [sharedSets copy]);
+            }
+        }
+        else
+        {
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Connection Error" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error response is: %@", operation.responseString);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil
+                                                  cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertView show];
+    }];
+    
+    [manager.operationQueue addOperation:operation];
 }
 
 
@@ -874,7 +950,7 @@
                 [self.currentUser setLatestUpdateDateForChart:@""];
                 [self.currentUser setLatestUpdateDateForSet:@""];
                 [self.currentUser setLatestCreatedSetDate:@""];
-                //[self getDataForFb];
+                [self getDataForFb];
             } else {
                 UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Connection Error" message:[response objectForKey:@"reason"] delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
                 [alert show];

@@ -56,6 +56,8 @@
     NSMutableArray *setsArray; // datasource for sets
     UIView *chartsMenu;
     UIView *setsMenu;
+    
+    NSTimer *timer;
 }
 
 
@@ -166,6 +168,9 @@
     [self loadNormalSets];
     [self loadNormalChords];
     [self.serverUpdater continueCheck];
+    [self checkForSharedItems:nil];
+    
+    [self closeSettings];
     [self loadNormalChords];
 }
 
@@ -187,6 +192,11 @@
         
         [self.serverUpdater getSharedItemsCount:^(int result) {
             NSLog(@"Count of Shared Items: %d", result);
+            
+            [self.settingsButton.badgeView setBadgeValue:result];
+            [self.settingsButton.badgeView setPosition:MGBadgePositionTopLeft];
+            [self.settingsButton.badgeView setBadgeColor:[UIColor redColor]];
+            [self.settingsButton.badgeView setOutlineWidth:0.5];
         }];
     }
 }
@@ -221,9 +231,12 @@
                 
                 if (![[data[@"freeChords"] objectAtIndex:i][@"share_status"] isEqual:[NSNull null]])
                 {
+                    NSLog(@"%@", [data[@"freeChords"] objectAtIndex:i][@"share_status"]);
                     if ([[data[@"freeChords"] objectAtIndex:i][@"share_status"] isEqualToString:@"1"]) {
+                        NSLog(@"adding to shared charts");
                         [sharedCharts addObject:[data[@"freeChords"] objectAtIndex:i]];
                     } else {
+                        NSLog(@"adding to updated charts");
                         chartsWasUpdated = true;
                         [updatedCharts addObject:[data[@"freeChords"] objectAtIndex:i]];
                     }
@@ -365,8 +378,24 @@
 -(void)setUserData:(NSDictionary*)userData{
     NSMutableArray *myLoadedCharts = userData[@"freeChords"];
     NSMutableArray *myLoadedSets = userData[@"sets"];
-    [db updateChartsWithServerData:myLoadedCharts];
-    [db updateSetsWithServerData:myLoadedSets];
+    
+    NSMutableArray *nonSharedCharts = [[NSMutableArray alloc] init];
+    for (NSDictionary *chart in myLoadedCharts) {
+        if (![chart[@"share_status"]  isEqual: @"1"]) {
+            [nonSharedCharts addObject:chart];
+        }
+    }
+    
+    NSMutableArray *nonSharedSets = [[NSMutableArray alloc] init];
+    for (NSDictionary *set in myLoadedSets) {
+        if (![set[@"share_status"]  isEqual: @"1"]) {
+            [nonSharedSets addObject:set];
+        }
+    }
+    
+    
+    [db updateChartsWithServerData:nonSharedCharts];
+    [db updateSetsWithServerData:nonSharedSets];
 }
 
 
@@ -613,7 +642,8 @@
                 
                 [ParseHelper registerInstallationforFacebookID:[self.currentUser getIdForUser]];
                 
-                [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(checkForSharedItems:) userInfo:nil repeats:YES];
+                [self checkForSharedItems:nil];
+                timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(checkForSharedItems:) userInfo:nil repeats:YES];
             });
             
             
@@ -647,7 +677,8 @@
                          
                          [ParseHelper registerInstallationforFacebookID:[self.currentUser getIdForUser]];
                          
-                         [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(checkForSharedItems:) userInfo:nil repeats:YES];
+                         [self checkForSharedItems:nil];
+                         timer = [NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(checkForSharedItems:) userInfo:nil repeats:YES];
                      });
                      
                      [self checkForFirstTimeLoad];
@@ -680,6 +711,10 @@
                 //NSLog(@"%@", userName);
                 //NSLog(@"%@", userid);
                 
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:userName forKey:@"userFbName"];
+                [defaults setObject:userid forKey:@"userFbID"];
+                [defaults synchronize];
                 
                 [self.currentUser setUsedMode:MODE_FB];
                 //self.serverUpdater = [ServerUpdater sharedManager];
@@ -718,7 +753,8 @@
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)); // 1
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
             
-            [self presentViewController:viewController animated:YES completion:nil];
+            //[self presentViewController:viewController animated:YES completion:nil];
+            [self recallTutsWithOptions:TutorialSetHome];
         });
         
         // Set the "hasPerformedFirstLaunch" key so this block won't execute again
@@ -749,11 +785,23 @@
         CFRelease(uuid);
     }
     NSLog(@"UDID: [%@]", uuidString);
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:uuidString forKey:@"userUDID"];
+    [defaults synchronize];
    
     blurView.hidden = YES;
     [self.currentUser setUsedMode:MODE_FREE];
-    [self.currentUser setUserId:@"free"];
     
+    if ([defaults objectForKey:@"userFbID"]) {
+        [self.currentUser setUserId:[defaults objectForKey:@"userFbID"]];
+    }
+    else [self.currentUser setUserId:@"free"];
+    
+    [timer invalidate];
+    timer = nil;
+
+    [self.settingsButton.badgeView setBadgeValue:0];
     
     setsArray = [NSMutableArray arrayWithArray:[self fiveOfA]];
     idForChords = [NSMutableArray arrayWithArray:[self fiveOfA]];
@@ -890,7 +938,11 @@
         }
        
         [FBSession setActiveSession:nil];
+    
     }
+    
+    [self.settingsButton.badgeView setBadgeValue:0];
+    
     [self showLoginScreen];
 }
 
@@ -912,6 +964,29 @@
     UIViewController *viewController = (UIViewController*)[storyboard instantiateViewControllerWithIdentifier:@"privacyController"];
     [self presentViewController:viewController animated:YES completion:NULL];
     
+}
+
+- (void)recallTuts {
+    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
+    [self animateModalPaneOut:newChordDialog];
+    
+    newChordDialog = nil;
+    blurView.hidden = NO;
+    newChordDialog = [TutorialsView tutorials:TutorialSetAll];
+    
+    //    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:newChordDialog];
+    
+}
+
+- (void)recallTutsWithOptions:(TutorialSet) set {
+    [self animateModalPaneOut:newChordDialog];
+    
+    newChordDialog = nil;
+    blurView.hidden = NO;
+    newChordDialog = [TutorialsView tutorials:set];
+    
+    [self animateModalPaneIn:newChordDialog];
 }
 
 -(void)mailTofriend{

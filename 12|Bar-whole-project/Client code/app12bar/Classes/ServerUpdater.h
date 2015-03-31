@@ -70,7 +70,7 @@
 
 -(void)getSharedData;
 -(void)getSharedItemsCount:(void (^)(int))completionHandler;
--(void)getSharedItems:(void (^)(NSDictionary*))completionHandler;
+-(void)getSharedItems:(void (^)(NSArray*,NSArray*))completionHandler;
 -(void)pauseCheck;
 -(void)continueCheck;
 @end

@@ -12,6 +12,7 @@
 #import "ServerUpdater.h"
 #import "User.h"
 #import "SharedNotifierViewController.h"
+#import "HomeViewController.h"
 
 @implementation SettingsDialog {
     ServerUpdater *serverUpdater;
@@ -146,11 +147,20 @@ static CoreSettings *setting;
 }
 
 - (IBAction)displaySharedCharts:(id)sender {
+    [self.sharedButton.badgeView setBadgeValue:0];
     serverUpdater = [ServerUpdater sharedManager];
-//    serverUpdater.delegate = self.parentDelegate;
     
     if (![@"" isEqualToString:[self.currentUser mySecretKey]] && [self.currentUser mySecretKey] != nil){
-        [serverUpdater getSharedData];
+        [serverUpdater getSharedItems:^(NSArray *sharedCharts, NSArray *sharedSets) {
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            SharedNotifierViewController *viewController = (SharedNotifierViewController*)[storyboard
+                                                                                           instantiateViewControllerWithIdentifier:@"notifierController"];
+            [viewController showSharedCharts:[sharedCharts mutableCopy] andSets:[sharedSets mutableCopy] ];
+            viewController.delegate = (HomeViewController *)self.parentController;
+            [self.parentController presentViewController:viewController animated:YES completion:NULL];
+            
+        }];
     }
 }
 
@@ -168,18 +178,20 @@ static CoreSettings *setting;
 
 - (IBAction)recallTuts:(id)sender {
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
-    [viewController setHelpFile:@"tuts_all"];
-    viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-    
-    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)); // 1
-    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
-        
-        [self.parentController presentViewController:viewController animated:YES completion:nil];
-    });
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
+//    [viewController setHelpFile:@"tuts_all"];
+//    viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)); // 1
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
+//        
+//        [self.parentController presentViewController:viewController animated:YES completion:nil];
+//    });
     
     //[self.delegate closeSettings];
+    
+    [self.delegate recallTuts];
 }
 
 - (IBAction)logOut:(id)sender {
