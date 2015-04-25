@@ -34,7 +34,7 @@
 
 @end
 
-@interface PerformSetController : UIViewController<NotesSetDelegate,UITableViewDataSource,UITableViewDelegate, NewChordDialogDelegate, PerformSetControllerDelegate, ChartInfoDelegate>{
+@interface PerformSetController : UIViewController<NotesSetDelegate,UITableViewDataSource,UITableViewDelegate, NewChordDialogDelegate, PerformSetControllerDelegate, ChartInfoDelegate, UIScrollViewDelegate>{
     UIView *newChordDialog;
     CGFloat screenWidth;
     CGFloat screenHeight;

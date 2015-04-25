@@ -7,6 +7,7 @@
 //
 
 #import "About.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
 @implementation About
 
@@ -19,7 +20,7 @@
     return self;
 }
 
-+ (id) about:(id)pickDelegate{
++ (id) about:(id)pickDelegate withMailDelegate:(id)mailDel withVC:(UIViewController*)vc{
     UINib *nib = [UINib nibWithNibName:@"About" bundle:nil];
     NSArray *nibArray = [nib instantiateWithOwner:self options:nil];
     About *me = [nibArray objectAtIndex: 0];
@@ -29,6 +30,8 @@
     [me.dialogContainer.layer setShadowRadius:10.0];
     [me.dialogContainer.layer setShadowOffset:CGSizeMake(7.0, 7.0)];
     me.delegate = pickDelegate;
+    me.mailDelegate = mailDel;
+    me.parentViewController = vc;
     return me;
 }
 
@@ -44,12 +47,15 @@
 }
 
 - (IBAction)openJonnyTwitter:(id)sender {
+    [self openLinkInSafari:@"https://twitter.com/jonny_mack"];
 }
 
 - (IBAction)openJonnyInstagram:(id)sender {
+    [self openLinkInSafari:@"https://instagram.com/jonnymack"];
 }
 
 - (IBAction)writeEmailForJonny:(id)sender {
+    [self openMail:@"jonny@12barapp.com"];
 }
 
 - (IBAction)openRichFB:(id)sender {
@@ -60,12 +66,15 @@
 }
 
 - (IBAction)openRichTwitter:(id)sender {
+    [self openLinkInSafari:@"https://twitter.com/richwilliamsmba"];
 }
 
 - (IBAction)openRichInstagram:(id)sender {
+    [self openLinkInSafari:@"https://instagram.com/richwilliamsmba/"];
 }
 
 - (IBAction)writeEmailForRich:(id)sender {
+    [self openMail:@"rich@12barapp.com"];
 }
 
 - (IBAction)openBarFB:(id)sender {
@@ -80,14 +89,20 @@
 }
 
 - (IBAction)openBarInstagram:(id)sender {
+    [self openLinkInSafari:@"https://instagram.com/12barapp"];
 }
 
 - (IBAction)writeEmailForBar:(id)sender {
+    [self openMail:@"12barapp@gmail.com"];
 }
 
 
 -(void)openLinkInSafari:(NSString*)link{
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:link]];
+}
+
+-(void)openMail:(NSString*)email {
+    [self.delegate launchMailFromAbout:email];
 }
 
 @end

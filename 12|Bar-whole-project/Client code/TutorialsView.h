@@ -21,7 +21,9 @@ typedef enum TutorialSet: NSInteger
 @property NSArray *screens;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UIPageControl *pageControl;
+@property id<UIScrollViewDelegate> parentScrollViewDelegate;
 
 + (id) tutorials:(TutorialSet)setChoice;
+- (void)initScrollViewDelegation;
 
 @end

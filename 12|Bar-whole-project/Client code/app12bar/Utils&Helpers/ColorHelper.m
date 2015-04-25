@@ -40,7 +40,12 @@
 }
 
 -(UIColor*)getRandomRedColor {
-    NSArray *redColors = @[@"#fd2732", @"#e3363e", @"#e15a5d"];
+    NSArray *redColors = @[@"#EA465A", @"#EE6B7B", @"#F07E8C", @"#F2909C", @"#F4A2AC"];
+    return [self colorWithHexString:redColors[arc4random()%redColors.count]];
+}
+
+-(UIColor*)getBadgeRedColor {
+    NSArray *redColors = @[@"#EA465A"];
     return [self colorWithHexString:redColors[arc4random()%redColors.count]];
 }
 

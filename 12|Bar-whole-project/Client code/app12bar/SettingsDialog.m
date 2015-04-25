@@ -85,7 +85,7 @@ static CoreSettings *setting;
     
     [self.sharedButton.badgeView setBadgeValue:self.numberOfSharedItems];
     [self.sharedButton.badgeView setPosition:MGBadgePositionTopLeft];
-    [self.sharedButton.badgeView setBadgeColor:[UIColor redColor]];
+    [self.sharedButton.badgeView setBadgeColor:[[[ColorHelper alloc] init] getBadgeRedColor]];
     [self.sharedButton.badgeView setOutlineWidth:0.75];
 }
 

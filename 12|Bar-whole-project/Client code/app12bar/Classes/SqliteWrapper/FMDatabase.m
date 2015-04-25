@@ -649,6 +649,9 @@
 }
 
 - (FMResultSet *)executeQuery:(NSString*)sql, ... {
+
+    //NSLog(@"%@",sql);
+    
     va_list args;
     va_start(args, sql);
     
@@ -891,6 +894,9 @@
 
 
 - (BOOL)executeUpdate:(NSString*)sql, ... {
+    
+    //NSLog(@"%@",sql);
+    
     va_list args;
     va_start(args, sql);
     

@@ -118,8 +118,6 @@
     
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
    
-    NSLog(@"width %f",(screenWidth/8));
-    NSLog(@"height %f", (screenSize.height/10));
     UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenWidth/8, screenSize.height/10)];
     
     UIView *dotsView = [[UIView alloc] initWithFrame:CGRectMake(((screenWidth/8)-40), 0, 35, 30)];

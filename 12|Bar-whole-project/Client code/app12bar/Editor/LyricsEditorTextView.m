@@ -55,6 +55,12 @@
         isLight = YES;
         isChanged = false;
         [self setUserInteractionEnabled:YES];
+        
+        UITextField *lagFreeField = [[UITextField alloc] init];
+        [self.window addSubview:lagFreeField];
+        [lagFreeField becomeFirstResponder];
+        [lagFreeField resignFirstResponder];
+        [lagFreeField removeFromSuperview];
     }
     return self;
 }

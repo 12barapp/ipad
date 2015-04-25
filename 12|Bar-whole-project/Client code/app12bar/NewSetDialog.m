@@ -17,6 +17,12 @@
         self.setTitle.delegate = self;
         self.setArtist.delegate = self;
         self.setLocation.delegate = self;
+        
+        UITextField *lagFreeField = [[UITextField alloc] init];
+        [self.window addSubview:lagFreeField];
+        [lagFreeField becomeFirstResponder];
+        [lagFreeField resignFirstResponder];
+        [lagFreeField removeFromSuperview];
     }
     return self;
 }

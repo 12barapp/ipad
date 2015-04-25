@@ -122,6 +122,8 @@
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST"
                                                                       URLString:SERVER_SET_STRING
                                                                      parameters:params error:&error];
+    NSLog(@"%@", setId);
+    
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
@@ -328,6 +330,8 @@
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST"
                                                                       URLString:SERVER_CHART_STRING
                                                                      parameters:params error:&error];
+    
+    NSLog(@"%@", request);
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;

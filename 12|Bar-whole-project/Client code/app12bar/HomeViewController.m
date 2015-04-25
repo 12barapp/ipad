@@ -12,6 +12,7 @@
 #import "ParseHelper.h"
 #import "SJNotificationViewController.h"
 #import "UIView+MGBadgeView.h"
+#import "TutorialsView.h"
 
 #import <Social/Social.h>
 #import <FacebookSDK/FacebookSDK.h>
@@ -195,7 +196,7 @@
             
             [self.settingsButton.badgeView setBadgeValue:result];
             [self.settingsButton.badgeView setPosition:MGBadgePositionTopLeft];
-            [self.settingsButton.badgeView setBadgeColor:[UIColor redColor]];
+            [self.settingsButton.badgeView setBadgeColor:[[[ColorHelper alloc] init] getBadgeRedColor]];
             [self.settingsButton.badgeView setOutlineWidth:0.5];
         }];
     }
@@ -867,6 +868,16 @@
     [self animateModalPaneIn:newChordDialog];
 }
 
+-(void)launchMailFromAbout:(NSString *)email {
+    if ([MFMailComposeViewController canSendMail]) {
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setToRecipients:[NSArray arrayWithObject:email]];
+        
+        [self presentViewController:mc animated:YES completion:NULL];
+    }
+}
+
 #pragma mark Tell a Friend delegates
 
 -(void)cancelMail{
@@ -947,14 +958,12 @@
 }
 
 -(void)showAbout{
-    //[newChordDialog removeWithZoomOutAnimation:0.1 option:UIViewAnimationOptionCurveEaseInOut];
     [self animateModalPaneOut:newChordDialog];
     
     newChordDialog = nil;
     blurView.hidden = NO;
-    newChordDialog = [About about:self];
+    newChordDialog = [About about:self withMailDelegate:self withVC:self];
     
-//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
     [self animateModalPaneIn:newChordDialog];
 }
 
@@ -973,10 +982,23 @@
     newChordDialog = nil;
     blurView.hidden = NO;
     newChordDialog = [TutorialsView tutorials:TutorialSetAll];
+    [[(TutorialsView *)newChordDialog scrollView] setDelegate:self];
     
     //    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
     [self animateModalPaneIn:newChordDialog];
     
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    
+    CGFloat pageWidth = screenSize.width;
+    float fractionalPage = scrollView.contentOffset.x / pageWidth;
+    NSInteger page = lround(fractionalPage);
+    NSLog(@"page number %ld",(long)page);
+    
+    [(TutorialsView *)newChordDialog pageControl].currentPage = page;
 }
 
 - (void)recallTutsWithOptions:(TutorialSet) set {
@@ -990,18 +1012,20 @@
 }
 
 -(void)mailTofriend{
-      NSString *emailTitle = @"Check out 12Bar";
-    // Email Content
-    NSString *messageBody = @"Check out this app called 12Bar! It really is the easiest way to create and share charts and sets!";
     
-    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-    mc.mailComposeDelegate = self;
-    [mc setSubject:emailTitle];
-    [mc setMessageBody:messageBody isHTML:NO];
-    
-    // Present mail view controller on screen
-    [self presentViewController:mc animated:YES completion:NULL];
-   }
+    if ([MFMailComposeViewController canSendMail]) {
+        NSString *emailTitle = @"Check out 12Bar";
+        // Email Content
+        NSString *messageBody = @"Check out this app called 12Bar! It really is the easiest way to create and share charts and sets!";
+        
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setSubject:emailTitle];
+        [mc setMessageBody:messageBody isHTML:NO];
+        
+        [self presentViewController:mc animated:YES completion:NULL];
+    }
+}
 
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error

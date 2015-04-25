@@ -64,6 +64,7 @@
             self.chordLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 25.0f, 25.0f)];
             self.chordLabel.textAlignment = NSTextAlignmentCenter;
             self.chordLabel.textColor = [UIColor grayColor];
+            self.chordLabel.font = [UIFont systemFontOfSize:13.0f];
             isChord = false;
             isCustom = false;
             index = -1;

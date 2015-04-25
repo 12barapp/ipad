@@ -82,6 +82,11 @@ titleForHeaderInSection:(NSInteger)section {
     CGRect rect = CGRectMake((self.screenWidth/8)*6, 0, self.screenWidth/8, self.screenHeight/10);
     self.dismissBtn.frame = rect;
     self.acceptBtn = (UIButton*)[cell viewWithTag:12];
+    
+    self.smallTitle.font = [UIFont systemFontOfSize:13.0];
+    self.smallAuthor.font = [UIFont systemFontOfSize:13.0];
+    self.smallGenre.font = [UIFont systemFontOfSize:13.0];
+    self.chordOtherInfo.font = [UIFont systemFontOfSize:13.0];
 
     rect = CGRectMake((self.screenWidth/8)*7, 0, self.screenWidth/8, self.screenHeight/10);
     self.acceptBtn.frame = rect;
@@ -123,6 +128,8 @@ titleForHeaderInSection:(NSInteger)section {
         [self.dismissBtn addTarget:self action:@selector(dismissSet:) forControlEvents:(UIControlEventTouchUpInside)];
         [self.acceptBtn addTarget:self action:@selector(acceptSet:) forControlEvents:UIControlEventTouchUpInside];
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     return cell;
 }

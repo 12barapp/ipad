@@ -55,7 +55,7 @@
 #import "TutorialsView.h"
 
 
-@interface HomeViewController : UIViewController<UIScrollViewDelegate,MFMailComposeViewControllerDelegate,FBViewControllerDelegate,FBFriendPickerDelegate,NewChordDialogDelegate, ChartInfoDelegate, ChordsMenuDelegate, OrderChordsDialogDelegate, SearchChordDialogDelegate, FBFriendPickerDelegate, ChordsGridDelegate, SetsMenuDelegate, NewSetDialogDelegate, OrderSetsDialogDelegate, SearchSetDialogDelegate, LoginScreenDelegate,DGZoneDelegate, FBLoginViewDelegate, UIAlertViewDelegate, ServerUpdaterDelegate, SharedNotifierDelegate, SetsGridDelegate>{
+@interface HomeViewController : UIViewController<UIScrollViewDelegate,MFMailComposeViewControllerDelegate,FBViewControllerDelegate,FBFriendPickerDelegate,NewChordDialogDelegate, ChartInfoDelegate, ChordsMenuDelegate, OrderChordsDialogDelegate, SearchChordDialogDelegate, FBFriendPickerDelegate, ChordsGridDelegate, SetsMenuDelegate, NewSetDialogDelegate, OrderSetsDialogDelegate, SearchSetDialogDelegate, LoginScreenDelegate,DGZoneDelegate, FBLoginViewDelegate, UIAlertViewDelegate, ServerUpdaterDelegate, SharedNotifierDelegate, SetsGridDelegate, AboutDelegate>{
     UIView *newChordDialog;
     UIView *newSetDialog;
     

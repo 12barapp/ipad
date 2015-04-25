@@ -21,7 +21,8 @@
         lyricsText = [[NSString alloc] init];
         lyricsText = @"";
         selfValue = @"";
-        redColors = @[@"#fd2732", @"#e3363e", @"#e15a5d", @"#df7c7e", @"#ec9c9d"];
+//        redColors = @[@"#fd2732", @"#e3363e", @"#e15a5d", @"#df7c7e", @"#ec9c9d"];
+        redColors = @[@"#EA465A", @"#EE6B7B", @"#F07E8C", @"#F2909C", @"#F4A2AC"];
         someChords = [[NSMutableArray alloc] init];
         self.zonePosition = 0;
     }
@@ -141,6 +142,7 @@
             partBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
             partBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
             partBtn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            partBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
             [partBtn setNeedsDisplay];
             [v addSubview:partBtn];
             
@@ -191,6 +193,7 @@
     partBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     partBtn.contentVerticalAlignment = UIControlContentVerticalAlignmentBottom;
     partBtn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    partBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
     [v addSubview:partBtn];
     if (!self.isPerform){
         UITapGestureRecognizer *double_tap_recognizer;

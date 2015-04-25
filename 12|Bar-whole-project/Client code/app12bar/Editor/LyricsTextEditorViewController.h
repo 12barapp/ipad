@@ -27,7 +27,7 @@
 #import "AnimationViewController.h"
 
 
-@interface LyricsTextEditorViewController : AnimationViewController<UITextViewDelegate, LyricsEditorDelegate, LyricsDropZoneDelegate, NSLayoutManagerDelegate>{
+@interface LyricsTextEditorViewController : AnimationViewController<UITextViewDelegate, LyricsEditorDelegate, LyricsDropZoneDelegate, NSLayoutManagerDelegate, UIScrollViewDelegate>{
 }
 
 // Outlets

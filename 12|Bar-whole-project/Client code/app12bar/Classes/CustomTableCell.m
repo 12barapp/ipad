@@ -8,6 +8,7 @@
 
 #import "CustomTableCell.h"
 #import "PerformSetController.h"
+#import "ColorHelper.h"
 
 @implementation CustomTableCell
 
@@ -58,19 +59,20 @@
                     if ([subview isKindOfClass: [UIImageView class]])
                     {
                         UIImageView *reorderButton = (UIImageView *)subview;
-                        [reorderButton setFrame:CGRectMake(15,
-                                                           47,
-                                                           22,
-                                                           8.5)];
-                        NSLog(@"%f %f %f %f", reorderButton.frame.origin.x,
-                                              reorderButton.frame.origin.y,
-                                              reorderButton.frame.size.width,
-                                              reorderButton.frame.size.height);
+//                        [reorderButton setFrame:CGRectMake(0,
+//                                                           47,
+//                                                           22,
+//                                                           8.5)];
+//                        NSLog(@"%f %f %f %f", reorderButton.frame.origin.x,
+//                                              reorderButton.frame.origin.y,
+//                                              reorderButton.frame.size.width,
+//                                              reorderButton.frame.size.height);
 //                        [reorderButton setImage:[UIImage imageNamed: @"set_list_menu.png"]];
+//                        [reorderButton setContentMode:UIViewContentModeScaleAspectFit];
 //                        [reorderButton.layer setOpacity:0.75];
-    //                    [reorderButton setContentMode:UIViewContentModeScaleAspectFit];
-    //                    [reorderButton.layer setBorderColor:[UIColor greenColor].CGColor];
-    //                    [reorderButton.layer setBorderWidth:1.0];
+//                        [reorderButton setCenter:CGPointMake(0, 0)];
+//                        [reorderButton.layer setBorderColor:[UIColor greenColor].CGColor];
+//                        [reorderButton.layer setBorderWidth:1.0];
 
                     }
         }
@@ -80,11 +82,8 @@
         float commonY = 25;
         
         UIView *infoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 96, 100)];
-        infoView.backgroundColor = [UIColor colorWithRed:(255.0/255.0)
-                                                   green:(102.0/255.0)
-                                                    blue:(102.0/255.0)
-                                                   alpha:1.0];
-
+        infoView.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:@"#EA465A"];
+        
         UILabel *smallTitle = [[UILabel alloc] initWithFrame:CGRectMake(0,
                                                                         commonY,
                                                                         infoView.frame.size.width - buffer,
@@ -122,7 +121,7 @@
         [largeTitle setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
         [largeTitle setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [largeTitle setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
-        [largeTitle.titleLabel setFont:[UIFont systemFontOfSize:22.0]];
+        [largeTitle.titleLabel setFont:[UIFont systemFontOfSize:24.0]];
         [largeTitle addTarget:self action:@selector(launchChordChart) forControlEvents:UIControlEventTouchUpInside];
         
         UIButton *infoButton = [[UIButton alloc] initWithFrame:infoView.frame];

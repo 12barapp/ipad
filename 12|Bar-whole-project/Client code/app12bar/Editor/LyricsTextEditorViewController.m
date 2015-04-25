@@ -89,6 +89,7 @@
             self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
         } else {
             self.lyricsScrollView.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:@"#4d4d4d"];
+//            self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
         }
         self.lyricsWrapper.frame = CGRectMake(0, screenHeight/10, screenWidth, screenHeight );
         [self.textEditor setPerformMode];
@@ -134,6 +135,8 @@
     [self initBlur];
     [self.textEditor setNeedsDisplay];
     self.headWrapper.frame = CGRectMake(0, 0, screenWidth, screenHeight/10);
+    
+    
     if (self.inSet) {
         NSLog(@"Set swipe gesture recognizer");
         UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftHandler:)];
@@ -175,18 +178,36 @@
 - (void)recallTutsWithOptions:(TutorialSet) set {
     [self animateModalPaneOut:somePopup];
     
-    somePopup = nil;
-    blurView.hidden = NO;
+    somePopup = nil;    blurView.hidden = NO;
     somePopup = [TutorialsView tutorials:set];
+    [[(TutorialsView *)somePopup scrollView] setDelegate:self];
     
     [self animateModalPaneIn:somePopup];
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    
+    CGFloat pageWidth = screenSize.width;
+    float fractionalPage = scrollView.contentOffset.x / pageWidth;
+    NSInteger page = lround(fractionalPage);
+    NSLog(@"page number %ld",(long)page);
+    
+    [(TutorialsView *)somePopup pageControl].currentPage = page;
+}
+
 - (void)handleTapOnBlurView
 {
-    blurView.hidden = YES;
-    [self animateModalPaneOut:somePopup];
-    somePopup = nil;
+    if ([somePopup class] == [NotesDlg class]) {
+        
+        [self saveNotes:[(NotesDlg*)somePopup notesText].text];
+    }
+    else {
+        blurView.hidden = YES;
+        [self animateModalPaneOut:somePopup];
+        somePopup = nil;
+    }
 }
 - (CGFloat)layoutManager:(NSLayoutManager *)layoutManager lineSpacingAfterGlyphAtIndex:(NSUInteger)glyphIndex withProposedLineFragmentRect:(CGRect)rect
 {
@@ -296,8 +317,8 @@
    
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
     
-    //[[theWindow layer] addAnimation:animation forKey:@"SwitchToView2"];
-    [[theWindow layer] addAnimation:animationCurl forKey:@"SwitchToView2"];
+    [[theWindow layer] addAnimation:animation forKey:@"SwitchToView2"];
+    //[[theWindow layer] addAnimation:animationCurl forKey:@"SwitchToView2"];
     
     [self lyricsPreview];
     
@@ -463,7 +484,8 @@
 -(void)initArrays{
     staticColors = @[@"#979797",@"#979797",@"#C1C1C1",@"#C1C1C1",@"#979797",@"#979797",@"#C1C1C1",@"#C1C1C1"];
     darkColors = @[@"#4C4C4E", @"#626366", @"#76787A", @"#898B8E", @"#9D9FA1"];
-    redColors = @[@"#fd2732", @"#e3363e", @"#e15a5d", @"#df7c7e", @"#ec9c9d"];
+    //redColors = @[@"#fd2732", @"#e3363e", @"#e15a5d", @"#df7c7e", @"#ec9c9d"];
+    redColors = @[@"#EA465A", @"#EE6B7B", @"#F07E8C", @"#F2909C", @"#F4A2AC"];
     vWords = @[@"Intro",@"V1",@"V2",@"V3",@"V4",@"V5",@"V6",@"Pre\nChorus",@"Chorus",@"Bridge",@"Instrumental",@"Outro",@"Custom",@"Custom"];
     vKeys = [transposer getViewForKey:editedJson[@"key"]];
     
@@ -475,6 +497,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
     [self.textEditor setNeedsDisplay];
     
     [[NSNotificationCenter defaultCenter]
@@ -510,7 +533,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    
     if (!self.isPerformMode || [setting showLyrics]) {
         [self calcTextHeight];
     }else {
@@ -523,6 +545,17 @@
     [blurView updateAsynchronously:YES completion:nil];
     NSLog(@"%f",self.textEditor.font.lineHeight);
     [self.textEditor setNeedsDisplay];
+    
+    self.lyricsWrapper.backgroundColor = [UIColor whiteColor];
+    self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
+    self.textEditor.backgroundColor = [UIColor whiteColor];
+    self.leftPartsContainer.backgroundColor = [UIColor whiteColor];
+
+    self.lyricsWrapper.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.lyricsScrollView.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.textEditor.layer.borderColor = [UIColor whiteColor].CGColor;
+    self.leftPartsContainer.layer.borderColor = [UIColor whiteColor].CGColor;
+    
     //self.lyricsScrollView.backgroundColor = [UIColor grayColor];
 }
 
@@ -532,10 +565,10 @@
     if (self.textEditor.contentSize.height < ((screenHeight/10)*7))
         frame.size.height  = ((screenHeight/10)*7);
     else
-        frame.size.height = self.textEditor.contentSize.height;
+        frame.size.height = self.textEditor.contentSize.height-5;
 
-   // frame.origin.y = -1;
-   // self.textEditor.frame = frame; //TODO: some weird bug with frame fot text editor
+    // frame.origin.y = -1;
+    //self.textEditor.frame = frame; //TODO: some weird bug with frame fot text editor
     prefTextHeight = self.textEditor.contentSize.height;
     [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, frame.size.height+screenHeight/10)];
     int leftPartHeight = frame.size.height;
@@ -545,7 +578,6 @@
     
     [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, leftPartHeight+(screenHeight/10))];
     self.textEditor.frame = CGRectMake(screenWidth/8, Y_OFFSET, ((screenWidth/8)*8-(screenWidth/8)), leftPartHeight+(screenHeight/10));
-    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -668,7 +700,7 @@
                 [self.textEditor addExistingChords:dc[@"cordinates"] andTitle:@"13333 e3 43232 2"];
       //  [self.textEditor setFont:[UIFont fontWithName:@"Helvetica Neue" size:22.0]];
     }
-        [self drawSongParts:lyrics andParts:countOfParts];
+    [self drawSongParts:lyrics andParts:countOfParts];
     
     [self.textEditor setFont:[UIFont fontWithName:@"Helvetica Neue" size:TEXT_FONT_SIZE]];
     [self.textEditor changeToLightTheme];
@@ -688,7 +720,7 @@
     self.tabBtn1.frame = CGRectMake(0, 0, screenWidth/8, screenHeight/10);
     self.tabBtn2.frame = CGRectMake(0, screenHeight/10, screenWidth/8, screenHeight/10);
     self.tabBtn2.backgroundColor = [UIColor lightGrayColor];
-    self.tabBtn1.backgroundColor = [UIColor redColor];
+    self.tabBtn1.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[0]];
     self.firstTabContainer.backgroundColor = [UIColor yellowColor];
     self.secondTabContainer.backgroundColor = [UIColor orangeColor];
     self.secondTabContainer.hidden = YES;
@@ -720,10 +752,11 @@
                  UIView *keyOf = [[UIView alloc] initWithFrame:CGRectMake(((screenWidth/8)*x), y*(screenHeight/10), screenWidth/8, screenHeight/10)];
                  keyOf.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:@"#929292"];
                  [self.secondTabContainer addSubview:keyOf];
-                 UILabel *songKey = [[UILabel alloc] initWithFrame:CGRectMake(0, keyOf.frame.size.height-40, screenWidth/8-10, 30)];
+                 UILabel *songKey = [[UILabel alloc] initWithFrame:CGRectMake(0, keyOf.frame.size.height-30, screenWidth/8-10, 30)];
                  songKey.text = [NSString stringWithFormat:@"Key of %@", songKeyOf];
                  songKey.textAlignment = NSTextAlignmentRight;
                  songKey.textColor = [UIColor whiteColor];
+                 songKey.font = [UIFont systemFontOfSize:13.0];
                  UITapGestureRecognizer *single_tap_recognizer;
                  single_tap_recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showKeysEditor:)];
                  [single_tap_recognizer setNumberOfTapsRequired:1];
@@ -743,12 +776,12 @@
                  [dotsButton setAlpha:0.5f];
                  [dotsButton addTarget:self action:@selector(showChordsModifier:) forControlEvents:(UIControlEventTouchDown)];
                  [dSource addSubview:dotsButton];
-                 [dSource setTitlePosition:CGRectMake(0, dSource.frame.size.height-40, screenWidth/8-10, 30)];
+                 [dSource setTitlePosition:CGRectMake(0, dSource.frame.size.height-30, screenWidth/8-10, 30)];
                             
                  if (![[[vKeys objectAtIndex:chordNum] valueForKey:@"modifier"] isEqualToString:@""]) {
                      [dSource setTitleText:[NSString stringWithFormat:@"%@%@",[[vKeys objectAtIndex:chordNum] valueForKey:@"chord"],[[vKeys objectAtIndex:chordNum] valueForKey:@"modifier"]]];
                  }else
-                     [dSource setTitleText:[[vKeys objectAtIndex:chordNum] valueForKey:@"chord"]];
+                 [dSource setTitleText:[[vKeys objectAtIndex:chordNum] valueForKey:@"chord"]];
                  [dSource setMetadata:[[vKeys objectAtIndex:chordNum] valueForKey:@"chord"]];
                  [dSource setChordModifier:[[vKeys objectAtIndex:chordNum] valueForKey:@"modifier"]];
                  [dSource checkLikeChord];
@@ -779,7 +812,7 @@
             wordNum++;
             titleLabel.textAlignment = NSTextAlignmentRight;
             [titleLabel setNumberOfLines:0];
-            titleLabel.font = [UIFont systemFontOfSize:14.0f];
+            titleLabel.font = [UIFont systemFontOfSize:13.0f];
             titleLabel.tag = 1;
             titleLabel.textColor = [UIColor whiteColor];
             [dSource addSubview:titleLabel];
@@ -991,7 +1024,7 @@
     [blurView updateAsynchronously:YES completion:nil];
     self.secondTabContainer.hidden = NO;
     self.firstTabContainer.hidden = YES;
-    ((UIButton*)sender).backgroundColor = [UIColor redColor];
+    ((UIButton*)sender).backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[0]];
     self.tabBtn1.backgroundColor = [UIColor lightGrayColor];
     [((UIButton*)sender) setBackgroundImage:[UIImage imageNamed:@"tab2_active"] forState:(UIControlStateNormal)];
     [self.tabBtn1 setBackgroundImage:[UIImage imageNamed:@"tab1_inactive"] forState:(UIControlStateNormal)];
@@ -1001,7 +1034,7 @@
     [blurView updateAsynchronously:YES completion:nil];
     self.secondTabContainer.hidden = YES;
     self.firstTabContainer.hidden = NO;
-    ((UIButton*)sender).backgroundColor = [UIColor redColor];
+    ((UIButton*)sender).backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[0]];
     [((UIButton*)sender) setBackgroundImage:[UIImage imageNamed:@"tab1_active"] forState:(UIControlStateNormal)];
     [self.tabBtn2 setBackgroundImage:[UIImage imageNamed:@"tab2_inactive"] forState:(UIControlStateNormal)];
     self.tabBtn2.backgroundColor = [UIColor lightGrayColor];

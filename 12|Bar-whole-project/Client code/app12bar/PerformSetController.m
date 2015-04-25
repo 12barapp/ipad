@@ -26,14 +26,17 @@ bool setWasEdited;
 static DBManager *db;
 - (IBAction)doneClicked:(id)sender {
     
-//    NSString *version = [[UIDevice currentDevice] systemVersion];
-    if (setWasEdited && [self.currentUser getUsedMode] == MODE_FB) {
+    
+    if (setWasEdited) {
+        [db updateChordOrderInSet:self.dataArray forSet:[self.currentUser setId]];
         
-    //    [[[JsonSetHelper alloc] init] passEditedSetToUsers];
-        if (self.serverUpdater == nil){
-            self.serverUpdater = [ServerUpdater sharedManager];
+        if ([self.currentUser getUsedMode] == MODE_FB) {
+            if (self.serverUpdater == nil){
+                self.serverUpdater = [ServerUpdater sharedManager];
+            }
+            
+            [self.serverUpdater updateSet:[db getSetWithId:[self.currentUser setId]]  setId:[self.currentUser setId]];
         }
-        [self.serverUpdater updateSet:[db getSetWithId:[self.currentUser setId]]  setId:[self.currentUser setId]];
     }
     [self dismissViewControllerAnimated:YES completion:^{
         [[NSNotificationCenter defaultCenter] postNotificationName:@"updateParent" object:self];
@@ -138,10 +141,10 @@ static DBManager *db;
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"tutsSets_firstLaunch"])
     {
         // On first launch, this block will execute
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
-        [viewController setHelpFile:@"tuts_sets"];
-        viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
+//        [viewController setHelpFile:@"tuts_sets"];
+//        viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
         
         dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)); // 1
         dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
@@ -162,16 +165,35 @@ static DBManager *db;
     newChordDialog = nil;
     blurView.hidden = NO;
     newChordDialog = [TutorialsView tutorials:set];
+    [[(TutorialsView *)newChordDialog scrollView] setDelegate:self];
     
     [self animateModalPaneIn:newChordDialog];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    
+    CGFloat pageWidth = screenSize.width;
+    float fractionalPage = scrollView.contentOffset.x / pageWidth;
+    NSInteger page = lround(fractionalPage);
+    NSLog(@"page number %ld",(long)page);
+    
+    [(TutorialsView *)newChordDialog pageControl].currentPage = page;
 }
 
 - (void)handleTapOnBlurView
 {
     if (![newChordDialog isKindOfClass:[LoginScreenView class]]) {
-        blurView.hidden = YES;
-        [self animateModalPaneOut:newChordDialog];
-        newChordDialog = nil;
+        
+        if ([newChordDialog isKindOfClass:[NotesSetView class]]) {
+            [self saveNotes:[(NotesSetView *)newChordDialog notesText].text];
+        }
+        else {
+            blurView.hidden = YES;
+            [self animateModalPaneOut:newChordDialog];
+            newChordDialog = nil;
+        }
     }
 }
 
@@ -342,6 +364,19 @@ static DBManager *db;
         NSDictionary *item = [self.dataArray objectAtIndex:fromIndexPath.row];
         [self.dataArray removeObjectAtIndex:fromIndexPath.row];
         [self.dataArray insertObject:item atIndex:toIndexPath.row];
+        
+        NSLog(@"Reordering charts....");
+        
+        for (int i = 0; i < self.dataArray.count; ++i) {
+            NSMutableDictionary *item = [self.dataArray objectAtIndex:i];
+            item[@"order_number"] = [NSString stringWithFormat:@"%d",(i+1)];
+            
+            NSDictionary *chart = [db getChartById:item[@"chordId"]];
+            
+            NSLog(@"chart %@ order %@", chart[@"cTitle"],item[@"order_number"]);
+        }
+        
+        setWasEdited = YES;
     }
 }
 

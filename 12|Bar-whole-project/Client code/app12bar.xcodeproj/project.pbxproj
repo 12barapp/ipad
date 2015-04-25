@@ -27,10 +27,14 @@
 		4038CEF41AB05D4C00DEE5FB /* SJNotificationViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4038CEF11AB05D4C00DEE5FB /* SJNotificationViewController.h */; };
 		4038CEF51AB05D4C00DEE5FB /* SJNotificationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4038CEF21AB05D4C00DEE5FB /* SJNotificationViewController.m */; };
 		4038CEF61AB05D4C00DEE5FB /* SJNotificationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4038CEF31AB05D4C00DEE5FB /* SJNotificationViewController.xib */; };
+		403943231AD4561F0004D4F1 /* search_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 403943221AD4561F0004D4F1 /* search_white.png */; };
 		405E31D01AB33ADE0028C443 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 405E31CF1AB33ADE0028C443 /* Settings.bundle */; };
 		4099AC0A1AA4095A00BEE510 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4099AC081AA4095A00BEE510 /* Parse.framework */; };
 		4099AC0D1AA40D1600BEE510 /* ParseHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 4099AC0B1AA40D1600BEE510 /* ParseHelper.h */; };
 		4099AC0E1AA40D1600BEE510 /* ParseHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 4099AC0C1AA40D1600BEE510 /* ParseHelper.m */; };
+		40B526931ACCE92C00B10F95 /* chord_search_bg_wo_text.png in Resources */ = {isa = PBXBuildFile; fileRef = 40B526921ACCE92C00B10F95 /* chord_search_bg_wo_text.png */; };
+		40C61A511ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C61A4F1ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.h */; };
+		40C61A521ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C61A501ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		40C9316B1AC5286A000CA645 /* AddChartTableViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 40C931691AC5286A000CA645 /* AddChartTableViewCell.h */; };
 		40C9316C1AC5286A000CA645 /* AddChartTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C9316A1AC5286A000CA645 /* AddChartTableViewCell.m */; };
 		40E49FD11A88F6240021431A /* HelpViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 40E49FCF1A88F6240021431A /* HelpViewController.h */; };
@@ -510,11 +514,15 @@
 		4038CEF11AB05D4C00DEE5FB /* SJNotificationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SJNotificationViewController.h; sourceTree = SOURCE_ROOT; };
 		4038CEF21AB05D4C00DEE5FB /* SJNotificationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SJNotificationViewController.m; sourceTree = SOURCE_ROOT; };
 		4038CEF31AB05D4C00DEE5FB /* SJNotificationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SJNotificationViewController.xib; sourceTree = SOURCE_ROOT; };
+		403943221AD4561F0004D4F1 /* search_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = search_white.png; sourceTree = "<group>"; };
 		405E31CF1AB33ADE0028C443 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		4099AC081AA4095A00BEE510 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		4099AC0B1AA40D1600BEE510 /* ParseHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseHelper.h; sourceTree = "<group>"; };
 		4099AC0C1AA40D1600BEE510 /* ParseHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseHelper.m; sourceTree = "<group>"; };
 		40AC446B1A85B9F900A57DFF /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../../../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		40B526921ACCE92C00B10F95 /* chord_search_bg_wo_text.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chord_search_bg_wo_text.png; sourceTree = "<group>"; };
+		40C61A4F1ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+DelegateBlocks.h"; sourceTree = "<group>"; };
+		40C61A501ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+DelegateBlocks.m"; sourceTree = "<group>"; };
 		40C931691AC5286A000CA645 /* AddChartTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddChartTableViewCell.h; sourceTree = "<group>"; };
 		40C9316A1AC5286A000CA645 /* AddChartTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddChartTableViewCell.m; sourceTree = "<group>"; };
 		40E49FCF1A88F6240021431A /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = SOURCE_ROOT; };
@@ -1219,9 +1227,11 @@
 				E1B7D71A19651D80004142CB /* perform.png */,
 				E1B7D71B19651D80004142CB /* plus.png */,
 				E1B7D71C19651D80004142CB /* search_blue.png */,
+				403943221AD4561F0004D4F1 /* search_white.png */,
 				E1B7D71D19651D80004142CB /* search.png */,
 				E1B7D71E19651D80004142CB /* share.png */,
 				E1B7D71F19651D80004142CB /* tab2_active.png */,
+				40B526921ACCE92C00B10F95 /* chord_search_bg_wo_text.png */,
 				E1B7D72019651D80004142CB /* tab2_inactive.png */,
 			);
 			path = Images;
@@ -1337,6 +1347,8 @@
 		E1C64FC31A6444E10024DA11 /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				40C61A4F1ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.h */,
+				40C61A501ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.m */,
 				E1B7D70119651C13004142CB /* UIView+Animation.h */,
 				E1B7D70219651C13004142CB /* UIView+Animation.m */,
 				E1B7D6F1196498B7004142CB /* FXBlurView.h */,
@@ -1502,6 +1514,7 @@
 				E114FC1919922D35001B34D7 /* AtkDragSourceProtocol.h in Headers */,
 				E114FC1A19922D35001B34D7 /* AtkDropZoneProtocol.h in Headers */,
 				E114FC1B19922D35001B34D7 /* AtkDropZoneWrapper.h in Headers */,
+				40C61A511ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.h in Headers */,
 				E114FC2D19953B06001B34D7 /* LyricsTextEditor.h in Headers */,
 				E10CE17A19E3C7C5005C9058 /* NSAttributedString+height.h in Headers */,
 				E114FC25199253D9001B34D7 /* DGZone.h in Headers */,
@@ -1806,10 +1819,12 @@
 				E1A1C608197CF9E100BAA76E /* charts_menu_bg.png in Resources */,
 				E1D5D4261980F6460084CCDF /* login_screen.png in Resources */,
 				E137E7AD19B5B7370070AD00 /* btn_accept.png in Resources */,
+				40B526931ACCE92C00B10F95 /* chord_search_bg_wo_text.png in Resources */,
 				E1B7D72919651D80004142CB /* mail-1.png in Resources */,
 				E1E0FC95196E690F00EDAD65 /* About.xib in Resources */,
 				403491561AC5BE88004F3186 /* 12Bar_Homescreen_Tuts-05.png in Resources */,
 				E1A1E10319A7ACAD004D888C /* icon80.png in Resources */,
+				403943231AD4561F0004D4F1 /* search_white.png in Resources */,
 				E1B7D72719651D80004142CB /* gaika.png in Resources */,
 				E1D5D430198191390084CCDF /* FriendPicker.xib in Resources */,
 				E137E7A719B4A0B20070AD00 /* ShareEmail.xib in Resources */,
@@ -2020,6 +2035,7 @@
 				E1E29ADE1965FD1100D7B22E /* FMDatabaseAdditions.m in Sources */,
 				E1D5D482198648DD0084CCDF /* NotesDlg.m in Sources */,
 				E114FBBC19879B82001B34D7 /* AtkDropZoneWrapper.m in Sources */,
+				40C61A521ACA4FFC006EEF18 /* UIScrollView+DelegateBlocks.m in Sources */,
 				E1897DE2196C3C2800867D81 /* SetInfo.m in Sources */,
 				E10CE17B19E3C7C5005C9058 /* NSAttributedString+height.m in Sources */,
 				E114FC26199253D9001B34D7 /* DGZone.m in Sources */,

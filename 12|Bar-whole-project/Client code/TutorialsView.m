@@ -7,6 +7,7 @@
 //
 
 #import "TutorialsView.h"
+#import "UIScrollView+DelegateBlocks.h"
 
 @implementation TutorialsView
 
@@ -77,13 +78,20 @@
     CGFloat screenHeight = screenSize.height;
     
     me.pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0,
-                                                                     me.scrollView.frame.origin.y +  me.scrollView.frame.size.height + 20.0,
-                                                                     screenWidth,
+                                                                     me.scrollView.frame.origin.y
+                                                                        +  me.scrollView.contentSize.height
+                                                                        + 210.0,
+                                                                     screenWidth - 165,
                                                                      50.0)];
     me.pageControl.numberOfPages = me.screens.count;
-    me.pageControl.currentPage = 1;
+    me.pageControl.currentPage = 0;
+
+    me.scrollView.showsHorizontalScrollIndicator = NO;
+    me.scrollView.showsVerticalScrollIndicator = NO;
     
     [me addSubview:me.pageControl];
+    
+    me.frame = CGRectMake(0, 0, screenWidth, screenHeight);
     
     return me;
 }
@@ -111,6 +119,7 @@
     }
 
     sv.contentSize = CGSizeMake((sharedWidth * screens.count), sharedHeight);
+    sv.frame = CGRectMake(sv.frame.origin.x, sv.frame.origin.y, sharedWidth, sharedHeight);
 }
 
 @end

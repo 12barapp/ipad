@@ -22,16 +22,6 @@
                             <rect key="frame" x="-1" y="0.0" width="387" height="384"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </imageView>
-                        <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="c7E-Yb-nuV">
-                            <rect key="frame" x="103" y="0.0" width="269" height="95"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="textColor" red="0.95294123890000004" green="0.47450983520000001" blue="0.44705885649999999" alpha="1" colorSpace="deviceRGB"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="twitter" returnKeyType="next"/>
-                            <connections>
-                                <outlet property="delegate" destination="vwp-Dq-UzM" id="HJG-9n-uNH"/>
-                            </connections>
-                        </textField>
                         <view contentMode="scaleToFill" id="hJ7-Ar-jF6">
                             <rect key="frame" x="0.0" y="0.0" width="95" height="95"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -174,6 +164,16 @@
                                 <action selector="showKeyPicker:" destination="vwp-Dq-UzM" eventType="touchUpInside" id="8NU-Bu-ME8"/>
                             </connections>
                         </button>
+                        <textField opaque="NO" clipsSubviews="YES" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" minimumFontSize="17" id="c7E-Yb-nuV">
+                            <rect key="frame" x="103" y="0.0" width="269" height="95"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="textColor" red="0.95294123890000004" green="0.47450983520000001" blue="0.44705885649999999" alpha="1" colorSpace="deviceRGB"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="words" keyboardType="twitter" returnKeyType="next"/>
+                            <connections>
+                                <outlet property="delegate" destination="vwp-Dq-UzM" id="HJG-9n-uNH"/>
+                            </connections>
+                        </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>

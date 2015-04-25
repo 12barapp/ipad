@@ -12,6 +12,8 @@
 - (UIColor *)colorWithHexString:(NSString *)stringToConvert;
 -(UIColor*)getRandomBlueColor;
 -(UIColor*)getRandomRedColor;
+-(UIColor*)getBadgeRedColor;
 -(NSString*)getRandomRedString;
 -(NSString*)getRandomBlueString;
+
 @end
