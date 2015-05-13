@@ -1938,7 +1938,8 @@
 {
     [super viewDidAppear:animated];
     [self.dragAndDropManager start];
-   
+    
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated

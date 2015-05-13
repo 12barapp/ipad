@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/PerformSetController.m"
-            timestampString = "449632198.097706"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "107"
+            endingLineNumber = "107"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "789"
-            endingLineNumber = "789"
+            startingLineNumber = "788"
+            endingLineNumber = "788"
             landmarkName = "-freeView"
             landmarkType = "5">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/PerformSetController.m"
-            timestampString = "449632198.097706"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "-viewDidLoad"
             landmarkType = "5">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "555"
-            endingLineNumber = "555"
+            startingLineNumber = "554"
+            endingLineNumber = "554"
             landmarkName = "-loadNormalChords"
             landmarkType = "5">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449770342.594317"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1359"
-            endingLineNumber = "1359"
+            startingLineNumber = "1358"
+            endingLineNumber = "1358"
             landmarkName = "-orderSetByAuthor"
             landmarkType = "5">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449770342.594317"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1760"
-            endingLineNumber = "1760"
+            startingLineNumber = "1759"
+            endingLineNumber = "1759"
             landmarkName = "-backToLogin"
             landmarkType = "5">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449770342.594317"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1708"
-            endingLineNumber = "1708"
+            startingLineNumber = "1707"
+            endingLineNumber = "1707"
             landmarkName = "-alertView:clickedButtonAtIndex:"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "594"
-            endingLineNumber = "594"
+            startingLineNumber = "593"
+            endingLineNumber = "593"
             landmarkName = "-shareWithFriends"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449770342.594317"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1099"
-            endingLineNumber = "1099"
+            startingLineNumber = "1098"
+            endingLineNumber = "1098"
             landmarkName = "-sendRequest"
             landmarkType = "5">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/AppDelegate.m"
-            timestampString = "447563951.183201"
+            timestampString = "451706351.29677"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "-application:didRegisterForRemoteNotificationsWithDeviceToken:"
             landmarkType = "5">
          </BreakpointContent>
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "633"
-            endingLineNumber = "633"
+            startingLineNumber = "632"
+            endingLineNumber = "632"
             landmarkName = "-loginWithFacebook"
             landmarkType = "5">
          </BreakpointContent>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "669"
-            endingLineNumber = "669"
+            startingLineNumber = "668"
+            endingLineNumber = "668"
             landmarkName = "-loginWithFacebook"
             landmarkType = "5">
          </BreakpointContent>
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "364"
-            endingLineNumber = "364"
+            startingLineNumber = "363"
+            endingLineNumber = "363"
             landmarkName = "-hideCover"
             landmarkType = "5">
          </BreakpointContent>
@@ -346,13 +346,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "600"
-            endingLineNumber = "600"
-            landmarkName = "@implementation HomeViewController"
-            landmarkType = "3">
+            startingLineNumber = "599"
+            endingLineNumber = "599"
+            landmarkName = "-shareWithFriends"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "226"
-            endingLineNumber = "226"
+            startingLineNumber = "225"
+            endingLineNumber = "225"
             landmarkName = "-notifyAboutSharedData:andShared:"
             landmarkType = "5">
          </BreakpointContent>
@@ -426,11 +426,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "266"
-            endingLineNumber = "266"
+            startingLineNumber = "265"
+            endingLineNumber = "265"
             landmarkName = "-notifyAboutSharedData:andShared:"
             landmarkType = "5">
          </BreakpointContent>
@@ -474,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "-updatedDataAfterSharing"
             landmarkType = "5">
          </BreakpointContent>
@@ -522,11 +522,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/PerformSetController.m"
-            timestampString = "449632198.097706"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "303"
-            endingLineNumber = "303"
+            startingLineNumber = "308"
+            endingLineNumber = "308"
             landmarkName = "-closeInfo"
             landmarkType = "5">
          </BreakpointContent>
@@ -538,11 +538,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449527131.499113"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "549"
-            endingLineNumber = "549"
+            startingLineNumber = "548"
+            endingLineNumber = "548"
             landmarkName = "-loadNormalChords"
             landmarkType = "5">
          </BreakpointContent>
@@ -602,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/PerformSetController.m"
-            timestampString = "449632198.097706"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "474"
-            endingLineNumber = "474"
+            startingLineNumber = "478"
+            endingLineNumber = "478"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -618,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/PerformSetController.m"
-            timestampString = "449632544.498292"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
             landmarkName = "-doneClicked:"
             landmarkType = "5">
          </BreakpointContent>
@@ -634,11 +634,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "app12bar/HomeViewController.m"
-            timestampString = "449770342.594317"
+            timestampString = "453237123.586275"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1302"
-            endingLineNumber = "1302"
+            startingLineNumber = "1301"
+            endingLineNumber = "1301"
             landmarkName = "-copyChord:intoSet:andUID:setId:"
             landmarkType = "5">
          </BreakpointContent>
@@ -680,6 +680,7 @@
                   continueAfterRunningActions = "No"
                   symbolName = "-[ServerUpdater delegate]"
                   moduleName = "12|Bar"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/nlabhart/Documents/Xcode%20Projects/g.lab%20Projects/12Bar/12%7CBar-whole-project/Client%20code/app12bar/Classes/ServerUpdater.h"
                   timestampString = "450148675.130859"
                   startingColumnNumber = "9223372036854775807"
@@ -694,6 +695,7 @@
                   continueAfterRunningActions = "No"
                   symbolName = "-[ServerUpdater setDelegate:]"
                   moduleName = "12|Bar"
+                  usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/nlabhart/Documents/Xcode%20Projects/g.lab%20Projects/12Bar/12%7CBar-whole-project/Client%20code/app12bar/Classes/ServerUpdater.h"
                   timestampString = "450148675.131226"
                   startingColumnNumber = "9223372036854775807"
@@ -798,6 +800,22 @@
             startingLineNumber = "548"
             endingLineNumber = "548"
             landmarkName = "-viewDidAppear:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "app12bar/AppDelegate.m"
+            timestampString = "453072362.350623"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "-application:didFinishLaunchingWithOptions:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

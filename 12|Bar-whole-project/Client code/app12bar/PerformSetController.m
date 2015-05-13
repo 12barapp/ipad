@@ -24,6 +24,11 @@
 
 bool setWasEdited;
 static DBManager *db;
+
+- (void)redrawChords {
+    
+}
+
 - (IBAction)doneClicked:(id)sender {
     
     
@@ -358,7 +363,7 @@ static DBManager *db;
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    NSInteger row = indexPath.row + 1;
+    NSInteger row = utilIndexPath.row + 1;
     
     if ([self.chordsTable numberOfRowsInSection:0] != row) {
         NSDictionary *item = [self.dataArray objectAtIndex:fromIndexPath.row];
@@ -448,7 +453,6 @@ static DBManager *db;
     UILabel *chordOtherInfo;
     UILabel *chordGenre;
     UIButton *chordBigTitle;
-    CustomButton *menuBtn;
     
     if (rowIndex.row == [self.dataArray count]) {
        static NSString *CellIdentifierAdd = @"addChordCell";
@@ -551,7 +555,7 @@ static DBManager *db;
     [blurView updateAsynchronously:YES completion:nil];
     blurView.hidden = NO;
     
-    indexPath = [self.chordsTable indexPathForCell:cell];
+    utilIndexPath = [self.chordsTable indexPathForCell:cell];
     newChordDialog = [ChartInfo chartInfo:self];
     
     [self.currentUser setChartId:[(CustomTableCell *)cell getUniqueId]];

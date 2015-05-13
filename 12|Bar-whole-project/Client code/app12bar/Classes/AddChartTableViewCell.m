@@ -13,4 +13,18 @@
 - (IBAction)showAddNewChart:(id)sender {
     [self.delegate showAddNewChart:self];
 }
+
+- (void)redrawChords {
+    
+}
+
+- (void)launchChordChart:(UITableViewCell *)cell {
+    
+}
+
+- (void)showChartInfo:(UITableViewCell *)cell {
+    
+}
+
+
 @end

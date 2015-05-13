@@ -38,7 +38,7 @@
     UIView *newChordDialog;
     CGFloat screenWidth;
     CGFloat screenHeight;
-    NSIndexPath *indexPath;
+    NSIndexPath *utilIndexPath;
     NSMutableArray *chordsId;
 
     

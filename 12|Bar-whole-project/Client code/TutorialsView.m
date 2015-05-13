@@ -13,6 +13,10 @@
 
 @synthesize screens;
 
+- (void)initScrollViewDelegation {
+    
+}
+
 + (id) tutorials:(TutorialSet)setChoice
 {
     UINib *nib = [UINib nibWithNibName:@"TutorialDialog" bundle:nil];

@@ -52,31 +52,6 @@
     
     if (!self.isPerform) {
         
-        for (UIView * view in self.subviews)
-        {
-            if ([NSStringFromClass([view class]) rangeOfString: @"Reorder"].location != NSNotFound)
-                for (UIView * subview in view.subviews)
-                    if ([subview isKindOfClass: [UIImageView class]])
-                    {
-                        UIImageView *reorderButton = (UIImageView *)subview;
-//                        [reorderButton setFrame:CGRectMake(0,
-//                                                           47,
-//                                                           22,
-//                                                           8.5)];
-//                        NSLog(@"%f %f %f %f", reorderButton.frame.origin.x,
-//                                              reorderButton.frame.origin.y,
-//                                              reorderButton.frame.size.width,
-//                                              reorderButton.frame.size.height);
-//                        [reorderButton setImage:[UIImage imageNamed: @"set_list_menu.png"]];
-//                        [reorderButton setContentMode:UIViewContentModeScaleAspectFit];
-//                        [reorderButton.layer setOpacity:0.75];
-//                        [reorderButton setCenter:CGPointMake(0, 0)];
-//                        [reorderButton.layer setBorderColor:[UIColor greenColor].CGColor];
-//                        [reorderButton.layer setBorderWidth:1.0];
-
-                    }
-        }
-        
         float buffer = 3.0;
         float commonHeight = 18;
         float commonY = 25;

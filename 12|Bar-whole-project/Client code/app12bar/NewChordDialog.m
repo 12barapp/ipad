@@ -25,7 +25,7 @@
         self.artistText.delegate = self;
         
         UITextField *lagFreeField = [[UITextField alloc] init];
-        [self.window addSubview:lagFreeField];
+        [self addSubview:lagFreeField];
         [lagFreeField becomeFirstResponder];
         [lagFreeField resignFirstResponder];
         [lagFreeField removeFromSuperview];

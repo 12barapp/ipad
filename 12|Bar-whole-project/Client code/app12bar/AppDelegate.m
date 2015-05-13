@@ -36,6 +36,12 @@
     [application registerUserNotificationSettings:settings];
     [application registerForRemoteNotifications];
     
+    UITextField *lagFreeField = [[UITextField alloc] init];
+    [self.window addSubview:lagFreeField];
+    [lagFreeField becomeFirstResponder];
+    [lagFreeField resignFirstResponder];
+    [lagFreeField removeFromSuperview];
+    
     return YES;
 }
 
