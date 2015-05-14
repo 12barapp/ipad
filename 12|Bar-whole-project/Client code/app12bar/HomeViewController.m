@@ -114,8 +114,6 @@
     FBFriendPickerViewController *friendPickerController = (FBFriendPickerViewController*)sender;
     NSArray * tempFriends = friendPickerController.selection;
     NSString* sharedID = [[NSString alloc] init];
-
-    [ParseHelper initializeParseKeys];
     
     for (int  i = 0; i < tempFriends.count; i++)
     {

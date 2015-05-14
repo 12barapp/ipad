@@ -23,6 +23,8 @@
 
 + (void)registerInstallationforPushNotifications:(NSData *)deviceToken
 {
+    [self initializeParseKeys];
+    
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
     [currentInstallation saveInBackground];
@@ -31,6 +33,8 @@
 + (void)registerInstallationforPushNotifications:(NSData *)deviceToken
                                   withFacebookID:(NSString *)facebookID
 {
+    [self initializeParseKeys];
+    
     if (facebookID && deviceToken) {
         PFInstallation *currentInstallation = [PFInstallation currentInstallation];
         [currentInstallation setDeviceTokenFromData:deviceToken];
@@ -41,6 +45,8 @@
 
 + (void)registerInstallationforFacebookID:(NSString *)facebookID
 {
+    [self initializeParseKeys];
+    
     if(facebookID) {
         PFInstallation *currentInstallation = [PFInstallation currentInstallation];
         [currentInstallation setObject:facebookID forKey:@"facebookID"];
@@ -50,6 +56,8 @@
 
 + (void)sendPushNotification:(NSString *)message
 {
+    [self initializeParseKeys];
+    
     NSDictionary *data = @{
                            @"alert" : message,
                            @"badge" : @"Increment"
@@ -63,6 +71,8 @@
 + (void)sendPushNotification:(NSString *)message
              withFacebookIDs:(NSString *)facebookIDs
 {
+    [self initializeParseKeys];
+    
     NSArray *fIDs = [facebookIDs componentsSeparatedByString:@","];
     
     for (NSString *fid in fIDs)
@@ -85,6 +95,8 @@
 
 + (void)handlePush:(NSDictionary *)userData
 {
+    [self initializeParseKeys];
+    
     [PFPush handlePush:userData];
 }
 

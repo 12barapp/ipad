@@ -417,6 +417,50 @@
     }
     [self fillChordsTilesForTab];
     self.songInfo.text = [NSString stringWithFormat:@"%@ • %@ • %@",songKeyOf,editedJson[@"time_sig"],editedJson[@"bpm" ]];
+    
+    //Update chart metadata with new key
+    
+    if (!self.isPerformMode) {
+        
+        NSMutableArray* lyricsForSaving = [[NSMutableArray alloc] init];
+        NSString* lyrics = [[self.textEditor getSelfText] stringByReplacingOccurrencesOfString:@"\n" withString:@"|!|"];
+        lyrics = [lyrics stringByReplacingOccurrencesOfString:@"'" withString:@"\'"];
+        lyrics = [lyrics stringByReplacingOccurrencesOfString:@"\"" withString:@"%!%"];
+        lyrics = [self escapeString:lyrics];
+        NSMutableArray* lyricsNotes = [self.textEditor getSelfChords];
+        NSMutableDictionary* lnT = [[NSMutableDictionary alloc] init];
+        [lnT setObject:lyrics forKey:@"txt"];
+        [lnT setObject:lyricsNotes forKey:@"cordinates"];
+        NSMutableArray* values = [[NSMutableArray alloc] init];
+        for (int i = 0; i < countOfParts; i++) {
+            [values addObject:[[(LyricsDropZone*)[parts objectAtIndex:i] getSelfValue] stringByReplacingOccurrencesOfString:@"\n" withString:@"|!|"]];
+        }
+        [lnT setObject:values forKey:@"chorus"];
+        [lyricsForSaving addObject:lnT];
+        [db updateLyrics:lyricsForSaving forChartId:[self.currentUser chartId]];
+
+        NSDictionary *mArr = [db getChartById:[self.currentUser chartId]];
+        NSString *notesText = [mArr[@"notes"] stringByReplacingOccurrencesOfString:@"%!%" withString:@"\n"];
+        notesText = [notesText stringByReplacingOccurrencesOfString:@"*!*" withString:@"\""];
+        
+        [db updateChart:self.sontTitle.text
+                 artist:self.songAuthor.text
+                    key:songKeyOf
+               time_sig:editedJson[@"time_sig"]
+                  genre:self.songGenre.text
+                    bpm:editedJson[@"bpm"]
+                  notes:notesText
+                 lyrics:lyricsForSaving
+                chartId:[self.currentUser chartId]];
+        
+        if ([self.currentUser getUsedMode] == MODE_FB){
+            if (textChanged || [self.textEditor wasEdited]) {
+                self.serverUpdater = [ServerUpdater sharedManager];
+                [self.serverUpdater updateChart:[self dictionaryToString:[db getChartById:[self.currentUser chartId]]]
+                                        chartId:[self.currentUser chartId]];
+            }
+        }
+    }
 }
 
 -(void)drawSongParts:(NSMutableArray*)lyrics andParts:(int)pCount{
