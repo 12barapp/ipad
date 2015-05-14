@@ -15,7 +15,7 @@
 
 @implementation ParseHelper
 
-+ (void)initialize
++ (void)initializeParseKeys
 {
     [Parse setApplicationId:PARSE_APP_ID
                   clientKey:PARSE_CLIENT_KEY];

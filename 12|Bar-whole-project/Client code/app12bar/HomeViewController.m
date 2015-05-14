@@ -69,6 +69,17 @@
 
 @synthesize allJson, redTiles, setsGrid, onenewChords, setHelper, chordHelper, isChordsSearch, isSetSearch, foundChords, foundSets, chordPositionForSearch, setPositionForSearch, coverView, spinner, countOfPages, currentChordPage, countOfSetsPages, currentSetPage, copyingIndex;
 
+- (void)draggedToMe:(int)mid withMyId:(int)setId andUniqueID:(NSString *)uId setId:(NSString *)sId {
+    
+}
+
+- (void)notifyAboutUpdatedData:(NSDictionary *)data andShared:(NSString *)shared {
+    
+}
+
+- (void)presentSharedViewController:(NSDictionary *)data andShared:(NSString *)shared {
+    
+}
 
 /*
  * Event: Error during data fetch
@@ -104,7 +115,7 @@
     NSArray * tempFriends = friendPickerController.selection;
     NSString* sharedID = [[NSString alloc] init];
 
-    [ParseHelper initialize];
+    [ParseHelper initializeParseKeys];
     
     for (int  i = 0; i < tempFriends.count; i++)
     {
@@ -211,9 +222,9 @@
 
 -(void)notifyAboutSharedData:(NSDictionary*)data andShared:(NSString*)shared
 {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    SharedNotifierViewController *viewController = (SharedNotifierViewController*)[storyboard
-                                                           instantiateViewControllerWithIdentifier:@"notifierController"];
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    SharedNotifierViewController *viewController = (SharedNotifierViewController*)[storyboard
+//                                                           instantiateViewControllerWithIdentifier:@"notifierController"];
 
     if ([data[@"freeChords"] count]> 0 || [data[@"sets"] count] > 0) {
         

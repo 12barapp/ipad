@@ -35,7 +35,7 @@
     BOOL isDropped;
     
 }
-@property(assign, nonatomic) IBOutlet GMGridView *_gridView;
+//@property(assign, nonatomic) IBOutlet GMGridView *_gridView;
 @property (assign) id<SetsGridDelegate> delegate;
 -(id)initWithData:(NSMutableArray*)data andIds:(NSMutableArray*)ids withFrame:(CGRect)rect andContainer:(UIView*)container;
 

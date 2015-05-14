@@ -55,13 +55,13 @@
     [user setDeviceToken:[NSString stringWithFormat:@""]];
     self.deviceToken = [NSString stringWithFormat:@""];
     
-    [ParseHelper initialize];
+    [ParseHelper initializeParseKeys];
     [ParseHelper registerInstallationforPushNotifications:newDeviceToken];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [ParseHelper initialize];
+    [ParseHelper initializeParseKeys];
     [ParseHelper handlePush:userInfo];
 }
 

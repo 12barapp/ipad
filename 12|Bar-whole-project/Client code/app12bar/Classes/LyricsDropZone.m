@@ -10,9 +10,6 @@
 
 @implementation LyricsDropZone
 
-
-
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -28,6 +25,11 @@
     }
     return self;
 }
+
+- (void)setKeyTile:(NSString *)tileText { }
+- (void)closeKeyDialog { }
+- (void)setNewSongKey:(NSString *)key { }
+
 
 -(void)setPerformMode{
     self.isPerform = true;
@@ -257,7 +259,9 @@
     // pretend there's more vertical space to get that extra line to check on
     CGSize tallerSize = CGSizeMake(textView.frame.size.width-15, textView.frame.size.height);
     
-    CGSize newSize = [newText sizeWithFont:textView.font constrainedToSize:tallerSize lineBreakMode:UILineBreakModeWordWrap];
+    CGSize newSize = [newText sizeWithFont:textView.font
+                         constrainedToSize:tallerSize
+                             lineBreakMode:NSLineBreakByWordWrapping];
    
     if (newSize.height > 60)
     {

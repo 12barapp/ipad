@@ -62,6 +62,15 @@
     return self;
 }
 
+- (void)removeOneTile { }
+- (void)addOneTile { }
+- (void)droppedView:(int)pos { }
+- (void)typeInNextEditor:(NSInteger *)textViewNumber { }
+- (void)deleteView:(int)pos { }
+- (void)deletePart:(UITapGestureRecognizer *)sender { }
+- (void)refreshDrawArea { }
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     colorIndex = 0;
@@ -431,7 +440,7 @@
         UIView* v = [[UIView alloc] initWithFrame:CGRectMake(0, i*(screenHeight/10), screenWidth/8, screenHeight/10)];
         v.backgroundColor = [UIColor whiteColor];
         LyricsDropZone *dropZone = [[LyricsDropZone alloc] initWithFrame:CGRectMake(0, 0, screenWidth/8, screenHeight/10)];
-        dropZone.editorDelegate  = self.textEditor;
+        dropZone.editorDelegate  = (id)self.textEditor;
         dropZone.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:staticColors[colorIndex]];
         colorIndex++;
         if (colorIndex > 7) {
@@ -469,7 +478,7 @@
 }
 
 -(void)setContent:(UIView*)v forTextView:(UITextView*)text andText:(NSString*)string dropZone:(LyricsDropZone*)zone andPosition:(int)pos{
-    zone.editorDelegate  = self.textEditor;
+    zone.editorDelegate  = (id)self.textEditor;
     [zone setZonePosition:pos];
     [v addSubview:zone];
     [leftPartsContainer addSubview:v];
@@ -807,7 +816,11 @@
             NSString* wordForTitle = [NSString stringWithFormat:@"%@",[vWords objectAtIndex:wordNum]] ;
             [dSource setMetadata:wordForTitle];
             CGSize size = [wordForTitle sizeWithFont:[UIFont systemFontOfSize:20.0f] constrainedToSize:maximumLabelSize];
-            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(dSource.frame.size.width-size.width-5, dSource.frame.size.height-size.height-5, size.width, size.height)];
+            
+            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(dSource.frame.size.width-size.width-5,
+                                                                            dSource.frame.size.height-size.height-5,
+                                                                            size.width,
+                                                                            size.height)];
             [titleLabel setText:[vWords objectAtIndex:wordNum]];
             wordNum++;
             titleLabel.textAlignment = NSTextAlignmentRight;
@@ -975,7 +988,7 @@
         UIView* v = [[UIView alloc] initWithFrame:CGRectMake(0, i*(screenHeight/10)+(countOfParts*(screenHeight/10)), screenWidth/8, screenHeight/10)];
         v.backgroundColor = [UIColor whiteColor];
         LyricsDropZone *dropZone = [[LyricsDropZone alloc] initWithFrame:CGRectMake(0, 0, screenWidth/8, screenHeight/10)];
-        dropZone.editorDelegate  = self.textEditor;
+        dropZone.editorDelegate  = (id)self.textEditor;
         dropZone.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:staticColors[colorIndex]];
         colorIndex++;
         if (colorIndex > 7) {

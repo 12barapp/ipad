@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Lyrics Text Editor View Controller-->
@@ -276,7 +276,7 @@
         <!--Lirycs Editor Old-->
         <scene sceneID="Ma3-pG-Ogo">
             <objects>
-                <viewController id="feD-Bv-mks" userLabel="Lirycs Editor Old" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="lyricsold" id="feD-Bv-mks" userLabel="Lirycs Editor Old" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="i6W-cV-GA2">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -917,28 +917,28 @@ This document was last updated on August 06, 2014
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <subviews>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="OAd-Vc-Nm9" userLabel="Small title">
-                                                            <rect key="frame" x="3.0000000894069645" y="26" width="96" height="21"/>
+                                                            <rect key="frame" x="3.0000001815232351" y="26" width="96" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Author" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="h0Y-rj-Lcd" userLabel="Author">
-                                                            <rect key="frame" x="2" y="44" width="96" height="21"/>
+                                                            <rect key="frame" x="2.0000000397364337" y="44" width="96" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="7" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Eb • 4/4/ • 120" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KB7-l3-zGF" userLabel="Other info">
-                                                            <rect key="frame" x="-0.99999987585884265" y="63" width="99" height="21"/>
+                                                            <rect key="frame" x="-0.99999996026357962" y="63" width="99" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="8" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Genre" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Stk-uA-Wa1" userLabel="Genre">
-                                                            <rect key="frame" x="2.0000001241411747" y="79" width="96" height="21"/>
+                                                            <rect key="frame" x="2.0000000397364381" y="79" width="96" height="21"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1323,7 +1323,7 @@ This document was last updated on August 06, 2014
         <!--Main Screen View Controller-->
         <scene sceneID="gKO-kZ-lOp">
             <objects>
-                <viewController id="Mgi-mJ-FZm" customClass="MainScreenViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mainScreenViewController" id="Mgi-mJ-FZm" customClass="MainScreenViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="DgJ-OR-1XQ">
                         <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1414,9 +1414,9 @@ This document was last updated on August 06, 2014
         <image name="notes_icon.png" width="791" height="841"/>
         <image name="plus.png" width="272" height="280"/>
         <image name="sets_list_head_bg.png" width="798" height="105"/>
-        <image name="tab1_active.png" width="796" height="849"/>
-        <image name="tab2_active.png" width="796" height="849"/>
-        <image name="tab2_inactive.png" width="796" height="849"/>
+        <image name="tab1_active.png" width="192" height="204"/>
+        <image name="tab2_active.png" width="192" height="204"/>
+        <image name="tab2_inactive.png" width="192" height="204"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

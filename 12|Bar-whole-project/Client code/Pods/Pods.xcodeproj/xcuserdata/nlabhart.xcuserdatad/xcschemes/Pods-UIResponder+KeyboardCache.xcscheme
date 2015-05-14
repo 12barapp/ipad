@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C93D4DC402386535E384B435"
+               BlueprintIdentifier = "111AFFAA342B4C31D595499C"
                BuildableName = "libPods-UIResponder+KeyboardCache.a"
                BlueprintName = "Pods-UIResponder+KeyboardCache"
                ReferencedContainer = "container:Pods.xcodeproj">

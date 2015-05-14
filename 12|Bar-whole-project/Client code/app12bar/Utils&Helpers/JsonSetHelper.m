@@ -25,6 +25,17 @@
     return self;
 }
 
+- (void)passEditedSetToUsers {
+    
+}
+
+- (void)updateExistingSet:(NSString *)title artist:(NSString *)artist date:(NSString *)date location:(NSString *)location {
+    
+}
+
+- (void)deleteSet {
+    
+}
 
 
 -(void)updateSet:(NSDictionary*)set{

@@ -10,7 +10,7 @@
 
 @interface ParseHelper : NSObject
 
-+ (void)initialize;
++ (void)initializeParseKeys;
 
 + (void)registerInstallationforPushNotifications:(NSData *)deviceToken;
 + (void)registerInstallationforPushNotifications:(NSData *)deviceToken

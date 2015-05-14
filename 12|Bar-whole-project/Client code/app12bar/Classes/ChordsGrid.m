@@ -70,8 +70,8 @@
 - (void)GMGridView:(GMGridView *)gridView exchangeItemAtIndex:(NSInteger)index1 withItemAtIndex:(NSInteger)index2 {
 
     DGChord *dc = (DGChord*)[gridView cellForItemAtIndex:index1-5];
-    DGChord *dc2 = (DGChord*)[gridView cellForItemAtIndex:index2-5];
-    [ dc setMyId:index2-5];
+
+    [dc setMyId:index2-5];
     [dc updateId:index2-5];
     [(DGChord*)[gridView cellForItemAtIndex:index2-4] setMyId:index1-5];
     [self.dataSource exchangeObjectAtIndex:index1-5 withObjectAtIndex:index2-5];
