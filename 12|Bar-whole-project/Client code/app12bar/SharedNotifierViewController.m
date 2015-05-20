@@ -142,7 +142,7 @@ titleForHeaderInSection:(NSInteger)section {
     
     UITableViewCell *cell = (UITableViewCell *)[[[sender superview] superview] superview];
     NSIndexPath* indexPath = [self.sharedDataTable indexPathForCell:cell];
-    int r = indexPath.row;
+    int r = (int)indexPath.row;
      NSDictionary* tempSet = [sharedSets objectAtIndex:r];
     
     [[ServerUpdater sharedManager] declineSet:tempSet[@"serverId"] completion:^(BOOL result) {
@@ -174,7 +174,7 @@ titleForHeaderInSection:(NSInteger)section {
     else {
         UITableViewCell *cell = (UITableViewCell *)[[[sender superview] superview] superview];
         NSIndexPath* indexPath = [self.sharedDataTable indexPathForCell:cell];
-        int r = indexPath.row;
+        int r = (int)indexPath.row;
         NSDictionary *tempChord = [sharedCharts objectAtIndex:r];
         
         [[ServerUpdater sharedManager] declineChart:tempChord[@"serverId"] completion:^(BOOL result) {
@@ -198,7 +198,7 @@ titleForHeaderInSection:(NSInteger)section {
     
     UITableViewCell *cell = (UITableViewCell *)[[[sender superview] superview] superview];
     NSIndexPath* indexPath = [self.sharedDataTable indexPathForCell:cell];
-    int r = indexPath.row;
+    int r = (int)indexPath.row;
     NSDictionary* tempSet = [sharedSets objectAtIndex:r];
     
     [[ServerUpdater sharedManager] acceptSet:tempSet[@"serverId"] completion:^(BOOL result) {
@@ -231,7 +231,7 @@ titleForHeaderInSection:(NSInteger)section {
         
         UITableViewCell *cell = (UITableViewCell *)[[[sender superview] superview] superview];
         NSIndexPath* indexPath = [self.sharedDataTable indexPathForCell:cell];
-        int r = indexPath.row;
+        int r = (int)indexPath.row;
         NSDictionary *tempChord = [sharedCharts objectAtIndex:r];
         
         [[ServerUpdater sharedManager] acceptChart:tempChord[@"serverId"] completion:^(BOOL result) {
@@ -279,8 +279,8 @@ titleForHeaderInSection:(NSInteger)section {
                                    owner:tempSet[@"owner"]];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)_indexPath {
-    self.selectedRow = _indexPath.row;
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedRow = (int)indexPath.row;
 }
 
 - (void)viewDidLoad {

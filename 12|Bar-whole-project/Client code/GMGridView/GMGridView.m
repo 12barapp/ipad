@@ -782,7 +782,7 @@ NSInteger startPosition;
 - (void)sortingMoveDidContinueToPoint:(CGPoint)point
 {
    // NSLog(@"sortingMoveDidContinueToPoint %f %f", point.x, point.y);
-    int position = [self.layoutStrategy itemPositionFromLocation:point];
+    int position = (int)[self.layoutStrategy itemPositionFromLocation:point];
     int tag = position + kTagOffset;
     
     if (position < 5)
@@ -877,7 +877,7 @@ NSInteger startPosition;
                              ];
                         }
                     }
-                    NSLog(@"_sortFuturePosition %d",_sortFuturePosition);
+                    NSLog(@"_sortFuturePosition %ld",(long)_sortFuturePosition);
                     
                     [self.sortingDelegate GMGridView:self exchangeItemAtIndex:_sortFuturePosition withItemAtIndex:position];
                     
@@ -1673,7 +1673,7 @@ NSInteger startPosition;
     {        
         cell = [self newItemSubViewForPosition:index];
         
-        for (int i = _numberTotalItems - 1; i >= index; i--)
+        for (int i = (int)_numberTotalItems - 1; i >= index; i--)
         {
             UIView *oldView = [self cellForItemAtIndex:i];
             oldView.tag = oldView.tag + 1;

@@ -95,7 +95,7 @@
         cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
         cell.deleteButtonOffset = CGPointMake(-15, -15);
         DGZone *view = [[DGZone alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        [view setId:index];
+        [view setId:(int)index];
         view.delegate = self;
         view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:blueColors[index % blueColors.count]];
         view.layer.masksToBounds = NO;
@@ -105,7 +105,7 @@
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     DGZone *cellView = [[DGZone alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     cellView.delegate = self;
-    [cellView setId:index];
+    [cellView setId:(int)index];
     [cellView setUniqueID:[ids objectAtIndex:index]];
     CGRect screenBound = [[UIScreen mainScreen] bounds];
     CGSize screenSize = screenBound.size;

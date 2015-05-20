@@ -425,7 +425,7 @@
             for (int i = 0; i < subst.count; i++)
             {
                 if ([arrA indexOfObject:[subst objectAtIndex:i]] != NSNotFound){
-                    int pos = [arrA indexOfObject:[tempArr objectAtIndex:i]];
+                    int pos = (int)[arrA indexOfObject:[tempArr objectAtIndex:i]];
                     [tempArr replaceObjectAtIndex:i withObject:[arrB objectAtIndex:pos]];
                     if ([tempArr count] ==1) {
                         if (pos == 2 || pos == 4 ||  pos == 9) {
@@ -470,7 +470,7 @@
         if ([scale indexOfObject:[subst objectAtIndex:i]] != NSNotFound){
             if (chordsAmount > 0) {
                 for (int ix = 0; ix < chordsAmount; ix++) {
-                    int pos = [scale indexOfObject:[tempArr objectAtIndex:i]];
+                    int pos = (int)[scale indexOfObject:[tempArr objectAtIndex:i]];
                     int transpos = pos*3 - 2+3;
                     [tempArr replaceObjectAtIndex:i withObject:[transp objectAtIndex:transpos+1]];
                 }

@@ -16,6 +16,7 @@
 
 #import <Social/Social.h>
 #import <FacebookSDK/FacebookSDK.h>
+#import "UIResponder+KeyboardCache.h"
 
 
 #define NUMBER_ITEMS_ON_LOAD 36
@@ -298,7 +299,7 @@
 //            viewController.delegate = self;
 //            [self presentViewController:viewController animated:YES completion:NULL];
 //            
-            int count = sharedSets.count + sharedCharts.count;
+            int count = (int)(sharedSets.count + sharedCharts.count);
             
             [self.settingsButton.badgeView setBadgeValue:count];
             [self.settingsButton.badgeView setPosition:MGBadgePositionTopLeft];

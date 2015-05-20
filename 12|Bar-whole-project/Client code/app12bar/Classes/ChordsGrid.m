@@ -71,9 +71,9 @@
 
     DGChord *dc = (DGChord*)[gridView cellForItemAtIndex:index1-5];
 
-    [dc setMyId:index2-5];
-    [dc updateId:index2-5];
-    [(DGChord*)[gridView cellForItemAtIndex:index2-4] setMyId:index1-5];
+    [dc setMyId:(int)index2-5];
+    [dc updateId:(int)index2-5];
+    [(DGChord*)[gridView cellForItemAtIndex:(int)index2-4] setMyId:(int)index1-5];
     [self.dataSource exchangeObjectAtIndex:index1-5 withObjectAtIndex:index2-5];
 
     
@@ -97,14 +97,14 @@
     CGSize screenSize = screenBound.size;
     CGFloat screenWidth = screenSize.width;
     DGChord *cell = (DGChord*)[gridView dequeueReusableCell];
-    [cell setMyId:index];
+    [cell setMyId:(int)index];
     [cell setUniqueID:[ids objectAtIndex:index]];
     if (!cell) {
         cell = [[DGChord alloc] initWithFrame:CGRectMake(0, 0, screenWidth/8, screenSize.height/10)];
         cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
         cell.deleteButtonOffset = CGPointMake(-15, -15);
         [cell setUniqueID:[ids objectAtIndex:index]];
-        [cell setMyId:index];
+        [cell setMyId:(int)index];
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
 
 //        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[arc4random()%redColors.count]];

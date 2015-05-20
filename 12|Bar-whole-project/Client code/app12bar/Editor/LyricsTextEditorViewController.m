@@ -312,7 +312,7 @@
         
         self.chordToPerform--;
         if (self.chordToPerform < 0 ) {
-            self.chordToPerform = self.chordIds.count - 1;
+            self.chordToPerform = (int)(self.chordIds.count - 1);
         }
 
     }
@@ -370,8 +370,8 @@
                           @"G",
                           @"Ab", nil];
     
-    int prevKeyIndex = [allChords indexOfObject:songKeyOf];
-    int currentKeyIndex = [allChords indexOfObject:key];
+    int prevKeyIndex = (int)[allChords indexOfObject:songKeyOf];
+    int currentKeyIndex = (int)[allChords indexOfObject:key];
     int transposeIndex = 0;
     
     if (prevKeyIndex < currentKeyIndex) {
@@ -671,7 +671,7 @@
     if (txt == nil){
         txt = @" ";
     }
-    textLenght = txt.length;
+    textLenght = (int)txt.length;
     [self.textEditor setFont:[UIFont fontWithName:@"Helvetica Neue" size:TEXT_FONT_SIZE]];
     self.textEditor.textColor = [UIColor grayColor];
     NSDictionary*dc = [[NSDictionary alloc] init];
@@ -925,7 +925,7 @@
                 countOfRows = 0;
             } else {
                 prevStr = [self.textEditor.text substringWithRange:NSMakeRange(0, cursorPosition.location - 1)];
-                countOfRows = [[prevStr componentsSeparatedByString:@"\n"] count] ;
+                countOfRows = (int)[[prevStr componentsSeparatedByString:@"\n"] count] ;
             }
             if (countOfRows < 0) {
                 countOfRows = 0;
