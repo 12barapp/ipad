@@ -588,8 +588,9 @@ static DBManager *db;
 -(void)initBlur{
     //    blurView.hidden = YES;
     blurView.blurRadius = 10.913934f;
-    blurView.tintColor = [UIColor clearColor];
+    blurView.dynamic = NO;
     
+    blurView.tintColor = [UIColor clearColor];
 }
 
 #pragma mark Chord Info delegates

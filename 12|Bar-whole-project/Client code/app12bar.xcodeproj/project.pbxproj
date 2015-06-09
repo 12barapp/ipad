@@ -1319,9 +1319,9 @@
 				E1B7D70119651C13004142CB /* UIView+Animation.h */,
 				E1B7D70219651C13004142CB /* UIView+Animation.m */,
 				E1B7D6F1196498B7004142CB /* FXBlurView.h */,
+				E1B7D6F2196498B7004142CB /* FXBlurView.m */,
 				40E5AB0A1AB7DCD4009F6BF4 /* UIView+MGBadgeView.h */,
 				40E5AB0B1AB7DCD4009F6BF4 /* UIView+MGBadgeView.m */,
-				E1B7D6F2196498B7004142CB /* FXBlurView.m */,
 				E1C64FBE1A6441680024DA11 /* RegExCategories.h */,
 				E1C64FBF1A6441680024DA11 /* RegExCategories.m */,
 			);
@@ -2210,7 +2210,7 @@
 					"$(SDKROOT)/usr/include/libxml2/**",
 				);
 				INFOPLIST_FILE = "app12bar/app12bar-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				"OTHER_CODE_SIGN_FLAGS[sdk=*]" = "";
 				OTHER_LDFLAGS = (
@@ -2247,7 +2247,7 @@
 					"$(SDKROOT)/usr/include/libxml2/**",
 				);
 				INFOPLIST_FILE = "app12bar/app12bar-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				OTHER_LDFLAGS = (
 					"-ObjC",

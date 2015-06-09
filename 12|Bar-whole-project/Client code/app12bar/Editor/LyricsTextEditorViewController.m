@@ -530,8 +530,9 @@
 
 -(void)initBlur {
     blurView.blurRadius = 10.913934f;
-    [blurView updateAsynchronously:YES completion:nil];
+    blurView.dynamic = NO;
     
+    [blurView updateAsynchronously:YES completion:nil];
 }
 
 -(void)initArrays{

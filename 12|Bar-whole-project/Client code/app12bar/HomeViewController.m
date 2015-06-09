@@ -576,10 +576,9 @@
 }
 
 -(void)addChord{
+    
     blurView.hidden = NO;
     newChordDialog = [NewChordDialog newChordDialog:self];
-    
-    //[self.view addSubviewWithFadeAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionTransitionFlipFromLeft];
     
     [self animateModalPaneIn:newChordDialog];
 }
@@ -1131,8 +1130,15 @@
     
     newChordDialog = nil;
     newChordDialog = [NewChordDialog newChordDialog:self] ;
+    
     NSDictionary* dc = [db getChartById:[self.currentUser chartId]];
-    [(NewChordDialog*)newChordDialog setDataForEDiting:dc[@"cTitle"] artist:dc[@"artist"] key:dc[@"key"] time_sig:dc[@"time_sig"] genre:dc[@"genre"] bpm:dc[@"bpm"] notes:dc[@"notes"]];
+    [(NewChordDialog*)newChordDialog setDataForEDiting:dc[@"cTitle"]
+                                                artist:dc[@"artist"]
+                                                   key:dc[@"key"]
+                                              time_sig:dc[@"time_sig"]
+                                                 genre:dc[@"genre"] 
+                                                   bpm:dc[@"bpm"]
+                                                 notes:dc[@"notes"]];
 
 //    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
     
@@ -1696,6 +1702,7 @@
 
 -(void)initBlur{
     blurView.blurRadius = 8.913934f;
+    blurView.dynamic = NO;
 }
 
 -(void)showLoginScreen{
@@ -1703,7 +1710,6 @@
     newChordDialog = nil;
     newChordDialog = [LoginScreenView loginScreen:self];
     
-//    [self.view addSubviewWithZoomInAnimation:newChordDialog duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
     [self animateModalPaneIn:newChordDialog];
 }
 
@@ -1812,7 +1818,7 @@
     idForChords = [NSMutableArray arrayWithArray:[self fiveOfA]];
     idForSets = [NSMutableArray arrayWithArray:[self fiveOfA]];
     
-     self.dragAndDropManager = [[AtkDragAndDropManager alloc] init];
+    self.dragAndDropManager = [[AtkDragAndDropManager alloc] init];
     [blurView updateAsynchronously:YES completion:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveTestNotification:) name:@"updateParent" object:nil];
     [self.setsPager.panGestureRecognizer setMinimumNumberOfTouches:2];
