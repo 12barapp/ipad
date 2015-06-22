@@ -9,6 +9,7 @@
 #import "LyricsTextEditorViewController.h"
 #import "HelpViewController.h"
 #import "TutorialsView.h"
+#import "JsonChordHelper.h"
 
 
 #define TEXT_FONT_SIZE 22.0
@@ -21,22 +22,23 @@
 @interface LyricsTextEditorViewController ()
 {
     IBOutlet FXBlurView *blurView;
-        NSString *JsonForEditing;
-        NSString *songKeyOf;
-        NSDictionary *editedJson;
-        CGFloat screenWidth;
-        CGFloat screenHeight;
-        NSArray *staticColors;
-        NSArray *darkColors;
-        NSArray *redColors;
-        NSArray *vWords;
-        NSMutableArray *vKeys;
-        NSArray *chordsTitles;
-        UIView *somePopup;
-        NSMutableArray *parts;
-        NSMutableDictionary* allLyrics;
-        UIActivityIndicatorView *spinner;
-        TransposeChordHelper *transposer;
+    NSString *JsonForEditing;
+    NSString *songKeyOf;
+    NSDictionary *editedJson;
+    CGFloat screenWidth;
+    CGFloat screenHeight;
+    NSArray *staticColors;
+    NSArray *darkColors;
+    NSArray *redColors;
+    NSArray *vWords;
+    NSMutableArray *vKeys;
+    NSArray *chordsTitles;
+    UIView *somePopup;
+    NSMutableArray *parts;
+    NSMutableDictionary* allLyrics;
+    UIActivityIndicatorView *spinner;
+    TransposeChordHelper *transposer;
+    JsonChordHelper *chordHelper;
     
     DBManager *db;
     CoreSettings *setting;
@@ -75,6 +77,7 @@
     [super viewDidLoad];
     colorIndex = 0;
     transposer = [[TransposeChordHelper alloc] init];
+    chordHelper = [[JsonChordHelper alloc] init];
     parts = [[NSMutableArray alloc] init];
     blurView.hidden = YES;
     parts = [[NSMutableArray alloc] init];
@@ -102,11 +105,13 @@
         }
         self.lyricsWrapper.frame = CGRectMake(0, screenHeight/10, screenWidth, screenHeight );
         [self.textEditor setPerformMode];
+        self.metadataView.hidden = YES;
     }
     else {
         self.textEditor = [[LyricsEditorTextView alloc] initWithFrame:CGRectMake(screenWidth/8, Y_OFFSET, ((screenWidth/8)*8-(screenWidth/8)), (screenHeight/10)*7)];
         self.lyricsScrollView.frame = CGRectMake(0, 0, screenWidth, screenHeight - ((screenHeight/10)*2));
         self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
+        self.metadataView.hidden = NO;
     }
     self.textEditor.delegate = self;
     self.textEditor.layoutManager.delegate = self;
@@ -162,6 +167,11 @@
     
     [blurView.underlyingView addGestureRecognizer:tapGest];
     
+    UITapGestureRecognizer *metaTapGets = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editChordMetadata)];
+    metaTapGets.numberOfTapsRequired = 1;
+    
+    [self.metadataView addGestureRecognizer:metaTapGets];
+    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"tutsCharts_firstLaunch"])
     {
         // On first launch, this block will execute
@@ -212,12 +222,92 @@
         
         [self saveNotes:[(NotesDlg*)somePopup notesText].text];
     }
-    else {
+    else if ([somePopup class] != [NewChordDialog class]) {
         blurView.hidden = YES;
         [self animateModalPaneOut:somePopup];
         somePopup = nil;
     }
 }
+
+- (void)editChordMetadata {
+    
+    editedJson = [db getChartById:[self.currentUser chartId]];
+    
+    blurView.hidden = NO;
+    
+    somePopup = [NewChordDialog newChordDialog:self];
+    
+    [(NewChordDialog*)somePopup setDataForEDiting:editedJson[@"cTitle"]
+                                           artist:editedJson[@"artist"]
+                                              key:editedJson[@"key"]
+                                         time_sig:editedJson[@"time_sig"]
+                                            genre:editedJson[@"genre"]
+                                              bpm:editedJson[@"bpm"]
+                                            notes:editedJson[@"notes"]];
+    
+    [self animateModalPaneIn:somePopup];
+}
+
+- (void)closeInfo {
+    
+    blurView.hidden = YES;
+    
+    [self animateModalPaneOut:somePopup];
+    
+    somePopup = nil;
+}
+
+- (void)updateExistingChordWith:(NSString *)title
+                         artist:(NSString *)artist
+                            key:(NSString *)key
+                       time_sig:(NSString *)time_sig
+                          genre:(NSString *)genre
+                            bpm:(NSString *)bpm
+                          notes:(NSString *)notes
+                 transposeIndex:(int)tIndex {
+    blurView.hidden = YES;
+    
+    [self animateModalPaneOut:somePopup];
+    
+    somePopup = nil;
+    
+    [chordHelper updateExistingChordWith:title artist:artist key:key time_sig:time_sig genre:genre bpm:bpm notes:notes transposeIndex:tIndex];
+    
+    if ([self.currentUser getUsedMode] == MODE_FB) {
+        [self.serverUpdater updateChart:[self dictionaryToString:[db getChartById:[self.currentUser setId]]] chartId:[self.currentUser chartId]];
+    }
+    
+    //update text fields
+    [self.sontTitle setText:title];
+    self.headSongTitle.text = title;
+    self.songAuthor.text = artist;
+    @try {
+        songKeyOf = key;
+        self.songInfo.text = [NSString stringWithFormat:@"%@ • %@ • %@",songKeyOf,time_sig,bpm];
+        self.songGenre.text = genre;
+    }
+    @catch (NSException *exception) {
+        self.songInfo.text = @" ";
+        self.songGenre.text = @" ";
+    }
+    @finally {
+        
+    }
+    
+    //update chord chart key
+    [self setNewSongKey:key];
+}
+
+- (void)doneNewChord:(NSString *)title
+              artist:(NSString *)artist
+                 key:(NSString *)key
+            time_sig:(NSString *)time_sig
+               genre:(NSString *)genre
+                 bpm:(NSString *)bpm
+               notes:(NSString *)notes {
+
+}
+
 - (CGFloat)layoutManager:(NSLayoutManager *)layoutManager lineSpacingAfterGlyphAtIndex:(NSUInteger)glyphIndex withProposedLineFragmentRect:(CGRect)rect
 {
     return 0.0f; // For really wide spacing; pick your own value
@@ -592,23 +682,23 @@
     }else {
         
         [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, self.textEditor.frame.size.height+((screenHeight/10)))];
-         self.leftPartsContainer.frame = CGRectMake(0, PARTS_Y_OFFSET, self.leftPartsContainer.frame.size.width, self.textEditor.frame.size.height+screenHeight/10);
+         self.leftPartsContainer.frame = CGRectMake(0, PARTS_Y_OFFSET, self.leftPartsContainer.frame.size.width, self.textEditor.frame.size.height+(screenHeight/10)+1);
     }
     
     [self.dragAndDropManager start];
     [blurView updateAsynchronously:YES completion:nil];
     NSLog(@"%f",self.textEditor.font.lineHeight);
-    [self.textEditor setNeedsDisplay];
+    //[self.textEditor setNeedsDisplay];
     
-    self.lyricsWrapper.backgroundColor = [UIColor whiteColor];
-    self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
-    self.textEditor.backgroundColor = [UIColor whiteColor];
-    self.leftPartsContainer.backgroundColor = [UIColor whiteColor];
-
-    self.lyricsWrapper.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.lyricsScrollView.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.textEditor.layer.borderColor = [UIColor whiteColor].CGColor;
-    self.leftPartsContainer.layer.borderColor = [UIColor whiteColor].CGColor;
+//    self.lyricsWrapper.backgroundColor = [UIColor whiteColor];
+//    self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
+//    self.textEditor.backgroundColor = [UIColor whiteColor];
+//    self.leftPartsContainer.backgroundColor = [UIColor whiteColor];
+//
+//    self.lyricsWrapper.layer.borderColor = [UIColor whiteColor].CGColor;
+//    self.lyricsScrollView.layer.borderColor = [UIColor whiteColor].CGColor;
+//    self.textEditor.layer.borderColor = [UIColor whiteColor].CGColor;
+//    self.leftPartsContainer.layer.borderColor = [UIColor whiteColor].CGColor;
     
     //self.lyricsScrollView.backgroundColor = [UIColor grayColor];
 }
@@ -1172,6 +1262,8 @@
     [self dismissViewControllerAnimated:YES completion:^{
         self.serverUpdater = [ServerUpdater sharedManager];
         [self.serverUpdater continueCheck];
+        
+        
         
     }];
 }

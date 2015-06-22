@@ -15,7 +15,7 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.backgroundView = [UIView new];
+        //self.backgroundView = [UIView new];
         self.backgroundView.backgroundColor = [UIColor whiteColor];
         
         UIView *infoView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 96, 102)];
@@ -91,9 +91,10 @@
         UIButton *largeTitle = [[UIButton alloc] initWithFrame:CGRectMake(infoView.frame.size.width + 75,
                                                                         0,
                                                                         450,
-                                                                        102)];
+                                                                        100)];
         [largeTitle setTitle:self.smallTitle forState:UIControlStateNormal];
         [largeTitle setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+        [largeTitle setBackgroundColor:[UIColor whiteColor]];
         [largeTitle setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
         [largeTitle setTitleShadowColor:[UIColor clearColor] forState:UIControlStateNormal];
         [largeTitle.titleLabel setFont:[UIFont systemFontOfSize:24.0]];

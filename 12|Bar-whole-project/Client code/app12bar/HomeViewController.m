@@ -1955,7 +1955,8 @@
     [super viewDidAppear:animated];
     [self.dragAndDropManager start];
     
-
+    if(YES)
+       [self loadNormalSets];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -2075,7 +2076,6 @@
 }
 
 
-
 -(void) viewWillAppear:(BOOL)animated
 {
     // check for internet connection
@@ -2089,6 +2089,9 @@
     [hostReachable startNotifier];
     
     // now patiently wait for the notification
+    
+    //update the chords after going to other view controllers
+    [self loadNormalChords];
 }
 
 - (void)animateModalPaneIn:(UIView *)viewToAnimate

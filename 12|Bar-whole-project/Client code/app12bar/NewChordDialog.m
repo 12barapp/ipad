@@ -124,11 +124,11 @@
         return ch;
     }
     
-    if ((self.artistText.text.length > 0) && self.artistText.text != nil && [self.artistText.text isEqual:@""] == FALSE){
-        ch = true;
-    } else {
-        return false;
-    }
+//    if ((self.artistText.text.length > 0) && self.artistText.text != nil && [self.artistText.text isEqual:@""] == FALSE){
+//        ch = true;
+//    } else {
+//        return false;
+//    }
     if (self.keyPick.titleLabel.text.length > 0 && self.keyPick.titleLabel.text != nil && [self.keyPick.titleLabel.text isEqual:@""] == FALSE) {
         ch = true;
     } else {
@@ -295,10 +295,10 @@
     NSArray *nibArray = [nib instantiateWithOwner:self options:nil];
     NewChordDialog *me = [nibArray objectAtIndex: 0];
  
-//    [me.dialogContainer.layer setShadowColor:[UIColor blackColor].CGColor];
-//    [me.dialogContainer.layer setShadowOpacity:0.7];
-//    [me.dialogContainer.layer setShadowRadius:10.0];
-//    [me.dialogContainer.layer setShadowOffset:CGSizeMake(7.0, 7.0)];
+    [me.dialogContainer.layer setShadowColor:[UIColor blackColor].CGColor];
+    [me.dialogContainer.layer setShadowOpacity:0.7];
+    [me.dialogContainer.layer setShadowRadius:10.0];
+    [me.dialogContainer.layer setShadowOffset:CGSizeMake(7.0, 7.0)];
     
     me.delegate = pickDelegate;
     me.genrePick.titleLabel.adjustsFontSizeToFitWidth = YES;
