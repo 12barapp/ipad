@@ -28,263 +28,269 @@
 
 -(NSMutableArray*)getViewForKey:(NSString*)key{
     NSMutableArray *viewPalette = [[NSMutableArray alloc] init];
+    
+    NSString *colorKeyItself = @"#EA465A";
+    NSString *colorInKey = @"#F07E8C";
+    NSString *colorOutKey = @"#F4A2AC";
+    
     SWITCH(key){
         CASE(@"C"){
-            [viewPalette addObject:[self createChord:@"C#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#F14545"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"m" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"m" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"m" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"dim" andColor:@"#F46F71"]];
+            [viewPalette addObject:[self createChord:@"C#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"dim" andColor:colorInKey]];
             break;
         }
         CASE(@"C#"){
-            [viewPalette addObject:[self createChord:@"C#" withModifier:@"" andColor:@"#F14545"]];
-            [viewPalette addObject:[self createChord:@"D#" withModifier:@"m" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"A#" withModifier:@"m" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"dim" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"m" andColor:@"#F46F71"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#F8A6A8"]];
+            [viewPalette addObject:[self createChord:@"C#" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"D#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:colorOutKey]];
             break;
         }
         CASE(@"D"){
-            [viewPalette addObject:[self createChord:@"C#" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F04445"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"m" andColor:@"#EF6D6F"]];
+            [viewPalette addObject:[self createChord:@"C#" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"m" andColor:colorInKey]];
             break;
         }
         CASE(@"Eb"){
-            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:@"#F14545"]];
-            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#F8A6A8"]];
+            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"b" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"b" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"m" andColor:colorOutKey]];
             break;
         }
         CASE(@"E"){
-            [viewPalette addObject:[self createChord:@"C#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D#" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#EF6D6F"]];
+            [viewPalette addObject:[self createChord:@"C#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D#" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:colorInKey]];
             break;
         }
         CASE(@"F"){
-            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#F8A6A8"]];
+            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:colorOutKey]];
             break;
         }
         CASE(@"F#"){
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"A#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#EF6D6F"]];
+            [viewPalette addObject:[self createChord:@"C#" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"G#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:colorInKey]];
             break;
         }
         CASE(@"G"){
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"m" andColor:@"#EF6D6F"]];
+            [viewPalette addObject:[self createChord:@"C#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F#" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"m" andColor:colorInKey]];
             break;
         }
         
         CASE(@"Cb"){
-            [viewPalette addObject:[self createChord:@"Db" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Db" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Cb" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"dim" andColor:@"#F8A6A8"]];
+            [viewPalette addObject:[self createChord:@"Db" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Cb" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Fb" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"dim" andColor:colorOutKey]];
         }
         
         CASE(@"A"){
-            [viewPalette addObject:[self createChord:@"C#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"m" andColor:@"#EF6D6F"]];
+            [viewPalette addObject:[self createChord:@"C#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G#" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"m" andColor:colorInKey]];
             break;
         }
         CASE(@"Bb"){
-            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#F8A6A8"]];
+            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:colorOutKey]];
             break;
         }
         CASE(@"B"){
-            [viewPalette addObject:[self createChord:@"C#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"A#" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#EC4344"]];
+            [viewPalette addObject:[self createChord:@"C#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G#" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A#" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:colorKeyItself]];
             break;
         }
         CASE(@"Db"){
-            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#F8A6A8"]];
+            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:colorKeyItself]];
+            
+            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:colorOutKey]];
             break;
         }
         CASE(@"Gb"){
-            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#EF6D6F"]];
+            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:colorInKey]];
             break;
         }
         CASE(@"Ab"){
-            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"dim" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@"#F8A6A8"]];
+            [viewPalette addObject:[self createChord:@"Db" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"Gb" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"Ab" withModifier:@"" andColor:colorKeyItself]];
+            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"m" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"dim" andColor:colorInKey]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:colorOutKey]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:colorOutKey]];
             break;
         }
         CASE(@"G#"){
-            [viewPalette addObject:[self createChord:@"C#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"m" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"dim" andColor:@"#DC3F3F"]];
-            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#EF6D6F"]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F8A6A8"]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#EC4344"]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"m" andColor:@"#EF6D6F"]];
+            [viewPalette addObject:[self createChord:@"C#" withModifier:@"m" andColor:@"#F2909C"]];
+            [viewPalette addObject:[self createChord:@"D#" withModifier:@"" andColor:@"#F2909C"]];
+            [viewPalette addObject:[self createChord:@"F#" withModifier:@"m" andColor:@"#F2909C"]];
+            [viewPalette addObject:[self createChord:@"G#" withModifier:@"dim" andColor:@"#EA465A"]];
+            [viewPalette addObject:[self createChord:@"A#" withModifier:@"" andColor:@"#F2909C"]];
+            [viewPalette addObject:[self createChord:@"C" withModifier:@"" andColor:@"#F2909C"]];
+            [viewPalette addObject:[self createChord:@"D" withModifier:@"" andColor:@"#F2909C"]];
+            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@"#F2909C"]];
+            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@"#F2909C"]];
+            [viewPalette addObject:[self createChord:@"G" withModifier:@"" andColor:@"#F2909C"]];
+            [viewPalette addObject:[self createChord:@"A" withModifier:@"" andColor:@"#F07E8C"]];
+            [viewPalette addObject:[self createChord:@"B" withModifier:@"m" andColor:@"#F2909C"]];
             break;
         }
-        CASE(@"Cb"){
-            [viewPalette addObject:[self createChord:@"C#" withModifier:@"" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"C" withModifier:@"m" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"D" withModifier:@"m" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"G" withModifier:@"m" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"A" withModifier:@"dim" andColor:@""]];
-            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@""]];
-            break;
-        }
+//        CASE(@"Cb"){
+//            [viewPalette addObject:[self createChord:@"C#" withModifier:@"" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"Eb" withModifier:@"" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"F#" withModifier:@"" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"G#" withModifier:@"" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"Bb" withModifier:@"" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"C" withModifier:@"m" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"D" withModifier:@"m" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"E" withModifier:@"" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"F" withModifier:@"" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"G" withModifier:@"m" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"A" withModifier:@"dim" andColor:@""]];
+//            [viewPalette addObject:[self createChord:@"B" withModifier:@"" andColor:@""]];
+//            break;
+//        }
     }
     return viewPalette;
 }
@@ -419,7 +425,7 @@
             for (int i = 0; i < subst.count; i++)
             {
                 if ([arrA indexOfObject:[subst objectAtIndex:i]] != NSNotFound){
-                    int pos = [arrA indexOfObject:[tempArr objectAtIndex:i]];
+                    int pos = (int)[arrA indexOfObject:[tempArr objectAtIndex:i]];
                     [tempArr replaceObjectAtIndex:i withObject:[arrB objectAtIndex:pos]];
                     if ([tempArr count] ==1) {
                         if (pos == 2 || pos == 4 ||  pos == 9) {
@@ -464,7 +470,7 @@
         if ([scale indexOfObject:[subst objectAtIndex:i]] != NSNotFound){
             if (chordsAmount > 0) {
                 for (int ix = 0; ix < chordsAmount; ix++) {
-                    int pos = [scale indexOfObject:[tempArr objectAtIndex:i]];
+                    int pos = (int)[scale indexOfObject:[tempArr objectAtIndex:i]];
                     int transpos = pos*3 - 2+3;
                     [tempArr replaceObjectAtIndex:i withObject:[transp objectAtIndex:transpos+1]];
                 }

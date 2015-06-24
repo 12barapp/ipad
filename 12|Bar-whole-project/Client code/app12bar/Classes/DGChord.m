@@ -20,7 +20,17 @@
     return self;
 }
 
+- (NSString *)getUniqueID {
+    return self.uniqueID;
+}
 
+- (int)getId {
+    return self.myId;
+}
+
+- (void)setId:(int)mId {
+    self.myId = mId;
+}
 
 -(void)updateId:(int)elId{
     if (self.myManager != nil) {

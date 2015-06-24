@@ -25,9 +25,10 @@
 #import "LyricsEditorTextView.h"
 #import "NSAttributedString+height.h"
 #import "AnimationViewController.h"
+#import "NewChordDialog.h"
 
 
-@interface LyricsTextEditorViewController : AnimationViewController<UITextViewDelegate, LyricsEditorDelegate, LyricsDropZoneDelegate, NSLayoutManagerDelegate>{
+@interface LyricsTextEditorViewController : AnimationViewController<UITextViewDelegate, LyricsEditorDelegate, LyricsDropZoneDelegate, NSLayoutManagerDelegate, UIScrollViewDelegate, NewChordDialogDelegate>{
 }
 
 // Outlets
@@ -47,6 +48,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *headSongTitle;
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
 @property (strong, nonatomic)          UIView *leftPartsContainer;
+@property (weak, nonatomic) IBOutlet UIView *metadataView;
 
 //
 @property (nonatomic, strong)          AtkDragAndDropManager *dragAndDropManager;

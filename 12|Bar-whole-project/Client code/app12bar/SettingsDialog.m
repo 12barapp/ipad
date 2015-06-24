@@ -7,8 +7,18 @@
 //
 
 #import "SettingsDialog.h"
+#import "HelpViewController.h"
+#import "UIView+MGBadgeView.h"
+#import "ServerUpdater.h"
+#import "User.h"
+#import "SharedNotifierViewController.h"
+#import "HomeViewController.h"
 
-@implementation SettingsDialog
+@implementation SettingsDialog {
+    ServerUpdater *serverUpdater;
+}
+
+
 static CoreSettings *setting;
 - (id)initWithFrame:(CGRect)frame
 {
@@ -28,6 +38,8 @@ static CoreSettings *setting;
     [me.dialogContainer.layer setShadowRadius:10.0];
     [me.dialogContainer.layer setShadowOffset:CGSizeMake(7.0, 7.0)];
     me.delegate = pickDelegate;
+    
+    me.parentController = pickDelegate;
     
     return me;
 }
@@ -69,6 +81,12 @@ static CoreSettings *setting;
         [self.loginButtonTitle setTitle:@"Login" forState:(UIControlStateNormal)];
     }
     
+    self.tutsButton.backgroundColor = [self colorWithHexString:@"#b3b3b3"];
+    
+    [self.sharedButton.badgeView setBadgeValue:self.numberOfSharedItems];
+    [self.sharedButton.badgeView setPosition:MGBadgePositionTopLeft];
+    [self.sharedButton.badgeView setBadgeColor:[[[ColorHelper alloc] init] getBadgeRedColor]];
+    [self.sharedButton.badgeView setOutlineWidth:0.75];
 }
 
 - (IBAction)closeSettings:(id)sender{
@@ -128,6 +146,24 @@ static CoreSettings *setting;
     [self.delegate showPrivacy];
 }
 
+- (IBAction)displaySharedCharts:(id)sender {
+    [self.sharedButton.badgeView setBadgeValue:0];
+    serverUpdater = [ServerUpdater sharedManager];
+    
+    if (![@"" isEqualToString:[self.currentUser mySecretKey]] && [self.currentUser mySecretKey] != nil){
+        [serverUpdater getSharedItems:^(NSArray *sharedCharts, NSArray *sharedSets) {
+            
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            SharedNotifierViewController *viewController = (SharedNotifierViewController*)[storyboard
+                                                                                           instantiateViewControllerWithIdentifier:@"notifierController"];
+            [viewController showSharedCharts:[sharedCharts mutableCopy] andSets:[sharedSets mutableCopy] ];
+            viewController.delegate = (HomeViewController *)self.parentController;
+            [self.parentController presentViewController:viewController animated:YES completion:NULL];
+            
+        }];
+    }
+}
+
 - (IBAction)switchSound:(id)sender {
     if ([setting isSoundActive]) {
         soundActive = false;
@@ -138,6 +174,24 @@ static CoreSettings *setting;
          [setting activeSound:soundActive];
         ((UIButton*)sender).backgroundColor = [self colorWithHexString:@"#29abe2"];
     }
+}
+
+- (IBAction)recallTuts:(id)sender {
+    
+//    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
+//    [viewController setHelpFile:@"tuts_all"];
+//    viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+//    
+//    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)); // 1
+//    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
+//        
+//        [self.parentController presentViewController:viewController animated:YES completion:nil];
+//    });
+    
+    //[self.delegate closeSettings];
+    
+    [self.delegate recallTuts];
 }
 
 - (IBAction)logOut:(id)sender {

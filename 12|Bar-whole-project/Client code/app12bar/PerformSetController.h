@@ -20,7 +20,6 @@
 #import "Utils&Helpers/JsonChordHelper.h"
 #import "HomeViewController.h"
 #import "LyricsTextEditorViewController.h"
-#import "CustomTableCell.h"
 #import "CustomButton.h"
 #import "JsonSetHelper.h"
 
@@ -29,14 +28,17 @@
 @protocol PerformSetControllerDelegate
 
 -(void)redrawChords;
+-(void)showChartInfo:(UITableViewCell *)cell;
+-(void)launchChordChart:(UITableViewCell *)cell;
+-(void)showAddNewChart:(UITableViewCell *)cell;
 
 @end
 
-@interface PerformSetController : UIViewController<NotesSetDelegate,UITableViewDataSource,UITableViewDelegate, NewChordDialogDelegate, ChartInfoDelegate>{
+@interface PerformSetController : UIViewController<NotesSetDelegate,UITableViewDataSource,UITableViewDelegate, NewChordDialogDelegate, PerformSetControllerDelegate, ChartInfoDelegate, UIScrollViewDelegate>{
     UIView *newChordDialog;
     CGFloat screenWidth;
     CGFloat screenHeight;
-    NSIndexPath *indexPath;
+    NSIndexPath *utilIndexPath;
     NSMutableArray *chordsId;
 
     

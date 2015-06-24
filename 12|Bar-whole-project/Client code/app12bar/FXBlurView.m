@@ -1,7 +1,7 @@
 //
 //  FXBlurView.m
 //
-//  Version 1.6.1
+//  Version 1.6.3
 //
 //  Created by Nick Lockwood on 25/08/2013.
 //  Copyright (c) 2013 Charcoal Design
@@ -33,8 +33,6 @@
 
 #import "FXBlurView.h"
 #import <objc/runtime.h>
-#import <objc/message.h>
-#import <QuartzCore/QuartzCore.h>
 
 
 #pragma GCC diagnostic ignored "-Wobjc-missing-property-synthesis"
@@ -237,7 +235,6 @@
 
 - (void)updateAsynchronously
 {
-  //  NSLog(@"updateAsynchronously self function");
     if (self.blurEnabled && !self.updating && self.updatesEnabled > 0 && [self.views count])
     {
         NSTimeInterval timeUntilNextUpdate = 1.0 / 60;
@@ -253,13 +250,13 @@
                 if (!view.lastUpdate || nextUpdate <= 0)
                 {
                     self.updating = YES;
-                 /*   [view updateAsynchronously:YES completion:^{
+                    [view updateAsynchronously:YES completion:^{
                         
                         //render next view
                         self.updating = NO;
                         self.viewIndex = i + 1;
-                        //[self updateAsynchronously];
-                    }];*/
+                        [self updateAsynchronously];
+                    }];
                     return;
                 }
                 else
@@ -480,15 +477,26 @@
     if ([key isEqualToString:@"blurRadius"])
     {
         //animations are enabled
-        CAAnimation *action = (CAAnimation *)[super actionForLayer:layer forKey:@"bounds"];
+        CAAnimation *action = (CAAnimation *)[super actionForLayer:layer forKey:@"backgroundColor"];
         if ((NSNull *)action != [NSNull null])
         {
             CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:key];
             animation.fromValue = [layer.presentationLayer valueForKey:key];
+    
+            //CAMediatiming attributes
+            animation.beginTime = action.beginTime;
             animation.duration = action.duration;
-            animation.timingFunction = action.timingFunction;
+            animation.speed = action.speed;
             animation.timeOffset = action.timeOffset;
+            animation.repeatCount = action.repeatCount;
+            animation.repeatDuration = action.repeatDuration;
+            animation.autoreverses = action.autoreverses;
+            animation.fillMode = action.fillMode;
+            
+            //CAAnimation attributes
+            animation.timingFunction = action.timingFunction;
             animation.delegate = action.delegate;
+            
             return animation;
         }
     }
@@ -524,7 +532,7 @@
         //prevents pixelation on old devices
         scale = 1.0f;
     }
-    UIGraphicsBeginImageContextWithOptions(size, YES, scale);
+    UIGraphicsBeginImageContextWithOptions(size, NO, scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextTranslateCTM(context, -bounds.origin.x, -bounds.origin.y);
     
@@ -584,13 +592,12 @@
 
 - (void)updateAsynchronously:(BOOL)async completion:(void (^)())completion
 {
-   // NSLog(@"updateAsynchronously");
     if ([self shouldUpdate])
     {
         UIImage *snapshot = [self snapshotOfUnderlyingView];
         if (async)
         {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 
                 UIImage *blurredImage = [self blurredSnapshot:snapshot radius:self.blurRadius];
                 dispatch_sync(dispatch_get_main_queue(), ^{

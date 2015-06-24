@@ -37,6 +37,7 @@
 -(NSDictionary*)getSetWithId:(NSString*)setId;
 -(void)setServerId:(NSString*)serverId forChartWithId:(NSString*)chartId;
 -(NSMutableArray*)getChordsForSet:(NSString*)setId;
+-(void)updateChordOrderInSet:(NSMutableArray *)chords forSet:(NSString *)setID;
 -(void)addChart:(NSString*)chartId IntoSet:(NSString*)setId;
 -(void)addNewChart:(NSString*)title
             artist:(NSString*)artist

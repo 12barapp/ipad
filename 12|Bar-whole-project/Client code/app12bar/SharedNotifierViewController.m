@@ -7,8 +7,14 @@
 //
 
 #import "SharedNotifierViewController.h"
+#import "FXBlurView.h"
+#import "ServerUpdater.h"
 
-@interface SharedNotifierViewController ()
+@interface SharedNotifierViewController () {
+    
+    IBOutlet FXBlurView *blurView;
+    dispatch_time_t popTime;
+}
 
 @end
 
@@ -76,6 +82,11 @@ titleForHeaderInSection:(NSInteger)section {
     CGRect rect = CGRectMake((self.screenWidth/8)*6, 0, self.screenWidth/8, self.screenHeight/10);
     self.dismissBtn.frame = rect;
     self.acceptBtn = (UIButton*)[cell viewWithTag:12];
+    
+    self.smallTitle.font = [UIFont systemFontOfSize:13.0];
+    self.smallAuthor.font = [UIFont systemFontOfSize:13.0];
+    self.smallGenre.font = [UIFont systemFontOfSize:13.0];
+    self.chordOtherInfo.font = [UIFont systemFontOfSize:13.0];
 
     rect = CGRectMake((self.screenWidth/8)*7, 0, self.screenWidth/8, self.screenHeight/10);
     self.acceptBtn.frame = rect;
@@ -118,87 +129,158 @@ titleForHeaderInSection:(NSInteger)section {
         [self.acceptBtn addTarget:self action:@selector(acceptSet:) forControlEvents:UIControlEventTouchUpInside];
     }
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 
 
 
 -(void)dismissSet:(id)sender{
+    
+    [self showBlurredView];
+    
     UITableViewCell *cell = (UITableViewCell *)[[[sender superview] superview] superview];
     NSIndexPath* indexPath = [self.sharedDataTable indexPathForCell:cell];
-    int r = indexPath.row;
+    int r = (int)indexPath.row;
      NSDictionary* tempSet = [sharedSets objectAtIndex:r];
-    [[ServerUpdater sharedManager] declineSet:tempSet[@"serverId"]];
-    [sharedSets removeObjectAtIndex:r];
-    [self.sharedDataTable reloadData];
+    
+    [[ServerUpdater sharedManager] declineSet:tempSet[@"serverId"] completion:^(BOOL result) {
+       
+        if (result) {
+            
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                
+                NSLog(@"Cleaning up locally for %@", tempSet[@"serverId"]);
+                
+                [sharedSets removeObjectAtIndex:r];
+                [self.sharedDataTable reloadData];
+                
+                [self hideBlurredView];
+            });
+        }
+    }];
 }
 
 
 
--(void)dismissChord:(id)sender{
+-(void)dismissChord:(id)sender {
+    
+    [self showBlurredView];
+    
     if ([sharedCharts count] == 0){
         [self dismissSet:sender];
-    } else {
+    }
+    else {
         UITableViewCell *cell = (UITableViewCell *)[[[sender superview] superview] superview];
         NSIndexPath* indexPath = [self.sharedDataTable indexPathForCell:cell];
-        int r = indexPath.row;
+        int r = (int)indexPath.row;
         NSDictionary *tempChord = [sharedCharts objectAtIndex:r];
-        [[ServerUpdater sharedManager] declineChart:tempChord[@"serverId"]];
-        [sharedCharts removeObjectAtIndex:r];
-        [self.sharedDataTable reloadData];
+        
+        [[ServerUpdater sharedManager] declineChart:tempChord[@"serverId"] completion:^(BOOL result) {
+            
+            if (result) {
+                
+                NSLog(@"Cleaning up locally for %@", tempChord[@"serverId"]);
+                
+                [sharedCharts removeObjectAtIndex:r];
+                [self.sharedDataTable reloadData];
+                
+                [self hideBlurredView];
+            }
+        }];
     }
 }
 
 -(void)acceptSet:(id)sender{
+    
+    [self showBlurredView];
+    
     UITableViewCell *cell = (UITableViewCell *)[[[sender superview] superview] superview];
     NSIndexPath* indexPath = [self.sharedDataTable indexPathForCell:cell];
-    int r = indexPath.row;
+    int r = (int)indexPath.row;
     NSDictionary* tempSet = [sharedSets objectAtIndex:r];
     
-    [[DBManager sharedManager] addNewSet:tempSet[@"title"]
-           artist:tempSet[@"artist"]
-             date:tempSet[@"date"]
-         location:tempSet[@"location"]
-            notes:tempSet[@"notes"]
-           chords:tempSet[@"chords"]
-           withId:tempSet[@"setId"]
-            owner:tempSet[@"owner"]];
-    
-    [sharedSets removeObjectAtIndex:r];
-    [[ServerUpdater sharedManager] acceptSet:tempSet[@"serverId"]];
-    [self.sharedDataTable reloadData];
+    [[ServerUpdater sharedManager] acceptSet:tempSet[@"serverId"] completion:^(BOOL result) {
+
+        if (result) {
+            
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                
+                NSLog(@"Cleaning up locally for %@", tempSet[@"serverId"]);
+                
+                [self addSet:tempSet];
+                
+                [sharedSets removeObjectAtIndex:r];
+                [self.sharedDataTable reloadData];
+                
+                [self hideBlurredView];
+            });
+        }
+        
+    }];
 }
 
 -(void)acceptChord:(id)sender{
+    
+    [self showBlurredView];
+    
     if ([sharedCharts count] == 0) {
         [self acceptSet:sender];
     } else {
+        
         UITableViewCell *cell = (UITableViewCell *)[[[sender superview] superview] superview];
         NSIndexPath* indexPath = [self.sharedDataTable indexPathForCell:cell];
-        int r = indexPath.row;
+        int r = (int)indexPath.row;
         NSDictionary *tempChord = [sharedCharts objectAtIndex:r];
-        [self addChord:tempChord];
-        [[ServerUpdater sharedManager] acceptChart:tempChord[@"serverId"]];
-        [sharedCharts removeObjectAtIndex:r];
-        [self.sharedDataTable reloadData];
+        
+        [[ServerUpdater sharedManager] acceptChart:tempChord[@"serverId"] completion:^(BOOL result) {
+            
+            if (result) {
+                
+                dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                    
+                    NSLog(@"Cleaning up locally for %@", tempChord[@"serverId"]);
+                    
+                    [self addChord:tempChord];
+                    
+                    [sharedCharts removeObjectAtIndex:r];
+                    [self.sharedDataTable reloadData];
+                    
+                    [self hideBlurredView];
+                });
+            }
+        }];
+
     }
 }
 
 -(void)addChord:(NSDictionary*)tempChord{
    [[DBManager sharedManager] addNewChart:tempChord[@"cTitle"]
-            artist:tempChord[@"artist"]
-               key:tempChord[@"key"]
-          time_sig:tempChord[@"time_sig"]
-             genre:tempChord[@"genre"]
-               bpm:tempChord[@"bpm"]
-             notes:tempChord[@"notes"]
-            lyrics:tempChord[@"lyrics"]
-           chartId:tempChord[@"chordId"]
-             owner:tempChord[@"owner"]];
+                                    artist:tempChord[@"artist"]
+                                       key:tempChord[@"key"]
+                                  time_sig:tempChord[@"time_sig"]
+                                     genre:tempChord[@"genre"]
+                                       bpm:tempChord[@"bpm"]
+                                     notes:tempChord[@"notes"]
+                                    lyrics:tempChord[@"lyrics"]
+                                   chartId:tempChord[@"chordId"]
+                                     owner:tempChord[@"owner"]];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)_indexPath {
-    self.selectedRow = _indexPath.row;
+-(void)addSet:(NSDictionary*)tempSet {
+    [[DBManager sharedManager] addNewSet:tempSet[@"title"]
+                                  artist:tempSet[@"artist"]
+                                    date:tempSet[@"date"]
+                                location:tempSet[@"location"]
+                                   notes:tempSet[@"notes"]
+                                  chords:tempSet[@"chords"]
+                                  withId:tempSet[@"setId"]
+                                   owner:tempSet[@"owner"]];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.selectedRow = (int)indexPath.row;
 }
 
 - (void)viewDidLoad {
@@ -208,7 +290,29 @@ titleForHeaderInSection:(NSInteger)section {
     CGSize screenSize = screenBound.size;
     self.screenWidth = screenSize.width;
     self.screenHeight = screenSize.height;
+    
+    self.loadingIndicator.hidden = YES;
+    blurView.hidden = YES;
+    
+    popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC));
+}
 
+- (void)showBlurredView {
+    
+        [UIView animateWithDuration:0.5 animations:^{
+            self.loadingIndicator.hidden = NO;
+            blurView.hidden = NO;
+            blurView.blurRadius = 8.6;
+        }];
+}
+
+- (void)hideBlurredView {
+    
+        [UIView animateWithDuration:0.5 animations:^{
+            self.loadingIndicator.hidden = YES;
+            blurView.hidden = YES;
+            blurView.blurRadius = 0;
+        }];
 }
 
 - (IBAction)hideSharedData:(id)sender {

@@ -67,3 +67,9 @@
 #define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK 22
 #define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK 0
 
+// UIResponder+KeyboardCache
+#define COCOAPODS_POD_AVAILABLE_UIResponder_KeyboardCache
+#define COCOAPODS_VERSION_MAJOR_UIResponder_KeyboardCache 0
+#define COCOAPODS_VERSION_MINOR_UIResponder_KeyboardCache 1
+#define COCOAPODS_VERSION_PATCH_UIResponder_KeyboardCache 0
+

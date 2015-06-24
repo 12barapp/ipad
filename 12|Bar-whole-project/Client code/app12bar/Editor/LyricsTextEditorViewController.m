@@ -7,6 +7,9 @@
 //
 
 #import "LyricsTextEditorViewController.h"
+#import "HelpViewController.h"
+#import "TutorialsView.h"
+#import "JsonChordHelper.h"
 
 
 #define TEXT_FONT_SIZE 22.0
@@ -19,22 +22,23 @@
 @interface LyricsTextEditorViewController ()
 {
     IBOutlet FXBlurView *blurView;
-        NSString *JsonForEditing;
-        NSString *songKeyOf;
-        NSDictionary *editedJson;
-        CGFloat screenWidth;
-        CGFloat screenHeight;
-        NSArray *staticColors;
-        NSArray *darkColors;
-        NSArray *redColors;
-        NSArray *vWords;
-        NSMutableArray *vKeys;
-        NSArray *chordsTitles;
-        UIView *somePopup;
-        NSMutableArray *parts;
-        NSMutableDictionary* allLyrics;
-        UIActivityIndicatorView *spinner;
-        TransposeChordHelper *transposer;
+    NSString *JsonForEditing;
+    NSString *songKeyOf;
+    NSDictionary *editedJson;
+    CGFloat screenWidth;
+    CGFloat screenHeight;
+    NSArray *staticColors;
+    NSArray *darkColors;
+    NSArray *redColors;
+    NSArray *vWords;
+    NSMutableArray *vKeys;
+    NSArray *chordsTitles;
+    UIView *somePopup;
+    NSMutableArray *parts;
+    NSMutableDictionary* allLyrics;
+    UIActivityIndicatorView *spinner;
+    TransposeChordHelper *transposer;
+    JsonChordHelper *chordHelper;
     
     DBManager *db;
     CoreSettings *setting;
@@ -60,10 +64,20 @@
     return self;
 }
 
+- (void)removeOneTile { }
+- (void)addOneTile { }
+- (void)droppedView:(int)pos { }
+- (void)typeInNextEditor:(NSInteger *)textViewNumber { }
+- (void)deleteView:(int)pos { }
+- (void)deletePart:(UITapGestureRecognizer *)sender { }
+- (void)refreshDrawArea { }
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     colorIndex = 0;
     transposer = [[TransposeChordHelper alloc] init];
+    chordHelper = [[JsonChordHelper alloc] init];
     parts = [[NSMutableArray alloc] init];
     blurView.hidden = YES;
     parts = [[NSMutableArray alloc] init];
@@ -79,20 +93,25 @@
     screenHeight = screenHeight_;
     screenWidth = screenWidth_;
     
-    if (self.isPerformMode) {
+    if (self.isPerformMode)
+    {
         self.textEditor = [[LyricsEditorTextView alloc] initWithFrame:CGRectMake(screenWidth/8, Y_OFFSET, ((screenWidth/8)*8-(screenWidth/8)), (screenHeight - (screenHeight/10)))];
         self.lyricsScrollView.frame = CGRectMake(0, 0, screenWidth, ((screenHeight/10)*7));
         if ([setting isLightTheme]) {
             self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
         } else {
             self.lyricsScrollView.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:@"#4d4d4d"];
+//            self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
         }
         self.lyricsWrapper.frame = CGRectMake(0, screenHeight/10, screenWidth, screenHeight );
         [self.textEditor setPerformMode];
-    } else {
+        self.metadataView.hidden = YES;
+    }
+    else {
         self.textEditor = [[LyricsEditorTextView alloc] initWithFrame:CGRectMake(screenWidth/8, Y_OFFSET, ((screenWidth/8)*8-(screenWidth/8)), (screenHeight/10)*7)];
         self.lyricsScrollView.frame = CGRectMake(0, 0, screenWidth, screenHeight - ((screenHeight/10)*2));
         self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
+        self.metadataView.hidden = NO;
     }
     self.textEditor.delegate = self;
     self.textEditor.layoutManager.delegate = self;
@@ -130,6 +149,8 @@
     [self initBlur];
     [self.textEditor setNeedsDisplay];
     self.headWrapper.frame = CGRectMake(0, 0, screenWidth, screenHeight/10);
+    
+    
     if (self.inSet) {
         NSLog(@"Set swipe gesture recognizer");
         UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftHandler:)];
@@ -140,6 +161,151 @@
         [swipeRight setDirection:(UISwipeGestureRecognizerDirectionRight)];
         [self.view addGestureRecognizer:swipeRight];
     }
+
+    UITapGestureRecognizer *tapGest = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapOnBlurView)];
+    tapGest.numberOfTapsRequired = 1;
+    
+    [blurView.underlyingView addGestureRecognizer:tapGest];
+    
+    UITapGestureRecognizer *metaTapGets = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editChordMetadata)];
+    metaTapGets.numberOfTapsRequired = 1;
+    
+    [self.metadataView addGestureRecognizer:metaTapGets];
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"tutsCharts_firstLaunch"])
+    {
+        // On first launch, this block will execute
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        HelpViewController *viewController = (HelpViewController *)[storyboard instantiateViewControllerWithIdentifier:@"help"];
+        [viewController setHelpFile:@"tuts_charts"];
+        viewController.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
+        
+        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.75 * NSEC_PER_SEC)); // 1
+        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){ // 2
+            
+            //[self presentViewController:viewController animated:YES completion:nil];
+            [self recallTutsWithOptions:TutorialSetCharts];
+        });
+        
+        // Set the "hasPerformedFirstLaunch" key so this block won't execute again
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"tutsCharts_firstLaunch"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+}
+
+- (void)recallTutsWithOptions:(TutorialSet) set {
+    [self animateModalPaneOut:somePopup];
+    
+    somePopup = nil;    blurView.hidden = NO;
+    somePopup = [TutorialsView tutorials:set];
+    [[(TutorialsView *)somePopup scrollView] setDelegate:self];
+    
+    [self animateModalPaneIn:somePopup];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGRect screenBound = [[UIScreen mainScreen] bounds];
+    CGSize screenSize = screenBound.size;
+    
+    CGFloat pageWidth = screenSize.width;
+    float fractionalPage = scrollView.contentOffset.x / pageWidth;
+    NSInteger page = lround(fractionalPage);
+    NSLog(@"page number %ld",(long)page);
+    
+    [(TutorialsView *)somePopup pageControl].currentPage = page;
+}
+
+- (void)handleTapOnBlurView
+{
+    if ([somePopup class] == [NotesDlg class]) {
+        
+        [self saveNotes:[(NotesDlg*)somePopup notesText].text];
+    }
+    else if ([somePopup class] != [NewChordDialog class]) {
+        blurView.hidden = YES;
+        [self animateModalPaneOut:somePopup];
+        somePopup = nil;
+    }
+}
+
+- (void)editChordMetadata {
+    
+    editedJson = [db getChartById:[self.currentUser chartId]];
+    
+    blurView.hidden = NO;
+    
+    somePopup = [NewChordDialog newChordDialog:self];
+    
+    [(NewChordDialog*)somePopup setDataForEDiting:editedJson[@"cTitle"]
+                                           artist:editedJson[@"artist"]
+                                              key:editedJson[@"key"]
+                                         time_sig:editedJson[@"time_sig"]
+                                            genre:editedJson[@"genre"]
+                                              bpm:editedJson[@"bpm"]
+                                            notes:editedJson[@"notes"]];
+    
+    [self animateModalPaneIn:somePopup];
+}
+
+- (void)closeInfo {
+    
+    blurView.hidden = YES;
+    
+    [self animateModalPaneOut:somePopup];
+    
+    somePopup = nil;
+}
+
+- (void)updateExistingChordWith:(NSString *)title
+                         artist:(NSString *)artist
+                            key:(NSString *)key
+                       time_sig:(NSString *)time_sig
+                          genre:(NSString *)genre
+                            bpm:(NSString *)bpm
+                          notes:(NSString *)notes
+                 transposeIndex:(int)tIndex {
+    blurView.hidden = YES;
+    
+    [self animateModalPaneOut:somePopup];
+    
+    somePopup = nil;
+    
+    [chordHelper updateExistingChordWith:title artist:artist key:key time_sig:time_sig genre:genre bpm:bpm notes:notes transposeIndex:tIndex];
+    
+    if ([self.currentUser getUsedMode] == MODE_FB) {
+        [self.serverUpdater updateChart:[self dictionaryToString:[db getChartById:[self.currentUser setId]]] chartId:[self.currentUser chartId]];
+    }
+    
+    //update text fields
+    [self.sontTitle setText:title];
+    self.headSongTitle.text = title;
+    self.songAuthor.text = artist;
+    @try {
+        songKeyOf = key;
+        self.songInfo.text = [NSString stringWithFormat:@"%@ • %@ • %@",songKeyOf,time_sig,bpm];
+        self.songGenre.text = genre;
+    }
+    @catch (NSException *exception) {
+        self.songInfo.text = @" ";
+        self.songGenre.text = @" ";
+    }
+    @finally {
+        
+    }
+    
+    //update chord chart key
+    [self setNewSongKey:key];
+}
+
+- (void)doneNewChord:(NSString *)title
+              artist:(NSString *)artist
+                 key:(NSString *)key
+            time_sig:(NSString *)time_sig
+               genre:(NSString *)genre
+                 bpm:(NSString *)bpm
+               notes:(NSString *)notes {
+
 }
 
 - (CGFloat)layoutManager:(NSLayoutManager *)layoutManager lineSpacingAfterGlyphAtIndex:(NSUInteger)glyphIndex withProposedLineFragmentRect:(CGRect)rect
@@ -208,22 +374,39 @@
     CATransition *animation = [CATransition animation];
     [animation setDuration:0.5];
     [animation setType:kCATransitionMoveIn];
-    if (direction == 0) {
+    
+    CATransition *animationCurl = [CATransition animation];
+    [animationCurl setDuration:0.75];
+    [animationCurl setTimingFunction:UIViewAnimationCurveEaseInOut];
+    [animationCurl setRemovedOnCompletion:NO];
+    
+    
+    if (direction == 0)
+    {
         [animation setSubtype:kCATransitionFromRight];
+        [animationCurl setSubtype:kCATransitionFromTop];
+        animationCurl.fillMode = kCAFillModeForwards;
+        animationCurl.type = @"pageCurl";
+        
         self.chordToPerform++;
         if (self.chordToPerform >= self.chordIds.count ) {
             self.chordToPerform = 0;
         }
-    } else {
+    }
+    else
+    {
         [animation setSubtype:kCATransitionFromLeft];
-       
+        [animationCurl setSubtype:kCATransitionFromTop];
+        animationCurl.fillMode = kCAFillModeBackwards;
+        animationCurl.type = @"pageUnCurl";
         
         self.chordToPerform--;
         if (self.chordToPerform < 0 ) {
-            self.chordToPerform = self.chordIds.count - 1;
+            self.chordToPerform = (int)(self.chordIds.count - 1);
         }
 
     }
+    
     [self.textEditor clearAllChords];
     editedJson = [db getChartById:[self.chordIds objectAtIndex:self.chordToPerform]];
     [self.currentUser setChartId:[self.chordIds objectAtIndex:self.chordToPerform]];
@@ -234,7 +417,9 @@
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
     
     [[theWindow layer] addAnimation:animation forKey:@"SwitchToView2"];
-     [self lyricsPreview];
+    //[[theWindow layer] addAnimation:animationCurl forKey:@"SwitchToView2"];
+    
+    [self lyricsPreview];
     
     [self.textEditor setNeedsDisplay];
     [self calcTextHeight];
@@ -248,13 +433,12 @@
     [viewController activatePerformMode];
     [viewController customInit];
     [viewController setIsPerformMode:YES];
+    
     [self presentViewController:viewController animated:NO completion:^{
-        
+    
     }];
-    
+
     [self dismissViewControllerAnimated:NO completion:nil];
-    
-   
     
 }
 
@@ -276,8 +460,8 @@
                           @"G",
                           @"Ab", nil];
     
-    int prevKeyIndex = [allChords indexOfObject:songKeyOf];
-    int currentKeyIndex = [allChords indexOfObject:key];
+    int prevKeyIndex = (int)[allChords indexOfObject:songKeyOf];
+    int currentKeyIndex = (int)[allChords indexOfObject:key];
     int transposeIndex = 0;
     
     if (prevKeyIndex < currentKeyIndex) {
@@ -323,6 +507,50 @@
     }
     [self fillChordsTilesForTab];
     self.songInfo.text = [NSString stringWithFormat:@"%@ • %@ • %@",songKeyOf,editedJson[@"time_sig"],editedJson[@"bpm" ]];
+    
+    //Update chart metadata with new key
+    
+    if (!self.isPerformMode) {
+        
+        NSMutableArray* lyricsForSaving = [[NSMutableArray alloc] init];
+        NSString* lyrics = [[self.textEditor getSelfText] stringByReplacingOccurrencesOfString:@"\n" withString:@"|!|"];
+        lyrics = [lyrics stringByReplacingOccurrencesOfString:@"'" withString:@"\'"];
+        lyrics = [lyrics stringByReplacingOccurrencesOfString:@"\"" withString:@"%!%"];
+        lyrics = [self escapeString:lyrics];
+        NSMutableArray* lyricsNotes = [self.textEditor getSelfChords];
+        NSMutableDictionary* lnT = [[NSMutableDictionary alloc] init];
+        [lnT setObject:lyrics forKey:@"txt"];
+        [lnT setObject:lyricsNotes forKey:@"cordinates"];
+        NSMutableArray* values = [[NSMutableArray alloc] init];
+        for (int i = 0; i < countOfParts; i++) {
+            [values addObject:[[(LyricsDropZone*)[parts objectAtIndex:i] getSelfValue] stringByReplacingOccurrencesOfString:@"\n" withString:@"|!|"]];
+        }
+        [lnT setObject:values forKey:@"chorus"];
+        [lyricsForSaving addObject:lnT];
+        [db updateLyrics:lyricsForSaving forChartId:[self.currentUser chartId]];
+
+        NSDictionary *mArr = [db getChartById:[self.currentUser chartId]];
+        NSString *notesText = [mArr[@"notes"] stringByReplacingOccurrencesOfString:@"%!%" withString:@"\n"];
+        notesText = [notesText stringByReplacingOccurrencesOfString:@"*!*" withString:@"\""];
+        
+        [db updateChart:self.sontTitle.text
+                 artist:self.songAuthor.text
+                    key:songKeyOf
+               time_sig:editedJson[@"time_sig"]
+                  genre:self.songGenre.text
+                    bpm:editedJson[@"bpm"]
+                  notes:notesText
+                 lyrics:lyricsForSaving
+                chartId:[self.currentUser chartId]];
+        
+        if ([self.currentUser getUsedMode] == MODE_FB){
+            if (textChanged || [self.textEditor wasEdited]) {
+                self.serverUpdater = [ServerUpdater sharedManager];
+                [self.serverUpdater updateChart:[self dictionaryToString:[db getChartById:[self.currentUser chartId]]]
+                                        chartId:[self.currentUser chartId]];
+            }
+        }
+    }
 }
 
 -(void)drawSongParts:(NSMutableArray*)lyrics andParts:(int)pCount{
@@ -346,7 +574,7 @@
         UIView* v = [[UIView alloc] initWithFrame:CGRectMake(0, i*(screenHeight/10), screenWidth/8, screenHeight/10)];
         v.backgroundColor = [UIColor whiteColor];
         LyricsDropZone *dropZone = [[LyricsDropZone alloc] initWithFrame:CGRectMake(0, 0, screenWidth/8, screenHeight/10)];
-        dropZone.editorDelegate  = self.textEditor;
+        dropZone.editorDelegate  = (id)self.textEditor;
         dropZone.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:staticColors[colorIndex]];
         colorIndex++;
         if (colorIndex > 7) {
@@ -384,7 +612,7 @@
 }
 
 -(void)setContent:(UIView*)v forTextView:(UITextView*)text andText:(NSString*)string dropZone:(LyricsDropZone*)zone andPosition:(int)pos{
-    zone.editorDelegate  = self.textEditor;
+    zone.editorDelegate  = (id)self.textEditor;
     [zone setZonePosition:pos];
     [v addSubview:zone];
     [leftPartsContainer addSubview:v];
@@ -392,14 +620,16 @@
 
 -(void)initBlur {
     blurView.blurRadius = 10.913934f;
-    [blurView updateAsynchronously:YES completion:nil];
+    blurView.dynamic = NO;
     
+    [blurView updateAsynchronously:YES completion:nil];
 }
 
 -(void)initArrays{
     staticColors = @[@"#979797",@"#979797",@"#C1C1C1",@"#C1C1C1",@"#979797",@"#979797",@"#C1C1C1",@"#C1C1C1"];
     darkColors = @[@"#4C4C4E", @"#626366", @"#76787A", @"#898B8E", @"#9D9FA1"];
-    redColors = @[@"#fd2732", @"#e3363e", @"#e15a5d", @"#df7c7e", @"#ec9c9d"];
+    //redColors = @[@"#fd2732", @"#e3363e", @"#e15a5d", @"#df7c7e", @"#ec9c9d"];
+    redColors = @[@"#EA465A", @"#EE6B7B", @"#F07E8C", @"#F2909C", @"#F4A2AC"];
     vWords = @[@"Intro",@"V1",@"V2",@"V3",@"V4",@"V5",@"V6",@"Pre\nChorus",@"Chorus",@"Bridge",@"Instrumental",@"Outro",@"Custom",@"Custom"];
     vKeys = [transposer getViewForKey:editedJson[@"key"]];
     
@@ -411,6 +641,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
     [self.textEditor setNeedsDisplay];
     
     [[NSNotificationCenter defaultCenter]
@@ -446,20 +677,30 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    
     if (!self.isPerformMode || [setting showLyrics]) {
         [self calcTextHeight];
     }else {
         
-        [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, self.textEditor.frame.size.height+screenHeight/10)];
-         self.leftPartsContainer.frame = CGRectMake(0, PARTS_Y_OFFSET, self.leftPartsContainer.frame.size.width, self.textEditor.frame.size.height+screenHeight/10);
+        [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, self.textEditor.frame.size.height+((screenHeight/10)))];
+         self.leftPartsContainer.frame = CGRectMake(0, PARTS_Y_OFFSET, self.leftPartsContainer.frame.size.width, self.textEditor.frame.size.height+(screenHeight/10)+1);
     }
     
     [self.dragAndDropManager start];
     [blurView updateAsynchronously:YES completion:nil];
     NSLog(@"%f",self.textEditor.font.lineHeight);
-    [self.textEditor setNeedsDisplay];
-   // self.lyricsScrollView.backgroundColor = [UIColor grayColor];
+    //[self.textEditor setNeedsDisplay];
+    
+//    self.lyricsWrapper.backgroundColor = [UIColor whiteColor];
+//    self.lyricsScrollView.backgroundColor = [UIColor whiteColor];
+//    self.textEditor.backgroundColor = [UIColor whiteColor];
+//    self.leftPartsContainer.backgroundColor = [UIColor whiteColor];
+//
+//    self.lyricsWrapper.layer.borderColor = [UIColor whiteColor].CGColor;
+//    self.lyricsScrollView.layer.borderColor = [UIColor whiteColor].CGColor;
+//    self.textEditor.layer.borderColor = [UIColor whiteColor].CGColor;
+//    self.leftPartsContainer.layer.borderColor = [UIColor whiteColor].CGColor;
+    
+    //self.lyricsScrollView.backgroundColor = [UIColor grayColor];
 }
 
 -(void)calcTextHeight{
@@ -468,16 +709,19 @@
     if (self.textEditor.contentSize.height < ((screenHeight/10)*7))
         frame.size.height  = ((screenHeight/10)*7);
     else
-        frame.size.height = self.textEditor.contentSize.height;
+        frame.size.height = self.textEditor.contentSize.height-5;
 
-   // frame.origin.y = -1;
-   // self.textEditor.frame = frame; //TODO: some weird bug with frame fot text editor
+    // frame.origin.y = -1;
+    //self.textEditor.frame = frame; //TODO: some weird bug with frame fot text editor
     prefTextHeight = self.textEditor.contentSize.height;
     [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, frame.size.height+screenHeight/10)];
     int leftPartHeight = frame.size.height;
     if (leftPartHeight < ((screenHeight/10)*7))
         leftPartHeight = ((screenHeight/10)*7);
-    self.leftPartsContainer.frame = CGRectMake(0, PARTS_Y_OFFSET, self.leftPartsContainer.frame.size.width, leftPartHeight);
+    self.leftPartsContainer.frame = CGRectMake(0, PARTS_Y_OFFSET, self.leftPartsContainer.frame.size.width, leftPartHeight+(screenHeight/10));
+    
+    [self.lyricsScrollView setContentSize:CGSizeMake(screenWidth, leftPartHeight+(screenHeight/10))];
+    self.textEditor.frame = CGRectMake(screenWidth/8, Y_OFFSET, ((screenWidth/8)*8-(screenWidth/8)), leftPartHeight+(screenHeight/10));
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -518,7 +762,7 @@
     if (txt == nil){
         txt = @" ";
     }
-    textLenght = txt.length;
+    textLenght = (int)txt.length;
     [self.textEditor setFont:[UIFont fontWithName:@"Helvetica Neue" size:TEXT_FONT_SIZE]];
     self.textEditor.textColor = [UIColor grayColor];
     NSDictionary*dc = [[NSDictionary alloc] init];
@@ -600,7 +844,7 @@
                 [self.textEditor addExistingChords:dc[@"cordinates"] andTitle:@"13333 e3 43232 2"];
       //  [self.textEditor setFont:[UIFont fontWithName:@"Helvetica Neue" size:22.0]];
     }
-        [self drawSongParts:lyrics andParts:countOfParts];
+    [self drawSongParts:lyrics andParts:countOfParts];
     
     [self.textEditor setFont:[UIFont fontWithName:@"Helvetica Neue" size:TEXT_FONT_SIZE]];
     [self.textEditor changeToLightTheme];
@@ -620,7 +864,7 @@
     self.tabBtn1.frame = CGRectMake(0, 0, screenWidth/8, screenHeight/10);
     self.tabBtn2.frame = CGRectMake(0, screenHeight/10, screenWidth/8, screenHeight/10);
     self.tabBtn2.backgroundColor = [UIColor lightGrayColor];
-    self.tabBtn1.backgroundColor = [UIColor redColor];
+    self.tabBtn1.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[0]];
     self.firstTabContainer.backgroundColor = [UIColor yellowColor];
     self.secondTabContainer.backgroundColor = [UIColor orangeColor];
     self.secondTabContainer.hidden = YES;
@@ -652,10 +896,11 @@
                  UIView *keyOf = [[UIView alloc] initWithFrame:CGRectMake(((screenWidth/8)*x), y*(screenHeight/10), screenWidth/8, screenHeight/10)];
                  keyOf.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:@"#929292"];
                  [self.secondTabContainer addSubview:keyOf];
-                 UILabel *songKey = [[UILabel alloc] initWithFrame:CGRectMake(0, keyOf.frame.size.height-40, screenWidth/8-10, 30)];
+                 UILabel *songKey = [[UILabel alloc] initWithFrame:CGRectMake(0, keyOf.frame.size.height-30, screenWidth/8-10, 30)];
                  songKey.text = [NSString stringWithFormat:@"Key of %@", songKeyOf];
                  songKey.textAlignment = NSTextAlignmentRight;
                  songKey.textColor = [UIColor whiteColor];
+                 songKey.font = [UIFont systemFontOfSize:13.0];
                  UITapGestureRecognizer *single_tap_recognizer;
                  single_tap_recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showKeysEditor:)];
                  [single_tap_recognizer setNumberOfTapsRequired:1];
@@ -675,12 +920,12 @@
                  [dotsButton setAlpha:0.5f];
                  [dotsButton addTarget:self action:@selector(showChordsModifier:) forControlEvents:(UIControlEventTouchDown)];
                  [dSource addSubview:dotsButton];
-                 [dSource setTitlePosition:CGRectMake(0, dSource.frame.size.height-40, screenWidth/8-10, 30)];
+                 [dSource setTitlePosition:CGRectMake(0, dSource.frame.size.height-30, screenWidth/8-10, 30)];
                             
                  if (![[[vKeys objectAtIndex:chordNum] valueForKey:@"modifier"] isEqualToString:@""]) {
                      [dSource setTitleText:[NSString stringWithFormat:@"%@%@",[[vKeys objectAtIndex:chordNum] valueForKey:@"chord"],[[vKeys objectAtIndex:chordNum] valueForKey:@"modifier"]]];
                  }else
-                     [dSource setTitleText:[[vKeys objectAtIndex:chordNum] valueForKey:@"chord"]];
+                 [dSource setTitleText:[[vKeys objectAtIndex:chordNum] valueForKey:@"chord"]];
                  [dSource setMetadata:[[vKeys objectAtIndex:chordNum] valueForKey:@"chord"]];
                  [dSource setChordModifier:[[vKeys objectAtIndex:chordNum] valueForKey:@"modifier"]];
                  [dSource checkLikeChord];
@@ -706,12 +951,16 @@
             NSString* wordForTitle = [NSString stringWithFormat:@"%@",[vWords objectAtIndex:wordNum]] ;
             [dSource setMetadata:wordForTitle];
             CGSize size = [wordForTitle sizeWithFont:[UIFont systemFontOfSize:20.0f] constrainedToSize:maximumLabelSize];
-            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(dSource.frame.size.width-size.width-5, dSource.frame.size.height-size.height-5, size.width, size.height)];
+            
+            UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(dSource.frame.size.width-size.width-5,
+                                                                            dSource.frame.size.height-size.height-5,
+                                                                            size.width,
+                                                                            size.height)];
             [titleLabel setText:[vWords objectAtIndex:wordNum]];
             wordNum++;
             titleLabel.textAlignment = NSTextAlignmentRight;
             [titleLabel setNumberOfLines:0];
-            titleLabel.font = [UIFont systemFontOfSize:14.0f];
+            titleLabel.font = [UIFont systemFontOfSize:13.0f];
             titleLabel.tag = 1;
             titleLabel.textColor = [UIColor whiteColor];
             [dSource addSubview:titleLabel];
@@ -767,7 +1016,7 @@
                 countOfRows = 0;
             } else {
                 prevStr = [self.textEditor.text substringWithRange:NSMakeRange(0, cursorPosition.location - 1)];
-                countOfRows = [[prevStr componentsSeparatedByString:@"\n"] count] ;
+                countOfRows = (int)[[prevStr componentsSeparatedByString:@"\n"] count] ;
             }
             if (countOfRows < 0) {
                 countOfRows = 0;
@@ -874,7 +1123,7 @@
         UIView* v = [[UIView alloc] initWithFrame:CGRectMake(0, i*(screenHeight/10)+(countOfParts*(screenHeight/10)), screenWidth/8, screenHeight/10)];
         v.backgroundColor = [UIColor whiteColor];
         LyricsDropZone *dropZone = [[LyricsDropZone alloc] initWithFrame:CGRectMake(0, 0, screenWidth/8, screenHeight/10)];
-        dropZone.editorDelegate  = self.textEditor;
+        dropZone.editorDelegate  = (id)self.textEditor;
         dropZone.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:staticColors[colorIndex]];
         colorIndex++;
         if (colorIndex > 7) {
@@ -914,7 +1163,8 @@
     notes = [notes stringByReplacingOccurrencesOfString:@"\"" withString:@"*!*"];
     [db updateNotes:notes forChartId:[self.currentUser chartId]];
     blurView.hidden = YES;
-    [somePopup removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionShowHideTransitionViews)];    
+    //[somePopup removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionShowHideTransitionViews)];
+    [self animateModalPaneOut:somePopup];
 }
 
 
@@ -922,7 +1172,7 @@
     [blurView updateAsynchronously:YES completion:nil];
     self.secondTabContainer.hidden = NO;
     self.firstTabContainer.hidden = YES;
-    ((UIButton*)sender).backgroundColor = [UIColor redColor];
+    ((UIButton*)sender).backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[0]];
     self.tabBtn1.backgroundColor = [UIColor lightGrayColor];
     [((UIButton*)sender) setBackgroundImage:[UIImage imageNamed:@"tab2_active"] forState:(UIControlStateNormal)];
     [self.tabBtn1 setBackgroundImage:[UIImage imageNamed:@"tab1_inactive"] forState:(UIControlStateNormal)];
@@ -932,7 +1182,7 @@
     [blurView updateAsynchronously:YES completion:nil];
     self.secondTabContainer.hidden = YES;
     self.firstTabContainer.hidden = NO;
-    ((UIButton*)sender).backgroundColor = [UIColor redColor];
+    ((UIButton*)sender).backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[0]];
     [((UIButton*)sender) setBackgroundImage:[UIImage imageNamed:@"tab1_active"] forState:(UIControlStateNormal)];
     [self.tabBtn2 setBackgroundImage:[UIImage imageNamed:@"tab2_inactive"] forState:(UIControlStateNormal)];
     self.tabBtn2.backgroundColor = [UIColor lightGrayColor];
@@ -942,7 +1192,9 @@
     [blurView updateAsynchronously:YES completion:nil];
     somePopup = [ModifyChordsView modifyChordsDialog:(LyricsDragSource*)chord.superview andSecondDelegate:self];
     blurView.hidden = NO;
-    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    //[self.view addSubviewWithZoomInAnimation:somePopup duration:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+
+    [self animateModalPaneIn:somePopup];
 }
 
 -(void)showKeysEditor:(UITapGestureRecognizer*)sender{
@@ -950,12 +1202,15 @@
     somePopup = [ChangeKeysView changeKeysDialog:self andSecondDelegate:self];
     
     blurView.hidden = NO;
-    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+//    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    [self animateModalPaneIn:somePopup];
 }
 
 -(void)closeKeyDialog {
     blurView.hidden = YES;
-    [somePopup removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    //[somePopup removeWithZoomOutAnimation:0.1 option:(UIViewAnimationOptionCurveEaseInOut)];
+    [self animateModalPaneOut:somePopup];
+    
     somePopup = nil;
 }
 
@@ -967,7 +1222,9 @@
     NSString *txt = [mArr[@"notes"] stringByReplacingOccurrencesOfString:@"%!%" withString:@"\n"];
     txt = [txt stringByReplacingOccurrencesOfString:@"*!*" withString:@"\""];
     [(NotesDlg*)somePopup showNotes:txt];
-    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+
+    //    [self.view addSubviewWithZoomInAnimation:somePopup duration:0.2 option:UIViewAnimationOptionCurveEaseIn];
+    [self animateModalPaneIn:somePopup];
 }
 
 - (NSString *) escapeString:(NSString *)string {
@@ -1006,6 +1263,8 @@
         self.serverUpdater = [ServerUpdater sharedManager];
         [self.serverUpdater continueCheck];
         
+        
+        
     }];
 }
 
@@ -1022,6 +1281,40 @@
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     return jsonString;
 }
+
+- (void)animateModalPaneIn:(UIView *)viewToAnimate
+{
+    CATransition *trans = [CATransition animation];
+    trans.duration = 0.15;
+    trans.type = kCATransitionMoveIn;
+    trans.subtype = kCATransitionFromLeft;
+    
+    [viewToAnimate.layer addAnimation:trans forKey:nil];
+    [self.view addSubview:viewToAnimate];
+}
+
+- (void)animateModalPaneOut:(UIView *)viewToAnimate
+{
+    //    CATransition *trans = [CATransition animation];
+    //    trans.duration = 0.2;
+    //    trans.type = kCATransitionPush;
+    //    trans.subtype = kCATransitionFromLeft;
+    //
+    //
+    //    [viewToAnimate.layer addAnimation:trans forKey:nil];
+    
+    CGRect temp = viewToAnimate.frame;
+    temp.origin.x = [[UIScreen mainScreen] bounds].size.width ;
+    [UIView animateWithDuration:0.15
+                          delay:0.0
+                        options: UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         viewToAnimate.frame = temp;
+                     }completion:^(BOOL finished){
+                         [viewToAnimate removeFromSuperview];
+                     }];
+}
+
 
 @end
 

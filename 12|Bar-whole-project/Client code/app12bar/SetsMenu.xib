@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -32,14 +31,6 @@
                         <action selector="setsOrder:" destination="A3v-5d-KtE" eventType="touchUpInside" id="VmL-or-cy9"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Q1b-Bo-FlE">
-                    <rect key="frame" x="298" y="17" width="60" height="60"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <state key="normal" image="set_search.png"/>
-                    <connections>
-                        <action selector="setsSearch:" destination="A3v-5d-KtE" eventType="touchUpInside" id="5UX-81-A45"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Ohr-6b-Nls">
                     <rect key="frame" x="397" y="14" width="60" height="60"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -48,6 +39,14 @@
                     </state>
                     <connections>
                         <action selector="setsNew:" destination="A3v-5d-KtE" eventType="touchUpInside" id="b7f-hA-ipv"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Q1b-Bo-FlE">
+                    <rect key="frame" x="203" y="-71" width="250" height="260"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="search_blue.png"/>
+                    <connections>
+                        <action selector="setsSearch:" destination="A3v-5d-KtE" eventType="touchUpInside" id="5UX-81-A45"/>
                     </connections>
                 </button>
             </subviews>
@@ -62,9 +61,9 @@
         </view>
     </objects>
     <resources>
+        <image name="search_blue.png" width="192" height="204"/>
         <image name="set_new.png" width="30" height="30"/>
         <image name="set_order.png" width="30" height="30"/>
-        <image name="set_search.png" width="30" height="28"/>
         <image name="sets_menu_bg.png" width="3999" height="850"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

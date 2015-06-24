@@ -62,7 +62,7 @@
     sender.layer.opacity = 0.5f;
     self.tempModifier = sender.titleLabel.text;
     
-
+    [self done:nil];
 }
 - (IBAction)close:(id)sender {
     [self.delegate2 closeKeyDialog];

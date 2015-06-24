@@ -17,6 +17,12 @@
         self.setTitle.delegate = self;
         self.setArtist.delegate = self;
         self.setLocation.delegate = self;
+        
+        UITextField *lagFreeField = [[UITextField alloc] init];
+        [self.window addSubview:lagFreeField];
+        [lagFreeField becomeFirstResponder];
+        [lagFreeField resignFirstResponder];
+        [lagFreeField removeFromSuperview];
     }
     return self;
 }
@@ -29,7 +35,8 @@
         [self showDatePicker:self.datePickerBtn];
     }else if(textField == self.setLocation) {
         [self.setLocation resignFirstResponder];
-        [self.setTitle becomeFirstResponder];
+        //[self.setTitle becomeFirstResponder];
+        [self newSetDone:nil];
     }
     return YES;
 }
@@ -37,6 +44,8 @@
 -(void)setDateForSet:(NSString*)date{
     [self.popuperView dismissPopoverAnimated:YES];
     [self.datePickerBtn setTitle:date forState:(UIControlStateNormal)];
+    
+    [self.setLocation becomeFirstResponder];
 }
 
 +(id)newSetDialog:(id)pickDelegate{

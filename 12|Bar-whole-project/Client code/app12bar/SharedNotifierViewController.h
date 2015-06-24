@@ -40,6 +40,7 @@
 @property (assign)                     int selectedRow;
 @property (strong, nonatomic)          User* currentUser;
 @property (assign)                     id<SharedNotifierDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
 -(void)updateForData:(NSDictionary*)data andShared:(NSString*)sh;
 -(void)showSharedCharts:(NSMutableArray*)charts andSets:(NSMutableArray*)sets;

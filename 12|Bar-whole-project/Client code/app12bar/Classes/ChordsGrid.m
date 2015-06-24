@@ -20,7 +20,8 @@
 -(id)initWithData:(NSMutableArray*)data andIds:(NSMutableArray*)ids_ withFrame:(CGRect)rect andContainer:(UIView*)container owner:(UIViewController*)parent{
     self = [super init];
     if (self){
-        redColors = @[@"#ED1C24", @"#E53E3E", @"#E25D5D", @"#E07E7E", @"#ED9D9D"];
+        //redColors = @[@"#ED1C24", @"#E25D5D", @"#E53E3E", @"#E07E7E", @"#ED9D9D"];
+        redColors = @[@"#EA465A", @"#EE6B7B", @"#F07E8C", @"#F2909C", @"#F4A2AC"];
         NSInteger spacing = 0;
         
         self.dataSource = data;
@@ -69,10 +70,10 @@
 - (void)GMGridView:(GMGridView *)gridView exchangeItemAtIndex:(NSInteger)index1 withItemAtIndex:(NSInteger)index2 {
 
     DGChord *dc = (DGChord*)[gridView cellForItemAtIndex:index1-5];
-    DGChord *dc2 = (DGChord*)[gridView cellForItemAtIndex:index2-5];
-    [ dc setMyId:index2-5];
-    [dc updateId:index2-5];
-    [(DGChord*)[gridView cellForItemAtIndex:index2-4] setMyId:index1-5];
+
+    [dc setMyId:(int)index2-5];
+    [dc updateId:(int)index2-5];
+    [(DGChord*)[gridView cellForItemAtIndex:(int)index2-4] setMyId:(int)index1-5];
     [self.dataSource exchangeObjectAtIndex:index1-5 withObjectAtIndex:index2-5];
 
     
@@ -96,17 +97,19 @@
     CGSize screenSize = screenBound.size;
     CGFloat screenWidth = screenSize.width;
     DGChord *cell = (DGChord*)[gridView dequeueReusableCell];
-    [cell setMyId:index];
+    [cell setMyId:(int)index];
     [cell setUniqueID:[ids objectAtIndex:index]];
     if (!cell) {
         cell = [[DGChord alloc] initWithFrame:CGRectMake(0, 0, screenWidth/8, screenSize.height/10)];
         cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
         cell.deleteButtonOffset = CGPointMake(-15, -15);
         [cell setUniqueID:[ids objectAtIndex:index]];
-        [cell setMyId:index];
+        [cell setMyId:(int)index];
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
 
-        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[arc4random()%redColors.count]];
+//        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[arc4random()%redColors.count]];
+//        NSLog(@"%d %@", (index % redColors.count), redColors[index % redColors.count]);
+        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:redColors[index % redColors.count]];
         view.layer.masksToBounds = NO;
         view.layer.cornerRadius = 0;
         
@@ -129,6 +132,7 @@
     
     [dotsButton setImage:[UIImage imageNamed:@"dots_icon"] forState:(UIControlStateNormal)];
     [dotsButton  setImageEdgeInsets:UIEdgeInsetsMake(10, 0, 10, 0)];
+    dotsButton.layer.opacity = 0.25;
     
     dotsButton.tag = index;
     
@@ -138,7 +142,7 @@
     [dotsView addSubview:dotsButton];
     [cellView addSubview:dotsView];
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 0, 5, 5);
-    CGRect paddedFrame = UIEdgeInsetsInsetRect(CGRectMake(0, 40, 94, 60), contentInsets);
+    CGRect paddedFrame = UIEdgeInsetsInsetRect(CGRectMake(0, 40, 90, 60), contentInsets);
     
     CustomButton *chartTitle = [[CustomButton alloc] initWithFrame:paddedFrame];
     chartTitle.tag = index;
@@ -146,14 +150,14 @@
     chartTitle.enabled = YES;
     [chartTitle setUniqueID:[ids objectAtIndex:index]];
     [chartTitle setTitle:[self.dataSource objectAtIndex:index] forState:UIControlStateNormal];
-    [chartTitle.titleLabel setFont:[UIFont fontWithName:MY_FONT size:14.0]];
+    [chartTitle.titleLabel setFont:[UIFont fontWithName:MY_FONT size:13.0]];
     [chartTitle.titleLabel setNumberOfLines:3];
   //  chartTitle.backgroundColor = [UIColor grayColor];
     UITapGestureRecognizer *titleGestureInfo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapLabelWithGesture:)];
     titleGestureInfo.numberOfTapsRequired = 1;
     [cellView addGestureRecognizer:titleGestureInfo];
+
     cellView.userInteractionEnabled = YES;
-    
     
     [chartTitle addTarget:self action:@selector(didTapLabelWithGesture:) forControlEvents:(UIControlEventTouchUpInside)];
     

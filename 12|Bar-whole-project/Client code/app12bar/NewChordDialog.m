@@ -24,6 +24,11 @@
         self.titleText.delegate = self;
         self.artistText.delegate = self;
         
+        UITextField *lagFreeField = [[UITextField alloc] init];
+        [self addSubview:lagFreeField];
+        [lagFreeField becomeFirstResponder];
+        [lagFreeField resignFirstResponder];
+        [lagFreeField removeFromSuperview];
     }
     return self;
 }
@@ -86,7 +91,15 @@
             transposeIndex = 0;
         }
         transposeIndex *= -1;
-        [self.delegate updateExistingChordWith:self.titleText.text artist:self.artistText.text  key:self.keyPick.titleLabel.text time_sig:self.timePick.titleLabel.text genre:self.genrePick.titleLabel.text bpm:self.bpmPick.titleLabel.text notes:@"" transposeIndex:transposeIndex];
+        
+        [self.delegate updateExistingChordWith:self.titleText.text
+                                        artist:self.artistText.text
+                                           key:self.keyPick.titleLabel.text
+                                      time_sig:self.timePick.titleLabel.text
+                                         genre:self.genrePick.titleLabel.text
+                                           bpm:self.bpmPick.titleLabel.text
+                                         notes:@""
+                                transposeIndex:transposeIndex];
     }
     
 }
@@ -96,7 +109,8 @@
         [self.artistText becomeFirstResponder];
     } else if(textField == self.artistText) {
         [self.artistText resignFirstResponder];
-        [self showKeyPicker:self.timePick];
+        //[self showKeyPicker:self.timePick];
+        //[self chordDone:nil];
     }
     return YES;
 }
@@ -110,11 +124,11 @@
         return ch;
     }
     
-    if ((self.artistText.text.length > 0) && self.artistText.text != nil && [self.artistText.text isEqual:@""] == FALSE){
-        ch = true;
-    } else {
-        return false;
-    }
+//    if ((self.artistText.text.length > 0) && self.artistText.text != nil && [self.artistText.text isEqual:@""] == FALSE){
+//        ch = true;
+//    } else {
+//        return false;
+//    }
     if (self.keyPick.titleLabel.text.length > 0 && self.keyPick.titleLabel.text != nil && [self.keyPick.titleLabel.text isEqual:@""] == FALSE) {
         ch = true;
     } else {
@@ -147,7 +161,14 @@
     return ch;
 }
 
--(void)setDataForEDiting:(NSString*)title artist:(NSString*)artist key:(NSString*)key time_sig:(NSString*)time_sig genre:(NSString*)genre bpm:(NSString*)bpm notes:(NSString*)notes{
+-(void)setDataForEDiting:(NSString*)title
+                  artist:(NSString*)artist
+                     key:(NSString*)key
+                time_sig:(NSString*)time_sig
+                   genre:(NSString*)genre
+                     bpm:(NSString*)bpm
+                   notes:(NSString*)notes
+{
     isEditing = true;
     self.titleText.text = title;
     self.artistText.text = artist;
@@ -169,15 +190,18 @@
         switch (selectedField) {
             case 0:
                 [self.keyPick setTitle:value forState:UIControlStateNormal];
+                //[self showGenrePicker:nil];
                 break;
             case 1:
                 [self.genrePick setTitle:value forState:UIControlStateNormal];
+                //[self showTimeSigPicker:nil];
                 break;
             case 2:
                 [self.bpmPick setTitle:value forState:UIControlStateNormal];
                 break;
             case 3:
                 [self.timePick setTitle:value forState:UIControlStateNormal];
+                //[self showBPMPicker:nil];
                 break;
             default:
                 break;
@@ -195,11 +219,14 @@
     SignaturePickerViewController *controller = (SignaturePickerViewController*)[mainStoryboard
                                                                                  instantiateViewControllerWithIdentifier: @"SignaturePicker"];
     controller.delegate = self;
+    [controller reloadForKey:self.keyPick.titleLabel.text];
+    
     self.popuperView = [[UIPopoverController alloc]initWithContentViewController:controller];
     [self.popuperView setDelegate:self];
     self.popuperView.popoverContentSize = CGSizeMake(150, 210);
-    [controller reloadForKey];
+    
     [self.popuperView presentPopoverFromRect:self.keyPick.frame inView:self.dialogContainer permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+
 }
 
 - (IBAction)showGenrePicker:(id)sender {
@@ -212,11 +239,15 @@
     SignaturePickerViewController *controller = (SignaturePickerViewController*)[mainStoryboard
                                                                                  instantiateViewControllerWithIdentifier: @"SignaturePicker"];
     controller.delegate = self;
+    [controller reloadForGenre:self.genrePick.titleLabel.text];
+    
     self.popuperView = [[UIPopoverController alloc]initWithContentViewController:controller];
     [self.popuperView setDelegate:self];
-    [controller reloadForGenre];
+    
     self.popuperView.popoverContentSize = CGSizeMake(250, 210);
     [self.popuperView presentPopoverFromRect:self.genrePick.frame inView:self.dialogContainer permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    
+
 }
 
 - (IBAction)showBPMPicker:(id)sender {
@@ -229,11 +260,14 @@
     SignaturePickerViewController *controller = (SignaturePickerViewController*)[mainStoryboard
                                                                                  instantiateViewControllerWithIdentifier: @"SignaturePicker"];
     controller.delegate = self;
+    [controller reloadForBpm:self.bpmPick.titleLabel.text];
+    
     self.popuperView = [[UIPopoverController alloc]initWithContentViewController:controller];
     [self.popuperView setDelegate:self];
    
     [self.popuperView presentPopoverFromRect:self.bpmPick.frame inView:self.dialogContainer permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-     [controller reloadForBpm];
+    
+
 }
 
 - (IBAction)showTimeSigPicker:(id)sender {
@@ -246,18 +280,16 @@
     SignaturePickerViewController *controller = (SignaturePickerViewController*)[mainStoryboard
                                                        instantiateViewControllerWithIdentifier: @"SignaturePicker"];
     controller.delegate = self;
+    [controller reloadForTime:self.timePick.titleLabel.text];
+    
     self.popuperView = [[UIPopoverController alloc]initWithContentViewController:controller];
     [self.popuperView setDelegate:self];
     self.popuperView.popoverContentSize = CGSizeMake(150, 210);
-    [controller reloadForTime];
-    [self.popuperView presentPopoverFromRect:self.timePick.frame inView:self.dialogContainer permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-    
 
+    [self.popuperView presentPopoverFromRect:self.timePick.frame inView:self.dialogContainer permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
-+ (id) newChordDialog:(id)pickDelegate{
-   
-;
++ (id) newChordDialog:(id)pickDelegate {
 
     UINib *nib = [UINib nibWithNibName:@"NewChordDialog" bundle:nil];
     NSArray *nibArray = [nib instantiateWithOwner:self options:nil];
@@ -267,6 +299,7 @@
     [me.dialogContainer.layer setShadowOpacity:0.7];
     [me.dialogContainer.layer setShadowRadius:10.0];
     [me.dialogContainer.layer setShadowOffset:CGSizeMake(7.0, 7.0)];
+    
     me.delegate = pickDelegate;
     me.genrePick.titleLabel.adjustsFontSizeToFitWidth = YES;
     me.genrePick.titleLabel.lineBreakMode = NSLineBreakByClipping;

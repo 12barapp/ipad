@@ -117,21 +117,31 @@ static DBManager *instance=nil;
 }
 
 -(void)addChart:(NSString*)chartId IntoSet:(NSString*)setId{
-    [self.db executeUpdate:[NSString stringWithFormat:@"insert into chords_inside_sets (chord_id, set_id) values(\'%@\',\'%@\')", chartId, setId]];
+    [self.db executeUpdate:[NSString stringWithFormat:@"insert into chords_inside_sets (chord_id, set_id, order_number) values(\'%@\',\'%@\', (select count(order_number)+1 from chords_inside_sets where set_id=\'%@\'))", chartId, setId, setId]];
 }
 
 -(NSMutableArray*)getChordsForSet:(NSString*)setId{
     NSMutableArray *chordsForSet = [[NSMutableArray alloc] init];
-    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT cis.chord_id, ch.chartId as chartId from chords_inside_sets cis, chords ch where cis.chord_id=ch.chartId and cis.set_id=\'%@\'", setId]];
+    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT cis.chord_id, ch.chartId as chartId, cis.order_number as order_number from chords_inside_sets cis, chords ch where cis.chord_id=ch.chartId and cis.set_id=\'%@\' order by cis.order_number", setId]];
     if(results ) {
         while([results next]){
+            
             NSMutableDictionary *oneChart = [[NSMutableDictionary alloc] init];
             [oneChart setValue:[results stringForColumn:@"chartId"] forKey:@"chordId"];
+            [oneChart setValue:[results stringForColumn:@"order_number"] forKey:@"order_number"];
             [chordsForSet addObject:oneChart];
         }
     }
     [results close];
     return chordsForSet;
+}
+
+-(void)updateChordOrderInSet:(NSMutableArray *)chords forSet:(NSString *)setID {
+    for (NSMutableDictionary *chord in chords) {
+        NSString *chordID = [chord objectForKey:@"chordId"];
+        NSString *orderNumber = [chord objectForKey:@"order_number"];
+        [db executeUpdate:[NSString stringWithFormat:@"UPDATE chords_inside_sets SET order_number = %@ where set_id = \'%@\' and chord_id = \'%@\'", orderNumber, setID, chordID]];
+    }
 }
 
 -(void)exchangeSet:(NSString*)setId withChart:(NSString*)setId2{
@@ -181,7 +191,8 @@ static DBManager *instance=nil;
 
 -(NSMutableArray*)getMyChartsWithOrder:(NSString*)orderKey{
     NSMutableArray *myCharts = [[NSMutableArray alloc] init];
-    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT  chartId, title from chords where user_id=\'%@\' OR user_id='free' ORDER BY \'%@\'", [self.currentUser userId], orderKey]];
+    //NSLog(@"%@",[NSString stringWithFormat:@"select DISTINCT  chartId, title from chords where user_id=\'%@\' OR user_id='free' ORDER BY \'%@\'", [self.currentUser userId], orderKey]);
+    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT  chartId, title from chords where user_id=\'%@\' OR user_id='free' ORDER BY %@", [self.currentUser userId], orderKey]];
     
     int currentChordNum = 0;
     int cntOfChords = 0;
@@ -191,6 +202,9 @@ static DBManager *instance=nil;
     if ( allCharts > 0) {
         if(results ) {
             while([results next]){
+                
+                //NSLog(@"%@",[results stringForColumn:@"title"]);
+                
                 [tempChartTitles addObject:[results stringForColumn:@"title"]];
                 [tempChartIds addObject:[results stringForColumn:@"chartId"]];
                 currentChordNum++;
@@ -220,7 +234,7 @@ static DBManager *instance=nil;
 
 -(NSMutableArray*)getMySetsWithOrder:(NSString*)orderKey{
     NSMutableArray *mySets = [[NSMutableArray alloc] init];
-    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT  setId, title from sets where user_id=\'%@\' OR user_id='free' ORDER BY \'%@\'",[self.currentUser userId] ,orderKey]];
+    FMResultSet *results = [db executeQuery:[NSString stringWithFormat:@"select DISTINCT  setId, title from sets where user_id=\'%@\' OR user_id='free' ORDER BY %@",[self.currentUser userId] ,orderKey]];
     NSMutableArray *tempSetTitles = [NSMutableArray arrayWithArray:[self fiveOfA]];
     NSMutableArray *tempSetIds = [NSMutableArray arrayWithArray:[self fiveOfA]];
     int currentSetNum = 0;
@@ -261,7 +275,7 @@ static DBManager *instance=nil;
 }
 
 -(int)countOfCharts{
-    FMResultSet *countOfChartsResult = [db executeQuery:[NSString stringWithFormat:@"select COUNT(DISTINCT chartId) as cnt from chords where user_id=\'%@\'", [self.currentUser userId]]];
+    FMResultSet *countOfChartsResult = [db executeQuery:[NSString stringWithFormat:@"select COUNT(DISTINCT chartId) as cnt from chords where user_id=\'%@\' or user_id=\'free\'", [self.currentUser userId]]];
     int countOfChords = 0;
     if(countOfChartsResult && [countOfChartsResult next]) {
         countOfChords = [countOfChartsResult intForColumn:@"cnt"];
@@ -274,17 +288,42 @@ static DBManager *instance=nil;
     return @[@"A",@"A",@"A",@"A",@"A"];
 }
 
--(void)addNewChart:(NSString*)title artist:(NSString*)artist key:(NSString*)key time_sig:(NSString*)time_sig genre:(NSString*)genre bpm:(NSString*)bpm notes:(NSString*)notes lyrics:(NSMutableArray*)lirycs chartId:(NSString*)chartId owner:(NSString*)ownerId{
+-(void)addNewChart:(NSString*)title
+            artist:(NSString*)artist
+               key:(NSString*)key
+          time_sig:(NSString*)time_sig
+             genre:(NSString*)genre
+               bpm:(NSString*)bpm
+             notes:(NSString*)notes
+            lyrics:(NSMutableArray*)lirycs
+           chartId:(NSString*)chartId
+             owner:(NSString*)ownerId {
     NSError *error;
     if (notes == nil || [@"" isEqualToString:notes ]) {
         notes = @" ";
     }
+
+    title = [title stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    artist = [artist stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:lirycs options:NSJSONWritingPrettyPrinted error:&error];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     [self.db executeUpdate:[NSString stringWithFormat:@"insert into chords (title, key, artist, bpm, time, lyrics, genre, chartId, owner, user_id) values(\'%@\',\'%@\',\'%@\',\'%@\',\'%@\',\'%@\',\'%@\',\'%@\',\'%@\', \'%@\')", title, key, artist, bpm, time_sig, jsonString, genre,chartId, ownerId, [self.currentUser userId]]];
 }
 
--(void)addNewSet:(NSString*)title artist:(NSString*)artist date:(NSString*)date location:(NSString*)location notes:(NSString*)notes chords:(NSMutableArray*)chords withId:(NSString*)setId owner:(NSString*)ownerId{
+-(void)addNewSet:(NSString*)title
+          artist:(NSString*)artist
+            date:(NSString*)date
+        location:(NSString*)location
+           notes:(NSString*)notes
+          chords:(NSMutableArray*)chords
+          withId:(NSString*)setId
+           owner:(NSString*)ownerId {
+    
+    title = [title stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    artist = [artist stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    location = [location stringByReplacingOccurrencesOfString:@"'" withString:@"''"];
+    
     [self.db executeUpdate:[NSString stringWithFormat:@"insert into sets (title, setId, artist, date, location, notes, owner, user_id) values(\'%@\',\'%@\',\'%@\',\'%@\',\'%@\',\'%@\',\'%@\', \'%@\')", title, setId,artist, date, location, notes, ownerId, [self.currentUser userId]]];
     
     for (int i = 0; i < [chords count]; i++) {

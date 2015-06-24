@@ -26,7 +26,7 @@
 - (id)init {
     if((self = [super init])) {
         self.currentUser = [User sharedManager];
-        [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(bgTask:) userInfo:nil repeats:YES];
+        //[NSTimer scheduledTimerWithTimeInterval:60 target:self selector:@selector(bgTask:) userInfo:nil repeats:YES];
     }
     
     return self;
@@ -122,6 +122,8 @@
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST"
                                                                       URLString:SERVER_SET_STRING
                                                                      parameters:params error:&error];
+    NSLog(@"%@", setId);
+    
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
@@ -328,6 +330,8 @@
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST"
                                                                       URLString:SERVER_CHART_STRING
                                                                      parameters:params error:&error];
+    
+    NSLog(@"%@", request);
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
@@ -426,7 +430,7 @@
     [manager.operationQueue addOperation:operation];
 }
 
--(void)getDataForFb{
+-(void)getDataForFb {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *params = @{@"user_id": [self.currentUser realID],
@@ -440,28 +444,39 @@
     NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET"
                                                                       URLString:SERVER_DATA_STRING
                                                                      parameters:params error:&error];
+    
+    //NSLog(@"%@",[request URL]);
+    
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSError *error;
         NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions
                                                                 error:&error];
-        if (response != nil) {
-            if (![@"no data" isEqualToString:[response objectForKey:@"reason"]]){
+        if (response != nil)
+        {
+            if (![@"no data" isEqualToString:[response objectForKey:@"reason"]])
+            {
                 [self.currentUser setLatesDateForChart:[response objectForKey:@"latest_created_chart"]];
                 [self.currentUser setLatestUpdateDateForChart:[response objectForKey:@"last_updated_chart"]];
                 [self.currentUser setLatestCreatedDateForSet:[response objectForKey:@"latest_created_set"]];
                 [self.currentUser setLatestUpdateDateForSet:[response objectForKey:@"last_updated_set"]];
-                if (self.checkShare && checkUpdates) {
+                
+                if (self.checkShare && checkUpdates)
+                {
                     [self.delegate notifyAboutSharedData:[response objectForKey:@"data"] andShared:@""];
-                } else {
-                    [self getSharedData];
+                }
+                else
+                {
+                    //[self getSharedData];
                     [self.delegate setUserData:[response objectForKey:@"data"]];
                     [self.delegate notifyAboutSharedData:[response objectForKey:@"data"] andShared:@""];
                     [self.delegate hideCover];
                     [self continueCheck];
                 }
             }
-        } else {
+        }
+        else
+        {
             UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Connection Error" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             [alert show];
         }
@@ -476,6 +491,151 @@
     [manager.operationQueue addOperation:operation];
 }
 
+- (void)getSharedItemsCount:(void (^)(int result))completionHandler {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    NSDictionary *params = @{@"user_id": [self.currentUser realID],
+//                             @"secret_key":[self.currentUser mySecretKey],
+//                             @"last_created_date_chart":[self.currentUser latestCreateChartDate],
+//                             @"last_updated_date_chart":[self.currentUser latestUpdatedChartDate],
+//                             @"last_created_date_set":[self.currentUser latestCreatedSetDate],
+//                             @"last_updated_date_set":[self.currentUser latestUpdatedSetDate]
+//                             };
+    NSDictionary *params = @{@"user_id": [self.currentUser realID],
+                             @"secret_key":[self.currentUser mySecretKey],
+                             @"last_created_date_chart":@"",
+                             @"last_updated_date_chart":@"",
+                             @"last_created_date_set":@"",
+                             @"last_updated_date_set":@""
+                             };
+    NSError *error;
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET"
+                                                                      URLString:SERVER_DATA_STRING
+                                                                     parameters:params error:&error];
+    
+    //NSLog(@"%@",[request URL]);
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *error;
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions
+                                                                   error:&error];
+        if (response != nil)
+        {
+            NSUInteger chordsShareCount = 0;
+            NSUInteger setsShareCount = 0;
+            
+            if (![@"no data" isEqualToString:[response objectForKey:@"reason"]])
+            {
+                NSDictionary *data = [response objectForKey:@"data"];
+                
+                for (NSDictionary *chart in data[@"freeChords"]) {
+                    if ([chart[@"share_status"]  isEqual: @"1"])
+                         chordsShareCount++;
+                }
+                
+                for (NSDictionary *set in data[@"sets"]) {
+                    if ([set[@"share_status"]  isEqual: @"1"])
+                        setsShareCount++;
+                }
+
+                
+            }
+            completionHandler((int)(chordsShareCount + setsShareCount));
+        }
+        else
+        {
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Connection Error" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error response is: %@", operation.responseString);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil
+                                                  cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertView show];
+    }];
+    
+    [manager.operationQueue addOperation:operation];
+}
+
+- (void)getSharedItems:(void (^)(NSArray *charts, NSArray *sets))completionHandler {
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    NSDictionary *params = @{@"user_id": [self.currentUser realID],
+//                             @"secret_key":[self.currentUser mySecretKey],
+//                             @"last_created_date_chart":[self.currentUser latestCreateChartDate],
+//                             @"last_updated_date_chart":[self.currentUser latestUpdatedChartDate],
+//                             @"last_created_date_set":[self.currentUser latestCreatedSetDate],
+//                             @"last_updated_date_set":[self.currentUser latestUpdatedSetDate]
+//                             };
+    
+    NSDictionary *params = @{@"user_id": [self.currentUser realID],
+                             @"secret_key":[self.currentUser mySecretKey],
+                             @"last_created_date_chart":@"",
+                             @"last_updated_date_chart":@"",
+                             @"last_created_date_set":@"",
+                             @"last_updated_date_set":@""
+                             };
+    
+    NSError *error;
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"GET"
+                                                                      URLString:SERVER_DATA_STRING
+                                                                     parameters:params error:&error];
+    
+    NSLog(@"%@",[request URL]);
+    
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSError *error;
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseObject options:kNilOptions
+                                                                   error:&error];
+        if (response != nil)
+        {
+            if (![@"no data" isEqualToString:[response objectForKey:@"reason"]])
+            {
+                NSDictionary *data = [response objectForKey:@"data"];
+                
+                [self.currentUser setLatesDateForChart:[response objectForKey:@"latest_created_chart"]];
+                [self.currentUser setLatestUpdateDateForChart:[response objectForKey:@"last_updated_chart"]];
+                [self.currentUser setLatestCreatedDateForSet:[response objectForKey:@"latest_created_set"]];
+                [self.currentUser setLatestUpdateDateForSet:[response objectForKey:@"last_updated_set"]];
+                
+//                [self.delegate notifyAboutSharedData:[response objectForKey:@"data"] andShared:@""];
+                
+                NSMutableArray *sharedCharts = [[NSMutableArray alloc] init];
+                for (NSDictionary *chart in data[@"freeChords"]) {
+                    if ([chart[@"share_status"]  isEqual: @"1"]) {
+                        [sharedCharts addObject:chart];
+                    }
+                }
+                
+                NSMutableArray *sharedSets = [[NSMutableArray alloc] init];
+                for (NSDictionary *set in data[@"sets"]) {
+                    if ([set[@"share_status"]  isEqual: @"1"]) {
+                        [sharedSets addObject:set];
+                    }
+                }
+                
+                completionHandler([sharedCharts copy], [sharedSets copy]);
+            }
+        }
+        else
+        {
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Connection Error" message:@"" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            [alert show];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error response is: %@", operation.responseString);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil
+                                                  cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertView show];
+    }];
+    
+    [manager.operationQueue addOperation:operation];
+}
+
+
 -(void)acceptChart:(NSString*)chartId{
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *params = @{@"user_id": [self.currentUser getUserRealID],
@@ -489,6 +649,8 @@
                                                                      parameters:params error:&error];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Successful acceptance of chart %@",chartId);
+        
         
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error response is: %@", operation.responseString);
@@ -500,7 +662,34 @@
     [manager.operationQueue addOperation:operation];
 }
 
--(void)acceptSet:(NSString*)setId{
+-(void)acceptChart:(NSString*)chartId  completion:(void (^)(BOOL result))completionHandler{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *params = @{@"user_id": [self.currentUser getUserRealID],
+                             @"chartId": chartId,
+                             @"secret_key":[self.currentUser mySecretKey],
+                             @"method":@"acceptChart"
+                             };
+    NSError *error;
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST"
+                                                                      URLString:SERVER_CHART_STRING
+                                                                     parameters:params error:&error];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Successful acceptance of chart %@",chartId);
+        completionHandler(TRUE);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error response is: %@", operation.responseString);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil
+                                                  cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertView show];
+        completionHandler(FALSE);
+    }];
+    
+    [manager.operationQueue addOperation:operation];
+}
+
+-(void)acceptSet:(NSString*)setId {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *params = @{@"user_id": [self.currentUser getUserRealID],
                              @"setId": setId,
@@ -513,12 +702,39 @@
                                                                      parameters:params error:&error];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error response is: %@", operation.responseString);
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil
                                                   cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alertView show];
+    }];
+    
+    [manager.operationQueue addOperation:operation];
+}
+
+-(void)acceptSet:(NSString*)setId completion:(void (^)(BOOL result))completionHandler{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *params = @{@"user_id": [self.currentUser getUserRealID],
+                             @"setId": setId,
+                             @"secret_key":[self.currentUser mySecretKey],
+                             @"method":@"acceptSet"
+                             };
+    NSError *error;
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST"
+                                                                      URLString:SERVER_SET_STRING
+                                                                     parameters:params error:&error];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        completionHandler(true);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error response is: %@", operation.responseString);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil
+                                                  cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertView show];
+        completionHandler(false);
     }];
     
     [manager.operationQueue addOperation:operation];
@@ -549,7 +765,33 @@
     
 }
 
--(void)declineSet:(NSString*)setId{
+-(void)declineChart:(NSString*)chartId completion:(void (^)(BOOL result))completionHandler{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *params = @{@"user_id": [self.currentUser getUserRealID],
+                             @"chartId": chartId,
+                             @"secret_key":[self.currentUser mySecretKey],
+                             @"method":@"declineChart"
+                             };
+    NSError *error;
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST"
+                                                                      URLString:SERVER_CHART_STRING
+                                                                     parameters:params error:&error];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        completionHandler(TRUE);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error response is: %@", operation.responseString);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil
+                                                  cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertView show];
+        completionHandler(FALSE);
+    }];
+    
+    [manager.operationQueue addOperation:operation];
+    
+}
+
+-(void)declineSet:(NSString*)setId {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSDictionary *params = @{@"user_id": [self.currentUser getUserRealID],
                              @"setId": setId,
@@ -562,11 +804,38 @@
                                                                      parameters:params error:&error];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error response is: %@", operation.responseString);
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil
                                                   cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [alertView show];
+    }];
+    
+    [manager.operationQueue addOperation:operation];
+}
+
+-(void)declineSet:(NSString*)setId  completion:(void (^)(BOOL result))completionHandler{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *params = @{@"user_id": [self.currentUser getUserRealID],
+                             @"setId": setId,
+                             @"secret_key":[self.currentUser mySecretKey],
+                             @"method":@"declineSet"
+                             };
+    NSError *error;
+    NSMutableURLRequest *request = [manager.requestSerializer requestWithMethod:@"POST"
+                                                                      URLString:SERVER_SET_STRING
+                                                                     parameters:params error:&error];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        completionHandler(TRUE);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error response is: %@", operation.responseString);
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[error localizedDescription] delegate:nil
+                                                  cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [alertView show];
+        
+        completionHandler(FALSE);
     }];
     
     [manager.operationQueue addOperation:operation];
@@ -710,11 +979,12 @@
 }
 
 
--(void)bgTask:(NSTimer*)timer {
-    if (checkShare) {
-        [self getSharedData];
-    }
-}
+//-(void)bgTask:(NSTimer*)timer {
+////    if (checkShare) {
+//    NSLog(@"background task firing, ServerUpdater");
+//    [self getSharedData];
+////    }
+//}
 
 -(void)pauseCheck{
     NSLog(@"--------- Pause check for updates");

@@ -1,4 +1,5 @@
 platform :ios, '7.0'
-pod "AFNetworking", "~> 2.0"
+pod 'AFNetworking', '~> 2.0'
 pod 'Facebook-iOS-SDK', '~> 3.22.0'
 pod 'CrashlyticsFramework', '~> 2.2'
+pod 'UIResponder+KeyboardCache', '~> 0.1'

@@ -34,7 +34,7 @@
     
 }
 @property (nonatomic, strong)         UIColor *savedBackgroundColor;
-@property (strong)                    NSString* selfValue;
+//@property (strong)                    NSString* selfValue;
 @property (assign)                    id <LyricsDropZoneDelegate> delegate;
 @property (assign)                    id <LyricsDropZoneDelegate> editorDelegate;
 @property (nonatomic,strong) IBOutlet UITextView* txt;

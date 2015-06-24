@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.iPad.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment defaultVersion="1808" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -14,6 +13,9 @@
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Nfi-b4-fgh">
                     <rect key="frame" x="196" y="270" width="376" height="379"/>
                     <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="chord_search_bg_wo_text.png" translatesAutoresizingMaskIntoConstraints="NO" id="w7F-mA-gmk">
+                            <rect key="frame" x="0.0" y="0.0" width="376" height="379"/>
+                        </imageView>
                         <label hidden="YES" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Search" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rVN-Wr-ptz">
                             <rect key="frame" x="267" y="144" width="109" height="32"/>
                             <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="32"/>
@@ -22,14 +24,9 @@
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="bottom" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l4H-t8-Kv8">
                             <rect key="frame" x="0.0" y="285" width="94" height="94"/>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
-                            <state key="normal" title="BPM"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                    <color key="value" red="0.95294123890000004" green="0.47450983520000001" blue="0.49019610879999997" alpha="1" colorSpace="deviceRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="searchBpm:" destination="iN0-l3-epB" eventType="touchUpInside" id="AS1-6a-VO6"/>
                             </connections>
@@ -38,15 +35,6 @@
                             <rect key="frame" x="0.0" y="191" width="94" height="94"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
-                            <state key="normal" title="Title"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                    <color key="value" red="0.94117653369999998" green="0.34117648010000001" blue="0.36078432199999999" alpha="1" colorSpace="deviceRGB"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="color" keyPath="layer. borderColor">
-                                    <color key="value" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="searchTitle:" destination="iN0-l3-epB" eventType="touchUpInside" id="Tn6-li-NQY"/>
                             </connections>
@@ -55,12 +43,6 @@
                             <rect key="frame" x="94" y="191" width="94" height="94"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
-                            <state key="normal" title="Author"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                    <color key="value" red="0.96470594409999999" green="0.58823531870000001" blue="0.60392159219999997" alpha="1" colorSpace="deviceRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="searchAuthor:" destination="iN0-l3-epB" eventType="touchUpInside" id="6ZS-Zu-2xe"/>
                             </connections>
@@ -69,12 +51,6 @@
                             <rect key="frame" x="94" y="285" width="94" height="94"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
-                            <state key="normal" title="Genre"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                    <color key="value" red="0.94901967050000002" green="0.4156863093" blue="0.43137258290000002" alpha="1" colorSpace="deviceRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="searchGenre:" destination="iN0-l3-epB" eventType="touchUpInside" id="i6B-33-by4"/>
                             </connections>
@@ -83,12 +59,6 @@
                             <rect key="frame" x="188" y="191" width="94" height="94"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
-                            <state key="normal" title="Key"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                    <color key="value" red="0.96862751250000001" green="0.62745100259999997" blue="0.63921570780000003" alpha="1" colorSpace="deviceRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="searchKey:" destination="iN0-l3-epB" eventType="touchUpInside" id="Q93-3x-7ru"/>
                             </connections>
@@ -97,15 +67,6 @@
                             <rect key="frame" x="282" y="191" width="94" height="94"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
-                            <state key="normal" title="Time Signature"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                    <color key="value" red="0.94117653369999998" green="0.30980393290000002" blue="0.33333334329999997" alpha="1" colorSpace="deviceRGB"/>
-                                </userDefinedRuntimeAttribute>
-                                <userDefinedRuntimeAttribute type="number" keyPath="titleLabel.numberOfLines">
-                                    <integer key="value" value="0"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="searchTime:" destination="iN0-l3-epB" eventType="touchUpInside" id="O21-aN-lcx"/>
                             </connections>
@@ -114,12 +75,6 @@
                             <rect key="frame" x="188" y="285" width="94" height="94"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <inset key="contentEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="5"/>
-                            <state key="normal" title="Lyrics"/>
-                            <userDefinedRuntimeAttributes>
-                                <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
-                                    <color key="value" red="0.94901967050000002" green="0.4156863093" blue="0.43137258290000002" alpha="1" colorSpace="deviceRGB"/>
-                                </userDefinedRuntimeAttribute>
-                            </userDefinedRuntimeAttributes>
                             <connections>
                                 <action selector="searchLyrics:" destination="iN0-l3-epB" eventType="touchUpInside" id="rcw-w6-6am"/>
                             </connections>
@@ -128,12 +83,12 @@
                             <rect key="frame" x="97" y="144" width="267" height="30"/>
                             <color key="textColor" red="0.95294123890000004" green="0.47450983520000001" blue="0.44705885649999999" alpha="1" colorSpace="deviceRGB"/>
                             <fontDescription key="fontDescription" type="system" pointSize="31"/>
-                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="search"/>
                         </textField>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctT-64-96H">
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ctT-64-96H">
                     <rect key="frame" x="334" y="707" width="100" height="100"/>
                     <state key="normal" image="btn_done.png">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -152,6 +107,7 @@
     </objects>
     <resources>
         <image name="btn_done.png" width="400" height="420"/>
+        <image name="chord_search_bg_wo_text.png" width="798" height="847"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

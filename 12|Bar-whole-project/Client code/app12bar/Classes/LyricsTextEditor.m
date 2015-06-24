@@ -352,40 +352,40 @@
 
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    float rows = roundf( (self.contentSize.height - self.textContainerInset.top - self.textContainerInset.bottom) / 50 );
-       CGContextRef context = UIGraphicsGetCurrentContext();
-    NSLog(@"Count of rows %f",rows);
-    if (isLight)
-        CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.2f].CGColor);
-    else
-    CGContextSetStrokeColorWithColor(context, [UIColor lightGrayColor].CGColor);
-    CGContextSetLineWidth(context, 1.0f);
-    CGContextBeginPath(context);
-    for (int i = 0; i < (NSInteger)rows; i++){
-        if (i%2 == 0) {
-            if (partsArray.count != 0) {
-                int vr = i/2;
-                for (int c = 0; c < partsArray.count; c++) {
-                    if ([[partsArray objectAtIndex:c] intValue] == vr){
-                        if ((i+i*50)+i > 20){
-                            CGContextMoveToPoint(context, self.bounds.origin.x+10,(i+i*50)+i);
-                            CGContextAddLineToPoint(context, self.bounds.size.width-10, (i+i*50)+i);
-                        }
-                        
-                    }
-                }
-            }
-        }
-        
-    }
-    CGContextClosePath(context);
-    CGContextStrokePath(context);
-
-    
-    
-}
+//- (void)drawRect:(CGRect)rect
+//{
+//    float rows = roundf( (self.contentSize.height - self.textContainerInset.top - self.textContainerInset.bottom) / 50 );
+//       CGContextRef context = UIGraphicsGetCurrentContext();
+//    NSLog(@"Count of rows %f",rows);
+//    if (isLight)
+//        CGContextSetStrokeColorWithColor(context, [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.2f].CGColor);
+//    else
+//    CGContextSetStrokeColorWithColor(context, [UIColor lightGrayColor].CGColor);
+//    CGContextSetLineWidth(context, 1.0f);
+//    CGContextBeginPath(context);
+//    for (int i = 0; i < (NSInteger)rows; i++){
+//        if (i%2 == 0) {
+//            if (partsArray.count != 0) {
+//                int vr = i/2;
+//                for (int c = 0; c < partsArray.count; c++) {
+//                    if ([[partsArray objectAtIndex:c] intValue] == vr){
+//                        if ((i+i*50)+i > 20){
+//                            CGContextMoveToPoint(context, self.bounds.origin.x+10,(i+i*50)+i);
+//                            CGContextAddLineToPoint(context, self.bounds.size.width-10, (i+i*50)+i);
+//                        }
+//                        
+//                    }
+//                }
+//            }
+//        }
+//        
+//    }
+//    CGContextClosePath(context);
+//    CGContextStrokePath(context);
+//
+//    
+//    
+//}
 
 - (UIColor *)colorWithHexString:(NSString *)stringToConvert
 {

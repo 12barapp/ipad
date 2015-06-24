@@ -18,6 +18,7 @@
 -(void)setUserData:(NSDictionary*)userData;
 -(void)notifyAboutSharedData:(NSDictionary*)data andShared:(NSString*)shared;
 -(void)notifyAboutUpdatedData:(NSDictionary*)data andShared:(NSString*)shared;
+-(void)presentSharedViewController:(NSDictionary*)data andShared:(NSString*)shared;
 -(void)backToLogin;
 @end
 
@@ -35,10 +36,17 @@
 @property (assign)            id<ServerUpdaterDelegate> delegate;
 
 + (id)sharedManager;
+
 -(void)acceptChart:(NSString*)chartId;
+-(void)acceptChart:(NSString*)chartId completion:(void (^)(BOOL result))completionHandler;
 -(void)acceptSet:(NSString*)setId;
+-(void)acceptSet:(NSString*)setId completion:(void (^)(BOOL result))completionHandler;
+
 -(void)declineChart:(NSString*)chartId;
+-(void)declineChart:(NSString*)chartId completion:(void (^)(BOOL result))completionHandler;
 -(void)declineSet:(NSString*)setId;
+-(void)declineSet:(NSString*)setId completion:(void (^)(BOOL result))completionHandler;
+
 -(void)removeSetForMe:(NSString*)setId;
 -(void)removeSet:(NSString*)setId;
 -(void)removeChart:(NSString*)chartId;
@@ -61,6 +69,8 @@
 -(void)loginUserWithFb:(NSString*)userId;
 
 -(void)getSharedData;
+-(void)getSharedItemsCount:(void (^)(int))completionHandler;
+-(void)getSharedItems:(void (^)(NSArray*,NSArray*))completionHandler;
 -(void)pauseCheck;
 -(void)continueCheck;
 @end

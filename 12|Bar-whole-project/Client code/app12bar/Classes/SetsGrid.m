@@ -95,9 +95,9 @@
         cell.deleteButtonIcon = [UIImage imageNamed:@"close_x.png"];
         cell.deleteButtonOffset = CGPointMake(-15, -15);
         DGZone *view = [[DGZone alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        [view setId:index];
+        [view setId:(int)index];
         view.delegate = self;
-        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:blueColors[arc4random()%blueColors.count]];
+        view.backgroundColor = [[[ColorHelper alloc] init] colorWithHexString:blueColors[index % blueColors.count]];
         view.layer.masksToBounds = NO;
         view.layer.cornerRadius = 0;
         cell.contentView = view;
@@ -105,7 +105,7 @@
     [[cell.contentView subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     DGZone *cellView = [[DGZone alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     cellView.delegate = self;
-    [cellView setId:index];
+    [cellView setId:(int)index];
     [cellView setUniqueID:[ids objectAtIndex:index]];
     CGRect screenBound = [[UIScreen mainScreen] bounds];
     CGSize screenSize = screenBound.size;
@@ -117,6 +117,8 @@
     dotsButton.tag = index;
     [dotsButton setUniqueID:[ids objectAtIndex:index]];
     [dotsButton addTarget:self.delegate action:@selector(showSetInfo:) forControlEvents:(UIControlEventTouchUpInside)];
+    dotsButton.layer.opacity = 0.45;
+    
     [dotsView addSubview:dotsButton];
     [cellView addSubview:dotsView];
     UIEdgeInsets contentInsets = UIEdgeInsetsMake(0, 0, 5, 5);
@@ -125,7 +127,7 @@
     setTitle.tag = index;
     [setTitle setUniqueID:[ids objectAtIndex:index]];
     [setTitle setTitle:[dataSource objectAtIndex:index] forState:UIControlStateNormal];
-    [setTitle.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:14.0]];
+    [setTitle.titleLabel setFont:[UIFont fontWithName:@"Helvetica Neue" size:13.0]];
     [setTitle.titleLabel setNumberOfLines:3];
     [setTitle addTarget:self action:@selector(didTapSetLabelWithGesture:) forControlEvents:(UIControlEventTouchUpInside)];
     setTitle.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;

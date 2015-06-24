@@ -27,9 +27,15 @@
 @property (strong, nonatomic) IBOutlet UISlider *slider;
 @property (strong, nonatomic) IBOutlet UILabel *sliderValue;
 @property (strong, nonatomic) IBOutlet UIView *pickerContainer;
+@property (strong, nonatomic) IBOutlet UIButton *doneButton;
+
 
 -(void)reloadForGenre;
+-(void)reloadForGenre:(NSString *)genreToSet;
 -(void)reloadForKey;
+-(void)reloadForKey:(NSString *)keyToSet;
 -(void)reloadForBpm;
+-(void)reloadForBpm:(NSString *)bpmToSet;
 -(void)reloadForTime;
+-(void)reloadForTime:(NSString *)timeToSet;
 @end
